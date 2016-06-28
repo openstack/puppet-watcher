@@ -8,10 +8,6 @@
 #   (required) Enable SSL on the API server.
 #   Defaults to false.
 #
-# [*package_ensure*]
-#   (optional) The state of watcher packages.
-#   Defaults to 'present'
-#
 # [*ceilometer_client_api_version*]
 #   (required) Version of Ceilometer API to use in ceilometerclient.
 #   Default is 2.
@@ -329,7 +325,6 @@
 #
 class watcher (
   $use_ssl                              = false,
-  $package_ensure                       = 'present',
   $ceilometer_client_api_version        = '2',
   $cinder_client_api_version            = '2',
   $glance_client_api_version            = '2',
@@ -406,10 +401,17 @@ class watcher (
   include ::openstacklib::openstackclient
 
   include ::watcher::deps
-
   include ::watcher::params
+  include ::watcher::policy
   include ::watcher::db
   include ::watcher::logging
+
+  Package['watcher'] -> Class['watcher::policy']
+  package { 'watcher':
+    ensure => $ensure_package,
+    name   => $::watcher::params::common_package_name,
+    tag    => ['openstack', 'watcher-package'],
+  }
 
   watcher_config {
     'ceilometer_client/api_version': value => $ceilometer_client_api_version;

@@ -32,6 +32,10 @@
 #   (optional) Whether the watcher api service will be run
 #   Defaults to true
 #
+# [*manage_service*]
+#   (optional) Whether the service should be managed by Puppet.
+#   Defaults to true.
+#
 # [*validate*]
 #   (optional) Whether to validate the service is working after any service
 #   refreshes
@@ -172,6 +176,7 @@ class watcher::api (
   $auth_url                           = 'http://localhost:35357/',
   $package_ensure                     = 'present',
   $enabled                            = true,
+  $manage_service                     = true,
   $validate                           = false,
   $watcher_api_port                   = '9322',
   $watcher_api_max_limit              = $::os_service_default,
@@ -222,8 +227,34 @@ class watcher::api (
   validate_string($keystone_password)
   validate_string($watcher_client_password_real)
 
-  # NOTE(danpawlik): Packages for RedHat family OS is not known.
-  # Until that package installation has been removed from this file.
+  Watcher_config<||> ~> Service['watcher-api']
+  Class['watcher::policy'] ~> Service['watcher-api']
+
+  Package['watcher-api'] -> Service['watcher-api']
+  package { 'watcher-api':
+    ensure => $package_ensure,
+    name   => $::watcher::params::api_package_name,
+    tag    => ['openstack', 'watcher-package'],
+  }
+
+  if $manage_service {
+    if $enabled {
+      $service_ensure = 'running'
+    } else {
+      $service_ensure = 'stopped'
+    }
+  }
+
+  # NOTE(danpawlik) Service tag for DB will be added after/with DB manifests.
+  service { 'watcher-api':
+    ensure     => $service_ensure,
+    name       => $::watcher::params::api_service_name,
+    enable     => $enabled,
+    hasstatus  => true,
+    hasrestart => true,
+    require    => Class['watcher::db'],
+    tag        => ['watcher-service'],
+  }
 
   # NOTE(danpawlik): Service insurance that is runnig will be added later.
   # NOTE(danpawlik): db::create_schema and db::upgrade will be added later.

@@ -13,6 +13,16 @@ describe 'watcher' do
         is_expected.to contain_class('watcher::db')
       end
 
+      it 'installs packages' do
+        is_expected.to contain_package('watcher').with(
+          :name   => platform_params[:watcher_common_package],
+          :ensure => 'present',
+          :tag    => ['openstack', 'watcher-package']
+        )
+      end
+
+      it { is_expected.to contain_class('watcher::policy') }
+
       it 'configures rabbit' do
         is_expected.to contain_watcher_config('DEFAULT/rpc_backend').with_value('rabbit')
         is_expected.to contain_watcher_config('DEFAULT/transport_url').with_value('<SERVICE DEFAULT>')
@@ -53,6 +63,7 @@ describe 'watcher' do
           :kombu_compression                  => 'gzip',
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_topics                => 'notifications',
+          :ensure_package                     => '2012.1.1-15.el6',
         }
       end
       it 'configures rabbit' do
@@ -315,10 +326,16 @@ describe 'watcher' do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
-
+      let(:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          { :watcher_common_package => 'watcher-common' }
+        when 'RedHat'
+          { :watcher_common_package => 'openstack-watcher-common' }
+        end
+      end
       it_behaves_like 'watcher'
     end
   end
-
 
 end
