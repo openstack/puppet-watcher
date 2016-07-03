@@ -54,6 +54,12 @@ describe 'basic watcher' do
           create_db_schema  => true,
           upgrade_db        => true,
         }
+        class { '::watcher::applier':
+          applier_workers => '2',
+        }
+        class { '::watcher::decision_engine':
+          decision_engine_workers => '2',
+        }
       }
       EOS
 
