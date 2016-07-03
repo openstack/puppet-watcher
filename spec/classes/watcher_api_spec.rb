@@ -80,7 +80,9 @@ describe 'watcher::api' do
             :hasstatus  => true,
             :hasrestart => true,
             :require    => 'Class[Watcher::Db]',
-            :tag        => ['watcher-service'],
+            :tag        => ['watcher-service',
+                            'watcher-db-manage-create_schema',
+                            'watcher-db-manage-upgrade'],
           )
         end
       end
@@ -178,7 +180,9 @@ describe 'watcher::api' do
           :enable     => false,
           :hasstatus  => true,
           :hasrestart => true,
-          :tag        => ['watcher-service'],
+          :tag        => ['watcher-service',
+                          'watcher-db-manage-create_schema',
+                          'watcher-db-manage-upgrade'],
         )
       end
     end

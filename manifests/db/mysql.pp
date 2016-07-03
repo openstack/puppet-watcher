@@ -65,5 +65,7 @@ class watcher::db::mysql(
     allowed_hosts => $allowed_hosts,
   }
 
-  ::Openstacklib::Db::Mysql['watcher'] ~> Exec<| title == 'watcher-manage db_sync' |>
+  ::Openstacklib::Db::Mysql['watcher'] ~> Exec<| title == 'watcher-db-manage-create_schema' |>
+  ::Openstacklib::Db::Mysql['watcher'] ~> Exec<| title == 'watcher-db-manage-upgrade' |>
+
 }

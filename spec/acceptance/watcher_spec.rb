@@ -51,6 +51,8 @@ describe 'basic watcher' do
         }
         class { '::watcher::api':
           keystone_password => 'a_big_secret',
+          create_db_schema  => true,
+          upgrade_db        => true,
         }
       }
       EOS

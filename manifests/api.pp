@@ -259,6 +259,16 @@
 #  Require validate set at True.
 #  Defaults to {}
 #
+# [*create_db_schema*]
+#  (optional) Run watcher-db-manage create_schema on api nodes after
+#  installing the package.
+#  Defaults to false
+#
+# [*upgrade_db*]
+#  (optional) Run watcher-db-manage upgrade on api nodes after
+#  installing the package.
+#  Defaults to false
+#
 class watcher::api (
   $keystone_password,
   $keystone_username                       = 'watcher',
@@ -313,6 +323,8 @@ class watcher::api (
   $watcher_client_username                 = undef,
   $watcher_client_password                 = undef,
   $validation_options                      = {},
+  $create_db_schema                        = false,
+  $upgrade_db                              = false,
 ) {
 
   include ::watcher::params
@@ -356,7 +368,15 @@ class watcher::api (
     }
   }
 
-  # NOTE(danpawlik) Service tag for DB will be added after/with DB manifests.
+  if $create_db_schema {
+    include ::watcher::db::create_schema
+  }
+
+  if $upgrade_db {
+    include ::watcher::db::upgrade
+  }
+
+  # NOTE(danpawlik) Watcher doesn't support db_sync command.
   service { 'watcher-api':
     ensure     => $service_ensure,
     name       => $::watcher::params::api_service_name,
@@ -364,11 +384,11 @@ class watcher::api (
     hasstatus  => true,
     hasrestart => true,
     require    => Class['watcher::db'],
-    tag        => ['watcher-service'],
+    tag        => [ 'watcher-service',
+                    'watcher-db-manage-create_schema',
+                    'watcher-db-manage-upgrade'],
   }
 
-  # NOTE(danpawlik): Service insurance that is runnig will be added later.
-  # NOTE(danpawlik): db::create_schema and db::upgrade will be added later.
   if $enabled {
     watcher_config {
       'api/port':      value => $watcher_api_port;

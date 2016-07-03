@@ -50,6 +50,7 @@ class watcher::db::postgresql(
     privileges    => $privileges,
   }
 
-  ::Openstacklib::Db::Postgresql['watcher'] ~> Exec<| title == 'watcher-manage db_sync' |>
+  ::Openstacklib::Db::Postgresql['watcher'] ~> Exec<| title == 'watcher-db-manage-create_schema' |>
+  ::Openstacklib::Db::Postgresql['watcher'] ~> Exec<| title == 'watcher-db-manage-upgrade' |>
 
 }
