@@ -3,7 +3,11 @@ require 'spec_helper'
 describe 'watcher::api' do
 
   let :params do
-    { :keystone_password => 'password' }
+    { :keystone_password => 'password',
+      :manage_service    => true,
+      :enabled           => true,
+      :package_ensure    => 'latest',
+    }
   end
 
   shared_examples 'watcher-api' do
@@ -13,7 +17,17 @@ describe 'watcher::api' do
       it { expect { is_expected.to raise_error(Puppet::Error) } }
     end
 
-    context 'keystone authtoken with default parameters' do
+    it { is_expected.to contain_class('watcher::params') }
+
+    it 'installs watcher-api package' do
+      is_expected.to contain_package('watcher-api').with(
+        :ensure => 'latest',
+        :name   => platform_params[:api_package_name],
+        :tag    => ['openstack', 'watcher-package'],
+      )
+    end
+
+#    context 'keystone authtoken with default parameters' do
       it 'configures keystone authtoken' do
         is_expected.to contain_watcher_config('keystone_authtoken/username').with_value('watcher')
         is_expected.to contain_watcher_config('keystone_authtoken/password').with_value( params[:keystone_password] )
@@ -29,6 +43,25 @@ describe 'watcher::api' do
         is_expected.to contain_watcher_config('keystone_authtoken/cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('keystone_authtoken/certfile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('keystone_authtoken/keyfile').with_value('<SERVICE DEFAULT>')
+      end
+
+    [{:enabled => true}, {:enabled => false}].each do |param_hash|
+      context "when service should be #{param_hash[:enabled] ? 'enabled' : 'disabled'}" do
+        before do
+          params.merge!(param_hash)
+        end
+
+        it 'configures watcher-api service' do
+          is_expected.to contain_service('watcher-api').with(
+            :ensure     => (params[:manage_service] && params[:enabled]) ? 'running' : 'stopped',
+            :name       => platform_params[:api_service_name],
+            :enable     => params[:enabled],
+            :hasstatus  => true,
+            :hasrestart => true,
+            :require    => 'Class[Watcher::Db]',
+            :tag        => ['watcher-service'],
+          )
+        end
       end
     end
 
@@ -65,6 +98,25 @@ describe 'watcher::api' do
         is_expected.to contain_watcher_config('keystone_authtoken/cafile').with_value( params[:keystone_cafile] )
         is_expected.to contain_watcher_config('keystone_authtoken/certfile').with_value( params[:keystone_certfile] )
         is_expected.to contain_watcher_config('keystone_authtoken/keyfile').with_value( params[:keystone_keyfile] )
+      end
+    end
+
+    context 'with disabled service managing' do
+      before do
+        params.merge!({
+          :manage_service => false,
+          :enabled        => false })
+      end
+
+      it 'configures watcher-api service' do
+        is_expected.to contain_service('watcher-api').with(
+          :ensure     => nil,
+          :name       => platform_params[:api_service_name],
+          :enable     => false,
+          :hasstatus  => true,
+          :hasrestart => true,
+          :tag        => ['watcher-service'],
+        )
       end
     end
 
@@ -179,7 +231,18 @@ describe 'watcher::api' do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
+      let(:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          { :api_package_name => 'watcher-api',
+            :api_service_name => 'watcher-api' }
+        when 'RedHat'
+          { :api_package_name => 'openstack-watcher-api',
+            :api_service_name => 'openstack-watcher-api' }
+        end
+      end
       it_behaves_like 'watcher-api'
     end
   end
+
 end
