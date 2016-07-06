@@ -34,15 +34,36 @@ describe 'watcher::api' do
         is_expected.to contain_watcher_config('keystone_authtoken/auth_url').with_value('http://localhost:35357/')
         is_expected.to contain_watcher_config('keystone_authtoken/auth_uri').with_value('http://localhost:5000/')
         is_expected.to contain_watcher_config('keystone_authtoken/project_name').with_value('service')
-        is_expected.to contain_watcher_config('keystone_authtoken/project_domain_name').with_value('Default')
+        is_expected.to contain_watcher_config('keystone_authtoken/project_domain_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('keystone_authtoken/insecure').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('keystone_authtoken/auth_version').with_value('3')
+        is_expected.to contain_watcher_config('keystone_authtoken/auth_version').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('keystone_authtoken/auth_type').with_value('password')
         is_expected.to contain_watcher_config('keystone_authtoken/signing_dir').with_value('/var/cache/watcher')
         is_expected.to contain_watcher_config('keystone_authtoken/region_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('keystone_authtoken/cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('keystone_authtoken/certfile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('keystone_authtoken/keyfile').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/user_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/auth_section').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/check_revocations_for_cached').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/enforce_token_bind').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/include_service_catalog').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/revocation_cache_time').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/token_cache_time').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_pool_conn_get_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_pool_dead_retry').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_pool_maxsize').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_pool_socket_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_secret_key').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_security_strategy').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_use_advanced_pool').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_pool_unused_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/memcached_servers').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/cache').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/delay_auth_decision').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/hash_algorithms').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/http_connect_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('keystone_authtoken/http_request_max_retries').with_value('<SERVICE DEFAULT>')
       end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
@@ -68,19 +89,40 @@ describe 'watcher::api' do
     context 'keystone authtoken with overridden parameters' do
       before do
         params.merge! ({
-          :keystone_password             => 'password1234',
-          :keystone_username             => 'watcher_admin',
-          :auth_url                      => 'https://127.0.0.1:35357/',
-          :auth_uri                      => 'https://127.0.0.1:5000/',
-          :keystone_project_name         => 'WatcherProject',
-          :keystone_project_domain_name  => 'NiceDomain',
-          :keystone_insecure             => 'true',
-          :keystone_auth_version         => '4',
-          :keystone_signing_dir          => '/tmp',
-          :keystone_region_name          => 'RegionOne',
-          :keystone_cafile               => '/etc/watcher/conf/ssl.crt/my_ca.crt',
-          :keystone_certfile             => '/etc/watcher/ssl/certs/mydomain.com.crt',
-          :keystone_keyfile              => '/etc/watcher/ssl/private/mydomain.com.pem',
+          :keystone_password                       => 'password1234',
+          :keystone_username                       => 'watcher_admin',
+          :auth_url                                => 'https://127.0.0.1:35357/',
+          :auth_uri                                => 'https://127.0.0.1:5000/',
+          :keystone_project_name                   => 'WatcherProject',
+          :keystone_project_domain_name            => 'NiceDomain',
+          :keystone_insecure                       => true,
+          :keystone_auth_version                   => '4',
+          :keystone_signing_dir                    => '/tmp',
+          :keystone_region_name                    => 'RegionOne',
+          :keystone_cafile                         => '/etc/watcher/conf/ssl.crt/my_ca.crt',
+          :keystone_certfile                       => '/etc/watcher/ssl/certs/mydomain.com.crt',
+          :keystone_keyfile                        => '/etc/watcher/ssl/private/mydomain.com.pem',
+          :keystone_user_domain_name               => 'someDomain',
+          :keystone_auth_section                   => 'SectionOne',
+          :keystone_check_revocations_for_cached   => true,
+          :keystone_enforce_token_bind             => 'Sure',
+          :keystone_include_service_catalog        => false,
+          :keystone_revocation_cache_time          => '200',
+          :keystone_token_cache_time               => '100',
+          :keystone_memcache_pool_conn_get_timeout => '10',
+          :keystone_memcache_pool_dead_retry       => '2',
+          :keystone_memcache_pool_maxsize          => '1000',
+          :keystone_memcache_pool_socket_timeout   => '80',
+          :keystone_memcache_secret_key            => 'NoSecret',
+          :keystone_memcache_security_strategy     => 'MAC',
+          :keystone_memcache_use_advanced_pool     => true,
+          :keystone_memcache_pool_unused_timeout   => '6',
+          :keystone_memcached_servers              => ['memcached01:11211', 'memcached02:11211'],
+          :keystone_cache                          => 'NoCache',
+          :keystone_delay_auth_decision            => true,
+          :keystone_hash_algorithms                => 'md5',
+          :keystone_http_connect_timeout           => '20',
+          :keystone_http_request_max_retries       => '2',
         })
       end
       it 'configures keystone authtoken' do
@@ -98,6 +140,27 @@ describe 'watcher::api' do
         is_expected.to contain_watcher_config('keystone_authtoken/cafile').with_value( params[:keystone_cafile] )
         is_expected.to contain_watcher_config('keystone_authtoken/certfile').with_value( params[:keystone_certfile] )
         is_expected.to contain_watcher_config('keystone_authtoken/keyfile').with_value( params[:keystone_keyfile] )
+        is_expected.to contain_watcher_config('keystone_authtoken/user_domain_name').with_value( params[:keystone_user_domain_name] )
+        is_expected.to contain_watcher_config('keystone_authtoken/auth_section').with_value( params[:keystone_auth_section] )
+        is_expected.to contain_watcher_config('keystone_authtoken/check_revocations_for_cached').with_value( params[:keystone_check_revocations_for_cached] )
+        is_expected.to contain_watcher_config('keystone_authtoken/enforce_token_bind').with_value( params[:keystone_enforce_token_bind] )
+        is_expected.to contain_watcher_config('keystone_authtoken/include_service_catalog').with_value( params[:keystone_include_service_catalog] )
+        is_expected.to contain_watcher_config('keystone_authtoken/revocation_cache_time').with_value( params[:keystone_revocation_cache_time] )
+        is_expected.to contain_watcher_config('keystone_authtoken/token_cache_time').with_value( params[:keystone_token_cache_time] )
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_pool_conn_get_timeout').with_value( params[:keystone_memcache_pool_conn_get_timeout] )
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_pool_dead_retry').with_value( params[:keystone_memcache_pool_dead_retry] )
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_pool_maxsize').with_value( params[:keystone_memcache_pool_maxsize] )
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_pool_socket_timeout').with_value( params[:keystone_memcache_pool_socket_timeout] )
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_secret_key').with_value( params[:keystone_memcache_secret_key] )
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_security_strategy').with_value( params[:keystone_memcache_security_strategy] )
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_use_advanced_pool').with_value( params[:keystone_memcache_use_advanced_pool] )
+        is_expected.to contain_watcher_config('keystone_authtoken/memcache_pool_unused_timeout').with_value( params[:keystone_memcache_pool_unused_timeout] )
+        is_expected.to contain_watcher_config('keystone_authtoken/memcached_servers').with_value('memcached01:11211,memcached02:11211')
+        is_expected.to contain_watcher_config('keystone_authtoken/cache').with_value( params[:keystone_cache] )
+        is_expected.to contain_watcher_config('keystone_authtoken/delay_auth_decision').with_value( params[:keystone_delay_auth_decision] )
+        is_expected.to contain_watcher_config('keystone_authtoken/hash_algorithms').with_value( params[:keystone_hash_algorithms] )
+        is_expected.to contain_watcher_config('keystone_authtoken/http_connect_timeout').with_value( params[:keystone_http_connect_timeout] )
+        is_expected.to contain_watcher_config('keystone_authtoken/http_request_max_retries').with_value( params[:keystone_http_request_max_retries] )
       end
     end
 
@@ -127,7 +190,7 @@ describe 'watcher::api' do
         is_expected.to contain_watcher_config('watcher_clients_auth/auth_url').with_value('http://localhost:35357/')
         is_expected.to contain_watcher_config('watcher_clients_auth/auth_uri').with_value('http://localhost:5000/')
         is_expected.to contain_watcher_config('watcher_clients_auth/project_name').with_value('service')
-        is_expected.to contain_watcher_config('watcher_clients_auth/project_domain_name').with_value('Default')
+        is_expected.to contain_watcher_config('watcher_clients_auth/project_domain_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_clients_auth/insecure').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_clients_auth/auth_type').with_value('password')
         is_expected.to contain_watcher_config('watcher_clients_auth/cafile').with_value('<SERVICE DEFAULT>')
@@ -214,7 +277,7 @@ describe 'watcher::api' do
         is_expected.to contain_watcher_config('watcher_clients_auth/auth_url').with_value('http://localhost:35357/')
         is_expected.to contain_watcher_config('watcher_clients_auth/auth_uri').with_value('http://localhost:5000/')
         is_expected.to contain_watcher_config('watcher_clients_auth/project_name').with_value('service')
-        is_expected.to contain_watcher_config('watcher_clients_auth/project_domain_name').with_value('Default')
+        is_expected.to contain_watcher_config('watcher_clients_auth/project_domain_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_clients_auth/insecure').with_value('false')
         is_expected.to contain_watcher_config('watcher_clients_auth/auth_type').with_value('password')
         is_expected.to contain_watcher_config('watcher_clients_auth/cafile').with_value('<SERVICE DEFAULT>')

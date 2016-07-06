@@ -7,206 +7,312 @@
 # [*keystone_password*]
 #   (required) Password to create for the service user
 #
-# [*keystone_tenant*]
-#   (optional) The tenant of the auth user
-#   Defaults to services
-#
 # [*keystone_username*]
-#   (optional) The name of the auth user
-#   Defaults to watcher.
+#  (optional) The name of the auth user
+#  Defaults to watcher.
 #
 # [*auth_uri*]
-#   (Optional) Public Identity API endpoint.
-#   Defaults to 'http://localhost:5000/'
+#  (Optional) Public Identity API endpoint.
+#  Defaults to 'http://localhost:5000/'
 #
 # [*auth_url*]
-#   Specifies the admin Identity URI for Watcher to use.
-#   Default 'http://localhost:35357/'
+#  Specifies the admin Identity URI for Watcher to use.
+#  Default 'http://localhost:35357/'
 #
 # [*package_ensure*]
-#   Ensure state of the openstackclient package.
-#   Optional.
-#   Defaults to 'present'.
+#  (Optional)Ensure state of the openstackclient package.
+#  Defaults to 'present'.
 #
 # [*enabled*]
-#   (optional) Whether the watcher api service will be run
-#   Defaults to true
+#  (Optional) Whether the watcher api service will be run
+#  Defaults to true
 #
 # [*manage_service*]
-#   (optional) Whether the service should be managed by Puppet.
-#   Defaults to true.
+#  (Optional) Whether the service should be managed by Puppet.
+#  Defaults to true.
 #
 # [*validate*]
-#   (optional) Whether to validate the service is working after any service
-#   refreshes
-#   Defaults to false
+#  (Optional) Whether to validate the service is working after any service
+#  refreshes
+#  Defaults to false
 #
 # [*watcher_api_port*]
-#  (optional) The port on which the watcher API will listen.
+#  (Optional) The port on which the watcher API will listen.
 #  Defaults to 9322.
 #
 # [*watcher_api_max_limit*]
-#  (optional)The maximum number of items returned in a single response from a
+#  (Optional)The maximum number of items returned in a single response from a
 #  collection resource.
 #  Defaults to $::os_service_default
 #
 # [*watcher_api_bind_host*]
-#  (optional) Listen IP for the watcher API server.
+#  (Optional) Listen IP for the watcher API server.
 #  Defaults to '0.0.0.0'.
 #
-# [*keystone_auth_version*]
-#   (optional) API version of the admin Identity API endpoint.
-#   Defaults to '3'.
-#
 # [*keystone_project_name*]
-#   (optional) Service project name
-#   Defaults to 'service'
+#  (Optional) Service project name
+#  Defaults to 'service'
+#
+# [*keystone_auth_version*]
+#  (Optional) API version of the admin Identity API endpoint.
+#  Defaults to $::os_service_default.
+#
+# [*keystone_auth_type*]
+#  (Optional) Authentication type to load.
+#  Defaults to 'password'.
+#
+# [*keystone_auth_section*]
+#  (Optional) Config Section from which to load plugin specific options.
+#  Defaults to $::os_service_default
+#
+# [*keystone_user_domain_name*]
+#  (Optional) User's domain name
+#  Defaults to $::os_service_default
 #
 # [*keystone_project_domain_name*]
-#   (optional) Name of domain for $project_name
-#   Defaults to 'Default'.
+#  (Optional) Name of domain for $project_name
+#  Defaults to $::os_service_default.
 #
-# [*keystone_delay_auth_decision*]
-#  (optional) Do not handle authorization requests within the middleware, but
-#  delegate the authorization decision to downstream WSGI components.
+# [*keystone_insecure*]
+#  (Optional) Verify HTTPS connections.
 #  Defaults to $::os_service_default
 #
-# [*keystone_http_connect_timeout*]
-#  (optional) Request timeout value for communicating with Identity API server.
-#  Defaults to $::os_service_default
-#
-# [*keystone_http_request_max_retries*]
-#  (optional) How many times are we trying to reconnect when communicating with
-#  Identity API Server.
-#  Defaults to $::os_service_default
-#
-# [*keystone_swift_cache*]
-#  (optional) Env key for the swift cache.
-#  Defaults to $::os_service_default
-#
-# [*keystone_certfile*]
-#  (optional) Required if identity server requires client certificate.
-#  Defaults to $::os_service_default
-#
-# [*keystone_keyfile*]
-#  (optional)Required if identity server requires client certificate.
+# [*keystone_cache*]
+#  (Optional) Env key for the swift cache.
 #  Defaults to $::os_service_default
 #
 # [*keystone_cafile*]
-#  (optional) A PEM encoded Certificate Authority to use when verifying HTTPs
+#  (Optional) A PEM encoded Certificate Authority to use when verifying HTTPs
 #  connections.
 #  Defaults to $::os_service_default
 #
-# [*keystone_auth_type*]
-#  (optional) Authentication type to load.
-#  Defaults to 'password'.
-#
-# [*keystone_insecure*]
-#  (optional) Verify HTTPS connections.
+# [*keystone_certfile*]
+#  (Optional) Required if identity server requires client certificate.
 #  Defaults to $::os_service_default
 #
-# [*keystone_region_name*]
-#   (optional) The keystone region name. Default is unset.
-#   Defaults to $::os_service_default
+# [*keystone_check_revocations_for_cached*]
+#  (Optional) If true, the revocation list will be checked for cached tokens.
+#  This requires that PKI tokens are configured on the identity server.
+#  boolean value.
+#  Defaults to $::os_service_default
 #
-# [*keystone_signing_dir*]
-#   (optional) Directory used to cache files related to PKI tokens.
-#   Defaults to '/var/cache/watcher'
+# [*keystone_delay_auth_decision*]
+#  (Optional) Do not handle authorization requests within the middleware, but
+#  delegate the authorization decision to downstream WSGI components.
+#  Defaults to $::os_service_default
+#
+# [*keystone_enforce_token_bind*]
+#  (Optional) Used to control the use and type of token binding. Can be set
+#  to: "disabled" to not check token binding. "permissive" (default) to
+#  validate binding information if the bind type is of a form known to the
+#  server and ignore it if not. "strict" like "permissive" but if the bind
+#  type is unknown the token will be rejected. "required" any form of token
+#  binding is needed to be allowed. Finally the name of a binding method that
+#  must be present in tokens. String value.
+#  Defaults to $::os_service_default
 #
 # [*keystone_hash_algorithms*]
-#  (optional) Hash algorithms to use for hashing PKI tokens.
+#  (Optional) Hash algorithms to use for hashing PKI tokens.
 #  Defaults to $::os_service_default
 #
+# [*keystone_http_connect_timeout*]
+#  (Optional) Request timeout value for communicating with Identity API server.
+#  Defaults to $::os_service_default
+#
+# [*keystone_http_request_max_retries*]
+#  (Optional) How many times are we trying to reconnect when communicating with
+#  Identity API Server.
+#  Defaults to $::os_service_default
+#
+# [*keystone_include_service_catalog*]
+#  (Optional) Indicate whether to set the X-Service-Catalog header. If False,
+#  middleware will not ask for service catalog on token validation and will not
+#  set the X-Service-Catalog header. Boolean value.
+#  Defaults to $::os_service_default
+#
+# [*keystone_keyfile*]
+#  (Optional)Required if identity server requires client certificate.
+#  Defaults to $::os_service_default
+#
+# [*keystone_*memcache_pool_dead_retry*]
+#  (Optional) Number of seconds memcached server is considered dead before it
+#  is tried again. Integer value
+#  Defaults to $::os_service_default.
+#
+# [*keystone_memcache_pool_dead_retry*]
+#  (Optional) Number of seconds memcached server is considered dead before it
+#  is tried again. Integer value
+#  Defaults to $::os_service_default.
+#
+# [*keystone_memcache_pool_maxsize*]
+#  (Optional) Maximum total number of open connections to every memcached
+#  server. Integer value
+#  Defaults to $::os_service_default.
+#
+# [*keystone_memcache_pool_socket_timeout*]
+#  (Optional) Number of seconds a connection to memcached is held unused in the
+#  pool before it is closed. Integer value
+#  Defaults to $::os_service_default.
+#
+# [*keystone_memcache_pool_unused_timeout*]
+#  (Optional) Number of seconds a connection to memcached is held unused in the
+#  pool before it is closed. Integer value
+#  Defaults to $::os_service_default.
+#
+# [*keystone_memcache_secret_key*]
+#  (Optional, mandatory if memcache_security_strategy is defined) This string
+#  is used for key derivation.
+#  Defaults to $::os_service_default.
+#
+# [*keystone_memcache_security_strategy*]
+#  (Optional) If defined, indicate whether token data should be authenticated or
+#  authenticated and encrypted. If MAC, token data is authenticated (with HMAC)
+#  in the cache. If ENCRYPT, token data is encrypted and authenticated in the
+#  cache. If the value is not one of these options or empty, auth_token will
+#  raise an exception on initialization.
+#  Defaults to $::os_service_default.
+#
+# [*keystone_memcache_use_advanced_pool*]
+#  (Optional)  Use the advanced (eventlet safe) memcached client pool. The
+#  advanced pool will only work under python 2.x Boolean value
+#  Defaults to $::os_service_default.
+#
+# [*keystone_memcached_servers*]
+#  (Optional) Optionally specify a list of memcached server(s) to use for
+#  caching. If left undefined, tokens will instead be cached in-process.
+#  Defaults to $::os_service_default.
+#
+# [*keystone_region_name*]
+#  (Optional) The keystone region name. Default is unset.
+#  Defaults to $::os_service_default
+#
+# [*keystone_revocation_cache_time*]
+#  (Optional) Determines the frequency at which the list of revoked tokens is
+#  retrieved from the Identity service (in seconds). A high number of
+#  revocation events combined with a low cache duration may significantly
+#  reduce performance. Only valid for PKI tokens. Integer value
+#  Defaults to $::os_service_default
+#
+# [*keystone_signing_dir*]
+#  (Optional) Directory used to cache files related to PKI tokens.
+#  Defaults to '/var/cache/watcher'
+#
+# [*keystone_token_cache_time*]
+#  (Optional) In order to prevent excessive effort spent validating tokens,
+#  the middleware caches previously-seen tokens for a configurable duration
+#  (in seconds). Set to -1 to disable caching completely.
+#  Defaults to $::os_service_default
+#
+# [*keystone_memcache_pool_conn_get_timeout*]
+#  (Optional) Number of seconds that an operation will wait to get a memcached
+#  client connection from the pool. Integer value
+#  Defaults to $::os_service_default.
+#
 # [*watcher_client_default_domain_name*]
-#  (optional)domain name to use with v3 API and v2 parameters. It will
+#  (Optional)domain name to use with v3 API and v2 parameters. It will
 #  be used for both the user and project domain in v3 and ignored in v2
 #  authentication.
 #  Defaults to $::os_service_default
 #
 # [*watcher_client_project_name*]
-#  (optional) Service project name.
+#  (Optional) Service project name.
 #  Defaults to undef
 #
 # [*watcher_client_certfile*]
-#  (optional) PEM encoded client certificate cert file.
+#  (Optional) PEM encoded client certificate cert file.
 #  Defaults to undef
 #
 # [*watcher_client_cafile*]
-#  (optional)PEM encoded Certificate Authority to use when verifying HTTPs
-#   connections.
-#   Defaults to undef
+# (Optional)PEM encoded Certificate Authority to use when verifying HTTPs
+#  connections.
+#  Defaults to undef
 #
 # [*watcher_client_project_domain_name*]
-#  (optional) Domain name containing project.
+#  (Optional) Domain name containing project.
 #  Defaults to undef
 #
 # [*watcher_client_insecure*]
-#  (optional) Verify HTTPS connections.
+#  (Optional) Verify HTTPS connections.
 #  Defaults to undef
 #
 # [*watcher_client_keyfile*]
-#  (optional) PEM encoded client certificate key file.
+#  (Optional) PEM encoded client certificate key file.
 #  Defaults to undef
 #
 # [*watcher_client_auth_type*]
-#  (optional) Authentication type to load.
+#  (Optional) Authentication type to load.
 #  Defaults to undef
 #
 # [*watcher_client_username*]
-#  (optional) Keystone username for watcher client. Decision engine works on
+#  (Optional) Keystone username for watcher client. Decision engine works on
 #  this variable.
 #  Defaults to undef
 #
 # [*watcher_client_password*]
-#  (optional) Keystone password for watcher client.
+#  (Optional) Keystone password for watcher client.
 #  Defaults to undef
 #
 # [*validation_options*]
-#   (optional) Service validation options
-#   Should be a hash of options defined in openstacklib::service_validation
-#   If empty, defaults values are taken from openstacklib function.
-#   Require validate set at True.
-#   Defaults to {}
+#  (Optional) Service validation options
+#  Should be a hash of options defined in openstacklib::service_validation
+#  If empty, defaults values are taken from openstacklib function.
+#  Require validate set at True.
+#  Defaults to {}
 #
 class watcher::api (
   $keystone_password,
-  $keystone_tenant                    = 'services',
-  $keystone_username                  = 'watcher',
-  $auth_uri                           = 'http://localhost:5000/',
-  $auth_url                           = 'http://localhost:35357/',
-  $package_ensure                     = 'present',
-  $enabled                            = true,
-  $manage_service                     = true,
-  $validate                           = false,
-  $watcher_api_port                   = '9322',
-  $watcher_api_max_limit              = $::os_service_default,
-  $watcher_api_bind_host              = '0.0.0.0',
-  $keystone_auth_version              = '3',
-  $keystone_project_name              = 'service',
-  $keystone_project_domain_name       = 'Default',
-  $keystone_delay_auth_decision       = $::os_service_default,
-  $keystone_http_connect_timeout      = $::os_service_default,
-  $keystone_http_request_max_retries  = $::os_service_default,
-  $keystone_swift_cache               = $::os_service_default,
-  $keystone_certfile                  = $::os_service_default,
-  $keystone_keyfile                   = $::os_service_default,
-  $keystone_cafile                    = $::os_service_default,
-  $keystone_auth_type                 = 'password',
-  $keystone_insecure                  = $::os_service_default,
-  $keystone_region_name               = $::os_service_default,
-  $keystone_signing_dir               = '/var/cache/watcher',
-  $keystone_hash_algorithms           = $::os_service_default,
-  $watcher_client_default_domain_name = $::os_service_default,
-  $watcher_client_project_name        = undef,
-  $watcher_client_certfile            = undef,
-  $watcher_client_cafile              = undef,
-  $watcher_client_project_domain_name = undef,
-  $watcher_client_insecure            = undef,
-  $watcher_client_keyfile             = undef,
-  $watcher_client_auth_type           = undef,
-  $watcher_client_username            = undef,
-  $watcher_client_password            = undef,
-  $validation_options                 = {},
+  $keystone_username                       = 'watcher',
+  $auth_uri                                = 'http://localhost:5000/',
+  $auth_url                                = 'http://localhost:35357/',
+  $package_ensure                          = 'present',
+  $enabled                                 = true,
+  $manage_service                          = true,
+  $validate                                = false,
+  $watcher_api_port                        = '9322',
+  $watcher_api_max_limit                   = $::os_service_default,
+  $watcher_api_bind_host                   = '0.0.0.0',
+  $keystone_project_name                   = 'service',
+  $keystone_auth_version                   = $::os_service_default,
+  $keystone_auth_type                      = 'password',
+  $keystone_auth_section                   = $::os_service_default,
+  $keystone_user_domain_name               = $::os_service_default,
+  $keystone_project_domain_name            = $::os_service_default,
+  $keystone_insecure                       = $::os_service_default,
+  $keystone_cache                          = $::os_service_default,
+  $keystone_cafile                         = $::os_service_default,
+  $keystone_certfile                       = $::os_service_default,
+  $keystone_check_revocations_for_cached   = $::os_service_default,
+  $keystone_delay_auth_decision            = $::os_service_default,
+  $keystone_enforce_token_bind             = $::os_service_default,
+  $keystone_hash_algorithms                = $::os_service_default,
+  $keystone_http_connect_timeout           = $::os_service_default,
+  $keystone_http_request_max_retries       = $::os_service_default,
+  $keystone_include_service_catalog        = $::os_service_default,
+  $keystone_keyfile                        = $::os_service_default,
+  $keystone_memcache_pool_conn_get_timeout = $::os_service_default,
+  $keystone_memcache_pool_dead_retry       = $::os_service_default,
+  $keystone_memcache_pool_maxsize          = $::os_service_default,
+  $keystone_memcache_pool_socket_timeout   = $::os_service_default,
+  $keystone_memcache_secret_key            = $::os_service_default,
+  $keystone_memcache_security_strategy     = $::os_service_default,
+  $keystone_memcache_use_advanced_pool     = $::os_service_default,
+  $keystone_memcache_pool_unused_timeout   = $::os_service_default,
+  $keystone_memcached_servers              = $::os_service_default,
+  $keystone_region_name                    = $::os_service_default,
+  $keystone_revocation_cache_time          = $::os_service_default,
+  $keystone_signing_dir                    = '/var/cache/watcher',
+  $keystone_token_cache_time               = $::os_service_default,
+  $watcher_client_default_domain_name      = $::os_service_default,
+  $watcher_client_project_name             = undef,
+  $watcher_client_certfile                 = undef,
+  $watcher_client_cafile                   = undef,
+  $watcher_client_project_domain_name      = undef,
+  $watcher_client_insecure                 = undef,
+  $watcher_client_keyfile                  = undef,
+  $watcher_client_auth_type                = undef,
+  $watcher_client_username                 = undef,
+  $watcher_client_password                 = undef,
+  $validation_options                      = {},
 ) {
 
   include ::watcher::params
@@ -226,6 +332,11 @@ class watcher::api (
 
   validate_string($keystone_password)
   validate_string($watcher_client_password_real)
+
+  if !is_service_default($keystone_memcached_servers) and !empty($keystone_memcached_servers){
+    validate_array($keystone_memcached_servers)
+    $keystone_memcached_servers_real = join($keystone_memcached_servers,',')
+  }
 
   Watcher_config<||> ~> Service['watcher-api']
   Class['watcher::policy'] ~> Service['watcher-api']
@@ -266,29 +377,42 @@ class watcher::api (
     }
   }
 
-  # NOTE(danpawlik): Until bug:
-  # https://bugs.launchpad.net/puppet-keystone/+bug/1590748 is not fixed,
-  # only these parameters are managed by keystone::resource::authtoken
   keystone::resource::authtoken { 'watcher_config':
-    username            => $keystone_username,
-    password            => $keystone_password,
-    auth_url            => $auth_url,
-    project_name        => $keystone_project_name,
-    project_domain_name => $keystone_project_domain_name,
-    insecure            => $keystone_insecure,
-  }
-
-  # NOTE(danpawlik): Options required by Watcher API and are not available
-  # in keystone::resource::authtoken
-  watcher_config {
-    'keystone_authtoken/auth_uri':     value => $auth_uri;
-    'keystone_authtoken/auth_version': value => $keystone_auth_version;
-    'keystone_authtoken/auth_type':    value => $keystone_auth_type;
-    'keystone_authtoken/signing_dir':  value => $keystone_signing_dir;
-    'keystone_authtoken/region_name':  value => $keystone_region_name;
-    'keystone_authtoken/cafile':       value => $keystone_cafile;
-    'keystone_authtoken/certfile':     value => $keystone_certfile;
-    'keystone_authtoken/keyfile':      value => $keystone_keyfile;
+    username                       => $keystone_username,
+    password                       => $keystone_password,
+    project_name                   => $keystone_project_name,
+    auth_url                       => $auth_url,
+    auth_uri                       => $auth_uri,
+    auth_version                   => $keystone_auth_version,
+    auth_type                      => $keystone_auth_type,
+    auth_section                   => $keystone_auth_section,
+    user_domain_name               => $keystone_user_domain_name,
+    project_domain_name            => $keystone_project_domain_name,
+    insecure                       => $keystone_insecure,
+    cache                          => $keystone_cache,
+    cafile                         => $keystone_cafile,
+    certfile                       => $keystone_certfile,
+    check_revocations_for_cached   => $keystone_check_revocations_for_cached,
+    delay_auth_decision            => $keystone_delay_auth_decision,
+    enforce_token_bind             => $keystone_enforce_token_bind,
+    hash_algorithms                => $keystone_hash_algorithms,
+    http_connect_timeout           => $keystone_http_connect_timeout,
+    http_request_max_retries       => $keystone_http_request_max_retries,
+    include_service_catalog        => $keystone_include_service_catalog,
+    keyfile                        => $keystone_keyfile,
+    memcache_pool_conn_get_timeout => $keystone_memcache_pool_conn_get_timeout,
+    memcache_pool_dead_retry       => $keystone_memcache_pool_dead_retry,
+    memcache_pool_maxsize          => $keystone_memcache_pool_maxsize,
+    memcache_pool_socket_timeout   => $keystone_memcache_pool_socket_timeout,
+    memcache_secret_key            => $keystone_memcache_secret_key,
+    memcache_security_strategy     => $keystone_memcache_security_strategy,
+    memcache_use_advanced_pool     => $keystone_memcache_use_advanced_pool,
+    memcache_pool_unused_timeout   => $keystone_memcache_pool_unused_timeout,
+    memcached_servers              => $keystone_memcached_servers_real,
+    region_name                    => $keystone_region_name,
+    revocation_cache_time          => $keystone_revocation_cache_time,
+    signing_dir                    => $keystone_signing_dir,
+    token_cache_time               => $keystone_token_cache_time,
   }
 
   watcher_config {
@@ -308,7 +432,7 @@ class watcher::api (
   if $validate {
     $defaults = {
       'watcher-api' => {
-        'command'  => "watcher --os-auth-url ${auth_uri} --os-tenant-name ${keystone_tenant} --os-username ${keystone_username} --os-password ${keystone_password} goal list",
+        'command'  => "watcher --os-auth-url ${auth_uri} --os-project-name ${keystone_project_name} --os-username ${keystone_username} --os-password ${keystone_password} goal list",
       }
     }
     $validation_options_hash = merge($defaults, $validation_options)
