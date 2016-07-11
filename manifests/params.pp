@@ -1,6 +1,7 @@
 # Parameters for puppet-watcher
 #
 class watcher::params {
+  include ::openstacklib::defaults
 
   case $::osfamily {
     'RedHat': {
