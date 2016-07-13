@@ -33,6 +33,19 @@
 #   strategies
 #   Defaults to $::os_service_default
 #
+# [*planner*]
+#   (Optional) The selected planner used to schedule the actions (string value)
+#   Defaults to $::os_service_default
+#
+# [*weights*]
+#   (Optional) Hash of weights used to schedule the actions (dict value).
+#   The key is an action, value is an order number.
+#   Defaults to $::os_service_default
+#   Example:
+#     { 'change_nova_service_state' => '2',
+#       'migrate' => '3', 'nop' => '0', 'sleep' => '1' }
+#
+#
 class watcher::decision_engine (
   $package_ensure                  = 'present',
   $enabled                         = true,
@@ -41,10 +54,19 @@ class watcher::decision_engine (
   $decision_engine_status_topic    = $::os_service_default,
   $decision_engine_publisher_id    = $::os_service_default,
   $decision_engine_workers         = $::os_service_default,
+  $planner                         = $::os_service_default,
+  $weights                         = $::os_service_default,
 ) {
 
   include ::watcher::params
   include ::watcher::deps
+
+  if !is_service_default($weights) {
+    validate_hash($weights)
+    $weights_real = join(sort(join_keys_to_values($weights, ':')), ',')
+  } else {
+    $weights_real = $weights
+  }
 
   Watcher_config<||> ~> Service['watcher-decision-engine']
 
@@ -77,6 +99,11 @@ class watcher::decision_engine (
     'watcher_decision_engine/status_topic':    value => $decision_engine_status_topic;
     'watcher_decision_engine/publisher_id':    value => $decision_engine_publisher_id;
     'watcher_decision_engine/max_workers':     value => $decision_engine_workers;
+  }
+
+  watcher_config {
+    'watcher_planner/planner':          value => $planner;
+    'watcher_planners.default/weights': value => $weights_real;
   }
 
 }
