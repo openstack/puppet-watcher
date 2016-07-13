@@ -79,7 +79,6 @@ describe 'watcher::api' do
             :enable     => params[:enabled],
             :hasstatus  => true,
             :hasrestart => true,
-            :require    => 'Class[Watcher::Db]',
             :tag        => ['watcher-service',
                             'watcher-db-manage-create_schema',
                             'watcher-db-manage-upgrade'],

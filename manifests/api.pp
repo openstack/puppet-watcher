@@ -383,7 +383,6 @@ class watcher::api (
     enable     => $enabled,
     hasstatus  => true,
     hasrestart => true,
-    require    => Class['watcher::db'],
     tag        => [ 'watcher-service',
                     'watcher-db-manage-create_schema',
                     'watcher-db-manage-upgrade'],
