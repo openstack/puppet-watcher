@@ -19,6 +19,8 @@ describe 'watcher::decision_engine' do
         is_expected.to contain_watcher_config('watcher_decision_engine/status_topic').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_decision_engine/publisher_id').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_decision_engine/max_workers').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('watcher_planner/planner').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('watcher_planners.default/weights').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -54,6 +56,9 @@ describe 'watcher::decision_engine' do
           :decision_engine_status_topic    => 'niceTopic',
           :decision_engine_publisher_id    => '123456',
           :decision_engine_workers         => '10',
+          :planner                         => 'NoPlanner',
+          :weights                         => {'foo'  => 'fooValue',
+                                               'foo2' => 'fooValue2'},
         }
       end
       it 'configures watcher decision engine' do
@@ -61,6 +66,8 @@ describe 'watcher::decision_engine' do
         is_expected.to contain_watcher_config('watcher_decision_engine/status_topic').with_value('niceTopic')
         is_expected.to contain_watcher_config('watcher_decision_engine/publisher_id').with_value('123456')
         is_expected.to contain_watcher_config('watcher_decision_engine/max_workers').with_value('10')
+        is_expected.to contain_watcher_config('watcher_planner/planner').with_value('NoPlanner')
+        is_expected.to contain_watcher_config('watcher_planners.default/weights').with_value('foo2:fooValue2,foo:fooValue')
       end
     end
   end
