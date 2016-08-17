@@ -49,8 +49,11 @@ describe 'basic watcher' do
           rabbit_password => 'my_secret',
           rabbit_host     => '127.0.0.1',
         }
+        class { '::watcher::keystone::authtoken':
+          password => 'a_big_secret',
+        }
         class { '::watcher::api':
-          keystone_password => 'a_big_secret',
+          watcher_client_password => 'a_big_secret',
           create_db_schema  => true,
           upgrade_db        => true,
         }
