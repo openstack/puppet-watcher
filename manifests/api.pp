@@ -218,7 +218,9 @@ class watcher::api (
   if $validate {
     $defaults = {
       'watcher-api' => {
+        # lint:ignore:140chars
         'command'  => "watcher --os-auth-url ${watcher_client_auth_url} --os-project-name ${watcher_client_project_name} --os-username ${watcher_client_username} --os-password ${watcher_client_password} goal list",
+        # lint:endignore
       }
     }
     $validation_options_hash = merge($defaults, $validation_options)
