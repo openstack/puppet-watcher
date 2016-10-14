@@ -48,6 +48,15 @@ describe 'watcher::api' do
       end
     end
 
+    context 'with default api configuration' do
+      it 'should configure the api configurations section when enabled' do
+        is_expected.to contain_watcher_config('api/port').with_value('9322')
+        is_expected.to contain_watcher_config('api/max_limit').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('api/host').with_value('0.0.0.0')
+        is_expected.to contain_watcher_config('api/workers').with_value(2)
+      end
+    end
+
     context 'with disabled service managing' do
       before do
         params.merge!({
@@ -67,6 +76,14 @@ describe 'watcher::api' do
                           'watcher-db-manage-upgrade'],
         )
       end
+
+      it 'should not configure the api configurations section when disabled' do
+        is_expected.to_not contain_watcher_config('api/port')
+        is_expected.to_not contain_watcher_config('api/max_limit')
+        is_expected.to_not contain_watcher_config('api/host')
+        is_expected.to_not contain_watcher_config('api/workers')
+      end
+
     end
 
     context 'watcher clients auth section with default parameters' do
