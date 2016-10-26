@@ -5,6 +5,10 @@ describe 'watcher' do
   shared_examples 'watcher' do
 
     context 'with default parameters' do
+      let :params do
+        { :purge_config => false }
+      end
+
       it 'contains the logging class' do
         is_expected.to contain_class('watcher::logging')
       end
@@ -47,6 +51,13 @@ describe 'watcher' do
         is_expected.to contain_watcher_config('oslo_messaging_notifications/driver').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_notifications/topics').with_value('<SERVICE DEFAULT>')
       end
+
+      it 'passes purge to resource' do
+        is_expected.to contain_resources('watcher_config').with({
+          :purge => false
+        })
+      end
+
     end
 
     context 'with overridden parameters' do
