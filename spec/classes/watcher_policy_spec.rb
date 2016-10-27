@@ -19,6 +19,7 @@ describe 'watcher::policy' do
         :key   => 'context_is_admin',
         :value => 'foo:bar'
       })
+      is_expected.to contain_watcher_config('oslo_policy/policy_file').with_value('/etc/watcher/policy.json')
     end
   end
 
