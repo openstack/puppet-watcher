@@ -319,11 +319,17 @@
 #  (optional) AMQP topic used for OpenStack notifications
 #  Defaults to $::os_service_default
 #
+# [*purge_config*]
+#   (optional) Whether to set only the specified config options
+#   in the watcher config.
+#   Defaults to false.
+#
 # === Authors
 #
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
 #
 class watcher (
+  $purge_config                         = false,
   $use_ssl                              = false,
   $ceilometer_client_api_version        = '2',
   $cinder_client_api_version            = '2',
@@ -411,6 +417,10 @@ class watcher (
     ensure => $ensure_package,
     name   => $::watcher::params::common_package_name,
     tag    => ['openstack', 'watcher-package'],
+  }
+
+  resources { 'watcher_config':
+    purge  => $purge_config,
   }
 
   watcher_config {
