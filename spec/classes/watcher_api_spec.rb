@@ -54,6 +54,7 @@ describe 'watcher::api' do
         is_expected.to contain_watcher_config('api/max_limit').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('api/host').with_value('0.0.0.0')
         is_expected.to contain_watcher_config('api/workers').with_value(2)
+        is_expected.to contain_watcher_config('api/enable_ssl_api').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -82,6 +83,7 @@ describe 'watcher::api' do
         is_expected.to_not contain_watcher_config('api/max_limit')
         is_expected.to_not contain_watcher_config('api/host')
         is_expected.to_not contain_watcher_config('api/workers')
+        is_expected.to_not contain_watcher_config('api/enable_ssl_api')
       end
 
     end

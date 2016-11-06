@@ -59,6 +59,13 @@
 #   (Optional) Number of worker processors to for the Watcher API service.
 #   Defaults to $::os_workers.
 #
+# [*watcher_api_enable_ssl_api*]
+#   (Optional) Enable the integrated stand-alone API to service requests via HTTPS instead
+#   of HTTP. If there is a front-end service performing HTTPS offloading from the
+#   service, this option should be False; note, you will want to change public
+#   API endpoint to represent SSL termination URL with 'public_endpoint' option.
+#   Defaults to $::os_service_default.
+#
 # [*watcher_client_default_domain_name*]
 #   (Optional)domain name to use with v3 API and v2 parameters. It will
 #   be used for both the user and project domain in v3 and ignored in v2
@@ -132,6 +139,7 @@ class watcher::api (
   $watcher_api_max_limit              = $::os_service_default,
   $watcher_api_bind_host              = '0.0.0.0',
   $watcher_api_workers                = $::os_workers,
+  $watcher_api_enable_ssl_api         = $::os_service_default,
   $watcher_client_default_domain_name = $::os_service_default,
   $watcher_client_project_name        = 'service',
   $watcher_client_certfile            = $::os_service_default,
@@ -196,10 +204,11 @@ class watcher::api (
 
   if $enabled {
     watcher_config {
-      'api/port':      value => $watcher_api_port;
-      'api/max_limit': value => $watcher_api_max_limit;
-      'api/host':      value => $watcher_api_bind_host;
-      'api/workers':   value => $watcher_api_workers;
+      'api/port':           value => $watcher_api_port;
+      'api/max_limit':      value => $watcher_api_max_limit;
+      'api/host':           value => $watcher_api_bind_host;
+      'api/workers':        value => $watcher_api_workers;
+      'api/enable_ssl_api': value => $watcher_api_enable_ssl_api;
     }
   }
 

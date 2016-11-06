@@ -24,6 +24,11 @@
 #   so as to notifythe others components of the system
 #   Defaults to $::os_service_default
 #
+# [*decision_engine_notification_topics*]
+#   (Optional) The topic names from which notification events will be
+#   listened to (list value)
+#   Defaults to $::os_service_default
+#
 # [*decision_engine_publisher_id*]
 #   (Optional) The identifier used by watcher module on the message broker
 #   Defaults to $::os_service_default
@@ -47,15 +52,16 @@
 #
 #
 class watcher::decision_engine (
-  $package_ensure                  = 'present',
-  $enabled                         = true,
-  $manage_service                  = true,
-  $decision_engine_conductor_topic = $::os_service_default,
-  $decision_engine_status_topic    = $::os_service_default,
-  $decision_engine_publisher_id    = $::os_service_default,
-  $decision_engine_workers         = $::os_service_default,
-  $planner                         = $::os_service_default,
-  $weights                         = $::os_service_default,
+  $package_ensure                      = 'present',
+  $enabled                             = true,
+  $manage_service                      = true,
+  $decision_engine_conductor_topic     = $::os_service_default,
+  $decision_engine_status_topic        = $::os_service_default,
+  $decision_engine_notification_topics = $::os_service_default,
+  $decision_engine_publisher_id        = $::os_service_default,
+  $decision_engine_workers             = $::os_service_default,
+  $planner                             = $::os_service_default,
+  $weights                             = $::os_service_default,
 ) {
 
   include ::watcher::params
@@ -66,6 +72,14 @@ class watcher::decision_engine (
     $weights_real = join(sort(join_keys_to_values($weights, ':')), ',')
   } else {
     $weights_real = $weights
+  }
+
+  if !is_service_default($decision_engine_notification_topics) or
+    empty($decision_engine_notification_topics) {
+    warning('$decision_engine_notification_topics needs to be an array')
+    $decision_engine_notification_topics_real = any2array($decision_engine_notification_topics)
+  } else {
+    $decision_engine_notification_topics_real = $decision_engine_notification_topics
   }
 
   Watcher_config<||> ~> Service['watcher-decision-engine']
@@ -95,10 +109,11 @@ class watcher::decision_engine (
   }
 
   watcher_config {
-    'watcher_decision_engine/conductor_topic': value => $decision_engine_conductor_topic;
-    'watcher_decision_engine/status_topic':    value => $decision_engine_status_topic;
-    'watcher_decision_engine/publisher_id':    value => $decision_engine_publisher_id;
-    'watcher_decision_engine/max_workers':     value => $decision_engine_workers;
+    'watcher_decision_engine/conductor_topic':     value => $decision_engine_conductor_topic;
+    'watcher_decision_engine/status_topic':        value => $decision_engine_status_topic;
+    'watcher_decision_engine/notification_topics': value => $decision_engine_notification_topics_real;
+    'watcher_decision_engine/publisher_id':        value => $decision_engine_publisher_id;
+    'watcher_decision_engine/max_workers':         value => $decision_engine_workers;
   }
 
   watcher_config {

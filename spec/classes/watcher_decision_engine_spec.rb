@@ -17,6 +17,7 @@ describe 'watcher::decision_engine' do
       it 'configures watcher decision engine service' do
         is_expected.to contain_watcher_config('watcher_decision_engine/conductor_topic').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_decision_engine/status_topic').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('watcher_decision_engine/notification_topics').with_value(['<SERVICE DEFAULT>'])
         is_expected.to contain_watcher_config('watcher_decision_engine/publisher_id').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_decision_engine/max_workers').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_planner/planner').with_value('<SERVICE DEFAULT>')
@@ -51,19 +52,21 @@ describe 'watcher::decision_engine' do
     context 'with overridden parameters' do
       let :params do
         {
-          :package_ensure                  => '2012.1.1-15.el6',
-          :decision_engine_conductor_topic => 'test_conductor_topic',
-          :decision_engine_status_topic    => 'niceTopic',
-          :decision_engine_publisher_id    => '123456',
-          :decision_engine_workers         => '10',
-          :planner                         => 'NoPlanner',
-          :weights                         => {'foo'  => 'fooValue',
+          :package_ensure                      => '2012.1.1-15.el6',
+          :decision_engine_conductor_topic     => 'test_conductor_topic',
+          :decision_engine_status_topic        => 'niceTopic',
+          :decision_engine_notification_topics => ['topic_1','topic_2'],
+          :decision_engine_publisher_id        => '123456',
+          :decision_engine_workers             => '10',
+          :planner                             => 'NoPlanner',
+          :weights                             => {'foo'  => 'fooValue',
                                                'foo2' => 'fooValue2'},
         }
       end
       it 'configures watcher decision engine' do
         is_expected.to contain_watcher_config('watcher_decision_engine/conductor_topic').with_value('test_conductor_topic')
         is_expected.to contain_watcher_config('watcher_decision_engine/status_topic').with_value('niceTopic')
+        is_expected.to contain_watcher_config('watcher_decision_engine/notification_topics').with_value(['topic_1','topic_2'])
         is_expected.to contain_watcher_config('watcher_decision_engine/publisher_id').with_value('123456')
         is_expected.to contain_watcher_config('watcher_decision_engine/max_workers').with_value('10')
         is_expected.to contain_watcher_config('watcher_planner/planner').with_value('NoPlanner')
