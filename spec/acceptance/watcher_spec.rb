@@ -49,9 +49,7 @@ describe 'basic watcher' do
           debug => true,
         }
         class { '::watcher':
-          rabbit_userid   => 'watcher',
-          rabbit_password => 'my_secret',
-          rabbit_host     => '127.0.0.1',
+          default_transport_url => 'rabbit://watcher:my_secret@127.0.0.1:5672/',
         }
         class { '::watcher::keystone::authtoken':
           password => 'a_big_secret',

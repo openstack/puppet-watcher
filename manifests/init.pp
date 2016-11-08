@@ -37,32 +37,8 @@
 #  (optional) Whether the watcher api package will be installed
 #  Defaults to 'present'
 #
-# [*rabbit_host*]
-#   (required) The RabbitMQ broker address where a single node is used.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_hosts*]
-#   (optional) RabbitMQ HA cluster host:port pairs.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_password*]
-#   (optional) The RabbitMQ password.
-#   Defaults to $::os_service_default
-#
 # [*rabbit_login_method*]
 #   (optional) The RabbitMQ login method. (string value)
-#   Defaults to $::os_service_default
-#
-# [*rabbit_port*]
-#   (required) The RabbitMQ broker port where a single node is used.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_userid*]
-#   (required) The RabbitMQ userid.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_virtual_host*]
-#   (required) The RabbitMQ virtual host.
 #   Defaults to $::os_service_default
 #
 # [*rabbit_retry_interval*]
@@ -338,13 +314,7 @@ class watcher (
   $nova_client_api_version              = '2',
   $rpc_backend                          = 'rabbit',
   $ensure_package                       = 'present',
-  $rabbit_host                          = $::os_service_default,
-  $rabbit_hosts                         = $::os_service_default,
-  $rabbit_password                      = $::os_service_default,
   $rabbit_login_method                  = $::os_service_default,
-  $rabbit_port                          = $::os_service_default,
-  $rabbit_userid                        = $::os_service_default,
-  $rabbit_virtual_host                  = $::os_service_default,
   $rabbit_retry_interval                = $::os_service_default,
   $rabbit_retry_backoff                 = $::os_service_default,
   $rabbit_interval_max                  = $::os_service_default,
@@ -433,9 +403,6 @@ class watcher (
 
   if $rpc_backend == 'rabbit' {
 
-    if ! $rabbit_password {
-      fail('Please specify a rabbit_password parameter.')
-    }
     oslo::messaging::rabbit { 'watcher_config':
       amqp_durable_queues                  => $amqp_durable_queues,
       kombu_ssl_version                    => $kombu_ssl_version,
@@ -446,14 +413,8 @@ class watcher (
       kombu_missing_consumer_retry_timeout => $kombu_missing_consumer_retry_timeout,
       kombu_failover_strategy              => $kombu_failover_strategy,
       kombu_compression                    => $kombu_compression,
-      rabbit_host                          => $rabbit_host,
-      rabbit_port                          => $rabbit_port,
-      rabbit_hosts                         => $rabbit_hosts,
       rabbit_use_ssl                       => $rabbit_use_ssl,
-      rabbit_userid                        => $rabbit_userid,
-      rabbit_password                      => $rabbit_password,
       rabbit_login_method                  => $rabbit_login_method,
-      rabbit_virtual_host                  => $rabbit_virtual_host,
       rabbit_retry_interval                => $rabbit_retry_interval,
       rabbit_retry_backoff                 => $rabbit_retry_backoff,
       rabbit_interval_max                  => $rabbit_interval_max,
@@ -465,7 +426,7 @@ class watcher (
     }
   } elsif $rpc_backend == 'amqp' {
 
-    if ! $amqp_password {
+    if is_service_default($default_transport_url) and is_service_default($amqp_password) {
       fail('Please specify a amqp_password parameter.')
     }
     oslo::messaging::amqp { 'watcher_config':
