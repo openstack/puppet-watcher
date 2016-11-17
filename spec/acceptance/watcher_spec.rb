@@ -38,10 +38,6 @@ describe 'basic watcher' do
       # in Debian experimental repo. It will be safer if tests are going only
       # on RedHat osfamily. Ubuntu tests will be added later.
       if $::osfamily == 'RedHat' {
-        # TODO(zhongshengping): a hack to get pass
-        package { 'python2-oslo-versionedobjects':
-          ensure => present,
-        }
         class { '::watcher::db':
           database_connection => 'mysql+pymysql://watcher:a_big_secret@127.0.0.1/watcher?charset=utf8',
         }
