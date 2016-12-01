@@ -82,9 +82,6 @@ class watcher::decision_engine (
     $decision_engine_notification_topics_real = $decision_engine_notification_topics
   }
 
-  Watcher_config<||> ~> Service['watcher-decision-engine']
-
-  Package['watcher-decision-engine'] -> Service['watcher-decision-engine']
   package { 'watcher-decision-engine':
     ensure => $package_ensure,
     name   => $::watcher::params::decision_engine_package_name,

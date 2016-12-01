@@ -164,10 +164,6 @@ class watcher::api (
 
   validate_string($watcher_client_password)
 
-  Watcher_config<||> ~> Service['watcher-api']
-  Class['watcher::policy'] ~> Service['watcher-api']
-
-  Package['watcher-api'] -> Service['watcher-api']
   package { 'watcher-api':
     ensure => $package_ensure,
     name   => $::watcher::params::api_package_name,
@@ -239,7 +235,7 @@ class watcher::api (
       }
     }
     $validation_options_hash = merge($defaults, $validation_options)
-    create_resources('openstacklib::service_validation', $validation_options_hash, {'subscribe' => 'Service[watcher-api]'})
+    create_resources('openstacklib::service_validation', $validation_options_hash, {'subscribe' => 'Anchor[watcher::service::end]'})
   }
 
 }

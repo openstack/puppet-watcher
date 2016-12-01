@@ -18,6 +18,7 @@ describe 'watcher::api' do
     end
 
     it { is_expected.to contain_class('watcher::params') }
+    it { is_expected.to contain_class('watcher::deps') }
 
     it 'installs watcher-api package' do
       is_expected.to contain_package('watcher-api').with(

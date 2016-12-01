@@ -28,6 +28,8 @@ class watcher::policy (
   $policy_path = '/etc/watcher/policy.json',
 ) {
 
+  include ::watcher::deps
+
   validate_hash($policies)
 
   Openstacklib::Policy::Base {

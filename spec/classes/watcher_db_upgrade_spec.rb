@@ -10,6 +10,13 @@ describe 'watcher::db::upgrade' do
         :path        => '/usr/bin',
         :user        => 'watcher',
         :refreshonly => 'true',
+        :subscribe   => [
+          'Anchor[watcher::install::end]',
+          'Anchor[watcher::config::end]',
+          'Anchor[watcher::db::create_schema::end]',
+          'Anchor[watcher::db::upgrade::begin]'
+        ],
+        :notify      => 'Anchor[watcher::db::upgrade::end]',
       )
     end
 
@@ -26,6 +33,13 @@ describe 'watcher::db::upgrade' do
           :path        => '/usr/bin',
           :user        => 'watcher',
           :refreshonly => 'true',
+          :subscribe   => [
+            'Anchor[watcher::install::end]',
+            'Anchor[watcher::config::end]',
+            'Anchor[watcher::db::create_schema::end]',
+            'Anchor[watcher::db::upgrade::begin]'
+          ],
+          :notify      => 'Anchor[watcher::db::upgrade::end]',
         )
         }
       end

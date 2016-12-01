@@ -40,7 +40,7 @@ class watcher::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  Class['watcher::db::postgresql'] -> Service<| title == 'watcher' |>
+  include ::watcher::deps
 
   ::openstacklib::db::postgresql { 'watcher':
     password_hash => postgresql_password($user, $password),
@@ -50,7 +50,8 @@ class watcher::db::postgresql(
     privileges    => $privileges,
   }
 
-  ::Openstacklib::Db::Postgresql['watcher'] ~> Exec<| title == 'watcher-db-manage-create_schema' |>
-  ::Openstacklib::Db::Postgresql['watcher'] ~> Exec<| title == 'watcher-db-manage-upgrade' |>
+  Anchor['watcher::db::begin']
+  ~> Class['watcher::db::postgresql']
+  ~> Anchor['watcher::db::end']
 
 }

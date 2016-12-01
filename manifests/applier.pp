@@ -50,9 +50,6 @@ class watcher::applier (
   include ::watcher::params
   include ::watcher::deps
 
-  Watcher_config<||> ~> Service['watcher-applier']
-
-  Package['watcher-applier'] -> Service['watcher-applier']
   package { 'watcher-applier':
     ensure => $package_ensure,
     name   => $::watcher::params::applier_package_name,

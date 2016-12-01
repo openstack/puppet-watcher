@@ -12,14 +12,15 @@
 class watcher::db::upgrade(
   $extra_params  = '--config-file /etc/watcher/watcher.conf',
 ) {
+
+  include ::watcher::deps
+
   exec { 'watcher-db-manage-upgrade':
     command     => "watcher-db-manage ${extra_params} upgrade",
     path        => '/usr/bin',
     user        => 'watcher',
     refreshonly => true,
     subscribe   => [
-      Package['watcher'],
-      Watcher_config['database/connection'],
       Anchor['watcher::install::end'],
       Anchor['watcher::config::end'],
       Anchor['watcher::db::create_schema::end'],
@@ -28,5 +29,4 @@ class watcher::db::upgrade(
     notify      => Anchor['watcher::db::upgrade::end'],
   }
 
-  Exec['watcher-db-manage-upgrade'] ~> Service<| title == 'watcher-db-manage-upgrade' |>
 }

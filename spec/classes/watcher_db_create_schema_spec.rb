@@ -10,6 +10,12 @@ describe 'watcher::db::create_schema' do
         :path        => '/usr/bin',
         :user        => 'watcher',
         :refreshonly => 'true',
+        :subscribe   => [
+          'Anchor[watcher::install::end]',
+          'Anchor[watcher::config::end]',
+          'Anchor[watcher::db::create_schema::begin]'
+        ],
+        :notify      => 'Anchor[watcher::db::create_schema::end]',
       )
     end
 
@@ -26,6 +32,12 @@ describe 'watcher::db::create_schema' do
           :path        => '/usr/bin',
           :user        => 'watcher',
           :refreshonly => 'true',
+          :subscribe   => [
+            'Anchor[watcher::install::end]',
+            'Anchor[watcher::config::end]',
+            'Anchor[watcher::db::create_schema::begin]'
+          ],
+          :notify      => 'Anchor[watcher::db::create_schema::end]',
         )
         }
       end

@@ -26,6 +26,7 @@ describe 'watcher' do
       end
 
       it { is_expected.to contain_class('watcher::policy') }
+      it { is_expected.to contain_class('watcher::deps') }
 
       it 'configures rabbit' do
         is_expected.to contain_watcher_config('DEFAULT/rpc_backend').with_value('rabbit')

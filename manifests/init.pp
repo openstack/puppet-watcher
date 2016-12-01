@@ -382,7 +382,6 @@ class watcher (
   include ::watcher::db
   include ::watcher::logging
 
-  Package['watcher'] -> Class['watcher::policy']
   package { 'watcher':
     ensure => $ensure_package,
     name   => $::watcher::params::common_package_name,

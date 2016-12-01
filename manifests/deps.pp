@@ -19,6 +19,11 @@ class watcher::deps {
   ~> Service<| tag == 'watcher-service' |>
   ~> anchor { 'watcher::service::end': }
 
+  # policy config should occur in the config block also.
+  Anchor['watcher::config::begin']
+  -> Openstacklib::Policy::Base<||>
+  ~> Anchor['watcher::config::end']
+
   Anchor['watcher::install::end'] ~> Anchor['watcher::service::begin']
   Anchor['watcher::config::end']  ~> Anchor['watcher::service::begin']
 

@@ -113,6 +113,8 @@ class watcher::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
+  include ::watcher::deps
+
   oslo::log { 'watcher_config':
     use_stderr                    => $use_stderr,
     use_syslog                    => $use_syslog,

@@ -53,6 +53,8 @@ class watcher::db::mysql(
   $allowed_hosts = undef
 ) {
 
+  include ::watcher::deps
+
   validate_string($password)
 
   ::openstacklib::db::mysql { 'watcher':
@@ -65,7 +67,8 @@ class watcher::db::mysql(
     allowed_hosts => $allowed_hosts,
   }
 
-  ::Openstacklib::Db::Mysql['watcher'] ~> Exec<| title == 'watcher-db-manage-create_schema' |>
-  ::Openstacklib::Db::Mysql['watcher'] ~> Exec<| title == 'watcher-db-manage-upgrade' |>
+  Anchor['watcher::db::begin']
+  ~> Class['watcher::db::mysql']
+  ~> Anchor['watcher::db::end']
 
 }
