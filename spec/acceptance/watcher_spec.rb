@@ -62,6 +62,12 @@ describe 'basic watcher' do
       apply_manifest(pp, :catch_failures => true)
       apply_manifest(pp, :catch_changes => true)
     end
+
+    if os[:family].casecmp('RedHat') == 0
+      describe port(9322) do
+        it { is_expected.to be_listening }
+      end
+    end
   end
 
 end
