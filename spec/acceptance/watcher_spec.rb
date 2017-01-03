@@ -30,37 +30,31 @@ describe 'basic watcher' do
       class { '::watcher::db::mysql':
         password => 'a_big_secret',
       }
+      class { '::watcher::db':
+        database_connection => 'mysql+pymysql://watcher:a_big_secret@127.0.0.1/watcher?charset=utf8',
+      }
       class { '::watcher::keystone::auth':
         password => 'a_big_secret',
       }
-
-      # Watcher service is not packaged on Ubuntu platform, but is available
-      # in Debian experimental repo. It will be safer if tests are going only
-      # on RedHat osfamily. Ubuntu tests will be added later.
-      if $::osfamily == 'RedHat' {
-        class { '::watcher::db':
-          database_connection => 'mysql+pymysql://watcher:a_big_secret@127.0.0.1/watcher?charset=utf8',
-        }
-        class { '::watcher::logging':
-          debug => true,
-        }
-        class { '::watcher':
-          default_transport_url => 'rabbit://watcher:my_secret@127.0.0.1:5672/',
-        }
-        class { '::watcher::keystone::authtoken':
-          password => 'a_big_secret',
-        }
-        class { '::watcher::api':
-          watcher_client_password => 'a_big_secret',
-          create_db_schema  => true,
-          upgrade_db        => true,
-        }
-        class { '::watcher::applier':
-          applier_workers => '2',
-        }
-        class { '::watcher::decision_engine':
-          decision_engine_workers => '2',
-        }
+      class { '::watcher::keystone::authtoken':
+        password => 'a_big_secret',
+      }
+      class { '::watcher::logging':
+        debug => true,
+      }
+      class { '::watcher':
+        default_transport_url => 'rabbit://watcher:my_secret@127.0.0.1:5672/',
+      }
+      class { '::watcher::api':
+        watcher_client_password => 'a_big_secret',
+        create_db_schema  => true,
+        upgrade_db        => true,
+      }
+      class { '::watcher::applier':
+        applier_workers => '2',
+      }
+      class { '::watcher::decision_engine':
+        decision_engine_workers => '2',
       }
       EOS
 
