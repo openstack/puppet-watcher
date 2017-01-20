@@ -110,7 +110,7 @@
 #   Require validate set at True.
 #   Defaults to {}
 #
-# === DB managment
+# === DB management
 #
 # [*create_db_schema*]
 #   (Optional) Run watcher-db-manage create_schema on api nodes after
