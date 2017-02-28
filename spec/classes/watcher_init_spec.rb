@@ -171,7 +171,6 @@ describe 'watcher' do
 
       context 'with default parameters' do
         it 'configures amqp' do
-          is_expected.to contain_watcher_config('DEFAULT/rpc_backend').with_value('amqp')
           is_expected.to contain_watcher_config('DEFAULT/transport_url').with_value('amqp://amqp_user:password@localhost:5672')
           is_expected.to contain_watcher_config('oslo_messaging_amqp/server_request_prefix').with_value('<SERVICE DEFAULT>')
           is_expected.to contain_watcher_config('oslo_messaging_amqp/broadcast_prefix').with_value('<SERVICE DEFAULT>')
@@ -208,7 +207,6 @@ describe 'watcher' do
       end
 
       it 'configures amqp' do
-        is_expected.to contain_watcher_config('DEFAULT/rpc_backend').with_value('amqp')
         is_expected.to contain_watcher_config('DEFAULT/transport_url').with_value('amqp://amqp_user:password@localhost:5672')
         is_expected.to contain_watcher_config('oslo_messaging_amqp/idle_timeout').with_value('60')
         is_expected.to contain_watcher_config('oslo_messaging_amqp/trace').with_value('true')
