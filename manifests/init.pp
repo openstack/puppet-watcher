@@ -33,7 +33,7 @@
 #   include amqp and zmq.
 #   Defaults to 'rabbit'.
 #
-# [*ensure_package*]
+# [*package_ensure*]
 #  (optional) Whether the watcher api package will be installed
 #  Defaults to 'present'
 #
@@ -300,6 +300,12 @@
 #   in the watcher config.
 #   Defaults to false.
 #
+# DEPRECATED PARAMETERS
+#
+# [*ensure_package*]
+#  (optional) Whether the watcher api package will be installed
+#  Defaults to undef
+#
 # === Authors
 #
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
@@ -313,7 +319,7 @@ class watcher (
   $neutron_client_api_version           = '2',
   $nova_client_api_version              = '2',
   $rpc_backend                          = 'rabbit',
-  $ensure_package                       = 'present',
+  $package_ensure                       = 'present',
   $rabbit_login_method                  = $::os_service_default,
   $rabbit_retry_interval                = $::os_service_default,
   $rabbit_retry_backoff                 = $::os_service_default,
@@ -372,6 +378,8 @@ class watcher (
   $notification_transport_url           = $::os_service_default,
   $notification_driver                  = $::os_service_default,
   $notification_topics                  = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $ensure_package                       = undef,
 ) {
 
   include ::openstacklib::openstackclient
@@ -382,8 +390,16 @@ class watcher (
   include ::watcher::db
   include ::watcher::logging
 
+  if $ensure_package {
+    warning("watcher::ensure_package is deprecated and will be removed in \
+the future release. Please use watcher::package_ensure instead.")
+    $package_ensure_real = $ensure_package
+  } else {
+    $package_ensure_real = $package_ensure
+  }
+
   package { 'watcher':
-    ensure => $ensure_package,
+    ensure => $package_ensure_real,
     name   => $::watcher::params::common_package_name,
     tag    => ['openstack', 'watcher-package'],
   }

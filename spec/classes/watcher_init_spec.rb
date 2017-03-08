@@ -65,7 +65,7 @@ describe 'watcher' do
           :kombu_compression                  => 'gzip',
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_topics                => 'notifications',
-          :ensure_package                     => '2012.1.1-15.el6',
+          :package_ensure                     => '2012.1.1-15.el6',
         }
       end
       it 'configures rabbit' do
