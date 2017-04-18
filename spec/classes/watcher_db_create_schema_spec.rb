@@ -10,6 +10,7 @@ describe 'watcher::db::create_schema' do
         :path        => '/usr/bin',
         :user        => 'watcher',
         :refreshonly => 'true',
+        :logoutput   => 'on_failure',
         :subscribe   => [
           'Anchor[watcher::install::end]',
           'Anchor[watcher::config::end]',
@@ -32,6 +33,7 @@ describe 'watcher::db::create_schema' do
           :path        => '/usr/bin',
           :user        => 'watcher',
           :refreshonly => 'true',
+          :logoutput   => 'on_failure',
           :subscribe   => [
             'Anchor[watcher::install::end]',
             'Anchor[watcher::config::end]',

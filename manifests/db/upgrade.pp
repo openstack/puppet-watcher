@@ -20,6 +20,7 @@ class watcher::db::upgrade(
     path        => '/usr/bin',
     user        => 'watcher',
     refreshonly => true,
+    logoutput   => on_failure,
     subscribe   => [
       Anchor['watcher::install::end'],
       Anchor['watcher::config::end'],
