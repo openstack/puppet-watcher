@@ -6,7 +6,7 @@ describe 'watcher::db::upgrade' do
 
     it 'runs watcher-db-manage' do
       is_expected.to contain_exec('watcher-db-manage-upgrade').with(
-        :command     => 'watcher-db-manage --config-file /etc/watcher/watcher.conf upgrade',
+        :command     => 'watcher-db-manage --config-file /etc/watcher/watcher.conf upgrade head',
         :path        => '/usr/bin',
         :user        => 'watcher',
         :refreshonly => 'true',
@@ -30,7 +30,7 @@ describe 'watcher::db::upgrade' do
 
       it {
         is_expected.to contain_exec('watcher-db-manage-upgrade').with(
-          :command     => 'watcher-db-manage --config-file /etc/watcher/watcher01.conf upgrade',
+          :command     => 'watcher-db-manage --config-file /etc/watcher/watcher01.conf upgrade head',
           :path        => '/usr/bin',
           :user        => 'watcher',
           :refreshonly => 'true',

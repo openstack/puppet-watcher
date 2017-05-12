@@ -16,7 +16,7 @@ class watcher::db::upgrade(
   include ::watcher::deps
 
   exec { 'watcher-db-manage-upgrade':
-    command     => "watcher-db-manage ${extra_params} upgrade",
+    command     => "watcher-db-manage ${extra_params} upgrade head",
     path        => '/usr/bin',
     user        => 'watcher',
     refreshonly => true,
