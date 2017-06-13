@@ -55,10 +55,6 @@
 #   (Optional) Maximum interval of RabbitMQ connection retries. (integer value)
 #   Defaults to $::os_service_default
 #
-# [*rabbit_max_retries*]
-#   (Optional) Maximum number of RabbitMQ connection retries. (integer value)
-#   Defaults to $::os_service_default
-#
 # [*rabbit_use_ssl*]
 #   (optional) Connect over SSL for RabbitMQ.
 #   Defaults to $::os_service_default
@@ -306,6 +302,10 @@
 #  (optional) Whether the watcher api package will be installed
 #  Defaults to undef
 #
+# [*rabbit_max_retries*]
+#   (Optional) Maximum number of RabbitMQ connection retries. (integer value)
+#   Defaults to undef
+#
 # === Authors
 #
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
@@ -324,7 +324,6 @@ class watcher (
   $rabbit_retry_interval                = $::os_service_default,
   $rabbit_retry_backoff                 = $::os_service_default,
   $rabbit_interval_max                  = $::os_service_default,
-  $rabbit_max_retries                   = $::os_service_default,
   $rabbit_use_ssl                       = $::os_service_default,
   $rabbit_heartbeat_rate                = $::os_service_default,
   $rabbit_ha_queues                     = $::os_service_default,
@@ -380,6 +379,7 @@ class watcher (
   $notification_topics                  = $::os_service_default,
   # DEPRECATED PARAMETERS
   $ensure_package                       = undef,
+  $rabbit_max_retries                   = undef,
 ) {
 
   include ::openstacklib::openstackclient
@@ -396,6 +396,10 @@ the future release. Please use watcher::package_ensure instead.")
     $package_ensure_real = $ensure_package
   } else {
     $package_ensure_real = $package_ensure
+  }
+
+  if $rabbit_max_retries {
+    warning('The rabbit_max_retries parameter has been deprecated and will be removed in the future release.')
   }
 
   package { 'watcher':
@@ -433,7 +437,6 @@ the future release. Please use watcher::package_ensure instead.")
       rabbit_retry_interval                => $rabbit_retry_interval,
       rabbit_retry_backoff                 => $rabbit_retry_backoff,
       rabbit_interval_max                  => $rabbit_interval_max,
-      rabbit_max_retries                   => $rabbit_max_retries,
       rabbit_ha_queues                     => $rabbit_ha_queues,
       rabbit_transient_queues_ttl          => $rabbit_transient_queues_ttl,
       heartbeat_timeout_threshold          => $rabbit_heartbeat_timeout_threshold,

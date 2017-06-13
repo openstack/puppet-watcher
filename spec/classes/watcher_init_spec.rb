@@ -34,7 +34,6 @@ describe 'watcher' do
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_retry_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_retry_backoff').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_interval_max').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_max_retries').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_transient_queues_ttl').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/heartbeat_rate').with_value('<SERVICE DEFAULT>')
@@ -77,7 +76,6 @@ describe 'watcher' do
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_retry_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_retry_backoff').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_interval_max').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_max_retries').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_transient_queues_ttl').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/kombu_compression').with_value('gzip')
       end
