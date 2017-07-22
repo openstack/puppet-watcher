@@ -1,4 +1,0 @@
----
-fixes:
-  - |
-    Fix db upgrade class to use 'watcher-db-manager upgrade head'.
