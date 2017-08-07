@@ -28,11 +28,6 @@
 #   (required) Version of Nova API to use in novaclient.
 #   Default is 2.
 #
-# [*rpc_backend*]
-#   (optional) The messaging driver to use, defaults to rabbit. Other drivers
-#   include amqp and zmq.
-#   Defaults to 'rabbit'.
-#
 # [*package_ensure*]
 #  (optional) Whether the watcher api package will be installed
 #  Defaults to 'present'
@@ -306,6 +301,11 @@
 #   (Optional) Maximum number of RabbitMQ connection retries. (integer value)
 #   Defaults to undef
 #
+# [*rpc_backend*]
+#   (optional) The messaging driver to use, defaults to rabbit. Other drivers
+#   include amqp and zmq.
+#   Defaults to 'rabbit'.
+#
 # === Authors
 #
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
@@ -318,7 +318,6 @@ class watcher (
   $glance_client_api_version            = '2',
   $neutron_client_api_version           = '2',
   $nova_client_api_version              = '2',
-  $rpc_backend                          = 'rabbit',
   $package_ensure                       = 'present',
   $rabbit_login_method                  = $::os_service_default,
   $rabbit_retry_interval                = $::os_service_default,
@@ -380,6 +379,7 @@ class watcher (
   # DEPRECATED PARAMETERS
   $ensure_package                       = undef,
   $rabbit_max_retries                   = undef,
+  $rpc_backend                          = 'rabbit',
 ) {
 
   include ::openstacklib::openstackclient
@@ -402,6 +402,10 @@ the future release. Please use watcher::package_ensure instead.")
     warning('The rabbit_max_retries parameter has been deprecated and will be removed in the future release.')
   }
 
+  if $rpc_backend {
+    warning('The rpc_backend parameter has been deprecated, please use default_transport_url instead.')
+  }
+
   package { 'watcher':
     ensure => $package_ensure_real,
     name   => $::watcher::params::common_package_name,
@@ -420,70 +424,61 @@ the future release. Please use watcher::package_ensure instead.")
     'nova_client/api_version':       value => $nova_client_api_version;
   }
 
-  if $rpc_backend == 'rabbit' {
+  oslo::messaging::rabbit { 'watcher_config':
+    amqp_durable_queues                  => $amqp_durable_queues,
+    kombu_ssl_version                    => $kombu_ssl_version,
+    kombu_ssl_keyfile                    => $kombu_ssl_keyfile,
+    kombu_ssl_certfile                   => $kombu_ssl_certfile,
+    kombu_ssl_ca_certs                   => $kombu_ssl_ca_certs,
+    kombu_reconnect_delay                => $kombu_reconnect_delay,
+    kombu_missing_consumer_retry_timeout => $kombu_missing_consumer_retry_timeout,
+    kombu_failover_strategy              => $kombu_failover_strategy,
+    kombu_compression                    => $kombu_compression,
+    rabbit_use_ssl                       => $rabbit_use_ssl,
+    rabbit_login_method                  => $rabbit_login_method,
+    rabbit_retry_interval                => $rabbit_retry_interval,
+    rabbit_retry_backoff                 => $rabbit_retry_backoff,
+    rabbit_interval_max                  => $rabbit_interval_max,
+    rabbit_ha_queues                     => $rabbit_ha_queues,
+    rabbit_transient_queues_ttl          => $rabbit_transient_queues_ttl,
+    heartbeat_timeout_threshold          => $rabbit_heartbeat_timeout_threshold,
+    heartbeat_rate                       => $rabbit_heartbeat_rate,
+  }
 
-    oslo::messaging::rabbit { 'watcher_config':
-      amqp_durable_queues                  => $amqp_durable_queues,
-      kombu_ssl_version                    => $kombu_ssl_version,
-      kombu_ssl_keyfile                    => $kombu_ssl_keyfile,
-      kombu_ssl_certfile                   => $kombu_ssl_certfile,
-      kombu_ssl_ca_certs                   => $kombu_ssl_ca_certs,
-      kombu_reconnect_delay                => $kombu_reconnect_delay,
-      kombu_missing_consumer_retry_timeout => $kombu_missing_consumer_retry_timeout,
-      kombu_failover_strategy              => $kombu_failover_strategy,
-      kombu_compression                    => $kombu_compression,
-      rabbit_use_ssl                       => $rabbit_use_ssl,
-      rabbit_login_method                  => $rabbit_login_method,
-      rabbit_retry_interval                => $rabbit_retry_interval,
-      rabbit_retry_backoff                 => $rabbit_retry_backoff,
-      rabbit_interval_max                  => $rabbit_interval_max,
-      rabbit_ha_queues                     => $rabbit_ha_queues,
-      rabbit_transient_queues_ttl          => $rabbit_transient_queues_ttl,
-      heartbeat_timeout_threshold          => $rabbit_heartbeat_timeout_threshold,
-      heartbeat_rate                       => $rabbit_heartbeat_rate,
-    }
-  } elsif $rpc_backend == 'amqp' {
+  oslo::messaging::amqp { 'watcher_config':
+    username               => $amqp_username,
+    password               => $amqp_password,
+    server_request_prefix  => $amqp_server_request_prefix,
+    broadcast_prefix       => $amqp_broadcast_prefix,
+    group_request_prefix   => $amqp_group_request_prefix,
+    container_name         => $amqp_container_name,
+    idle_timeout           => $amqp_idle_timeout,
+    trace                  => $amqp_trace,
+    ssl_ca_file            => $amqp_ssl_ca_file,
+    ssl_cert_file          => $amqp_ssl_cert_file,
+    ssl_key_file           => $amqp_ssl_key_file,
+    ssl_key_password       => $amqp_ssl_key_password,
+    allow_insecure_clients => $amqp_allow_insecure_clients,
+    sasl_mechanisms        => $amqp_sasl_mechanisms,
+    sasl_config_dir        => $amqp_sasl_config_dir,
+    sasl_config_name       => $amqp_sasl_config_name,
+  }
 
-    if is_service_default($default_transport_url) and is_service_default($amqp_password) {
-      fail('Please specify a amqp_password parameter.')
-    }
-    oslo::messaging::amqp { 'watcher_config':
-      username               => $amqp_username,
-      password               => $amqp_password,
-      server_request_prefix  => $amqp_server_request_prefix,
-      broadcast_prefix       => $amqp_broadcast_prefix,
-      group_request_prefix   => $amqp_group_request_prefix,
-      container_name         => $amqp_container_name,
-      idle_timeout           => $amqp_idle_timeout,
-      trace                  => $amqp_trace,
-      ssl_ca_file            => $amqp_ssl_ca_file,
-      ssl_cert_file          => $amqp_ssl_cert_file,
-      ssl_key_file           => $amqp_ssl_key_file,
-      ssl_key_password       => $amqp_ssl_key_password,
-      allow_insecure_clients => $amqp_allow_insecure_clients,
-      sasl_mechanisms        => $amqp_sasl_mechanisms,
-      sasl_config_dir        => $amqp_sasl_config_dir,
-      sasl_config_name       => $amqp_sasl_config_name,
-    }
-  } elsif $rpc_backend == 'zmq' {
-      oslo::messaging::zmq { 'watcher_config':
-        rpc_cast_timeout          => $rpc_cast_timeout,
-        rpc_poll_timeout          => $rpc_poll_timeout,
-        rpc_zmq_bind_address      => $rpc_zmq_bind_address,
-        rpc_zmq_bind_port_retries => $rpc_zmq_bind_port_retries,
-        rpc_zmq_concurrency       => $rpc_zmq_concurrency,
-        rpc_zmq_contexts          => $rpc_zmq_contexts,
-        rpc_zmq_host              => $rpc_zmq_host,
-        rpc_zmq_ipc_dir           => $rpc_zmq_ipc_dir,
-        rpc_zmq_matchmaker        => $rpc_zmq_matchmaker,
-        rpc_zmq_max_port          => $rpc_zmq_max_port,
-        rpc_zmq_min_port          => $rpc_zmq_min_port,
-        rpc_zmq_topic_backlog     => $rpc_zmq_topic_backlog,
-        use_pub_sub               => $use_pub_sub,
-        zmq_target_expire         => $zmq_target_expire,
-      }
-  } else {
-    watcher_config { 'DEFAULT/rpc_backend': value => $rpc_backend }
+  oslo::messaging::zmq { 'watcher_config':
+    rpc_cast_timeout          => $rpc_cast_timeout,
+    rpc_poll_timeout          => $rpc_poll_timeout,
+    rpc_zmq_bind_address      => $rpc_zmq_bind_address,
+    rpc_zmq_bind_port_retries => $rpc_zmq_bind_port_retries,
+    rpc_zmq_concurrency       => $rpc_zmq_concurrency,
+    rpc_zmq_contexts          => $rpc_zmq_contexts,
+    rpc_zmq_host              => $rpc_zmq_host,
+    rpc_zmq_ipc_dir           => $rpc_zmq_ipc_dir,
+    rpc_zmq_matchmaker        => $rpc_zmq_matchmaker,
+    rpc_zmq_max_port          => $rpc_zmq_max_port,
+    rpc_zmq_min_port          => $rpc_zmq_min_port,
+    rpc_zmq_topic_backlog     => $rpc_zmq_topic_backlog,
+    use_pub_sub               => $use_pub_sub,
+    zmq_target_expire         => $zmq_target_expire,
   }
 
   oslo::messaging::default { 'watcher_config':
