@@ -29,7 +29,6 @@ describe 'watcher' do
       it { is_expected.to contain_class('watcher::deps') }
 
       it 'configures rabbit' do
-        is_expected.to contain_watcher_config('DEFAULT/rpc_backend').with_value('rabbit')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_login_method').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_retry_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_retry_backoff').with_value('<SERVICE DEFAULT>')
@@ -68,7 +67,6 @@ describe 'watcher' do
         }
       end
       it 'configures rabbit' do
-        is_expected.to contain_watcher_config('DEFAULT/rpc_backend').with_value('rabbit')
         is_expected.to contain_watcher_config('DEFAULT/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('60')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/heartbeat_rate').with_value('10')
@@ -167,10 +165,9 @@ describe 'watcher' do
       end
     end
 
-    context 'with amqp rpc_backend' do
+    context 'with amqp overrides' do
       let :params do
-        { :rpc_backend => 'amqp',
-          :default_transport_url => 'amqp://amqp_user:password@localhost:5672', }
+        { :default_transport_url => 'amqp://amqp_user:password@localhost:5672', }
       end
 
       context 'with default parameters' do
@@ -198,8 +195,7 @@ describe 'watcher' do
 
     context 'with overriden amqp parameters' do
       let :params do
-        { :rpc_backend           => 'amqp',
-          :default_transport_url => 'amqp://amqp_user:password@localhost:5672',
+        { :default_transport_url => 'amqp://amqp_user:password@localhost:5672',
           :amqp_idle_timeout     => '60',
           :amqp_trace            => true,
           :amqp_ssl_ca_file      => '/etc/ca.cert',
@@ -222,35 +218,28 @@ describe 'watcher' do
       end
     end
 
-    context 'with zmq rpc_backend' do
-      let :params do
-        { :rpc_backend => 'zmq' }
-      end
-
-      context 'with default parameters' do
-        it 'configures zmq' do
-          is_expected.to contain_watcher_config('DEFAULT/rpc_cast_timeout').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/rpc_poll_timeout').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_bind_address').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_bind_port_retries').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_concurrency').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_contexts').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_host').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_ipc_dir').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_matchmaker').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_max_port').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_min_port').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_topic_backlog').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/use_pub_sub').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('DEFAULT/zmq_target_expire').with_value('<SERVICE DEFAULT>')
-        end
+    context 'with zmq default parameters' do
+      it 'configures zmq' do
+        is_expected.to contain_watcher_config('DEFAULT/rpc_cast_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/rpc_poll_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_bind_address').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_bind_port_retries').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_concurrency').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_contexts').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_host').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_ipc_dir').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_matchmaker').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_max_port').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_min_port').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_topic_backlog').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/use_pub_sub').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('DEFAULT/zmq_target_expire').with_value('<SERVICE DEFAULT>')
       end
     end
 
     context 'with overriden zmq parameters' do
       let :params do
-        { :rpc_backend               => 'zmq',
-          :default_transport_url     => 'zmq://zmq_user:password@localhost:5555',
+        { :default_transport_url     => 'zmq://zmq_user:password@localhost:5555',
           :rpc_zmq_min_port          => '49200',
           :rpc_zmq_max_port          => '65000',
           :rpc_zmq_bind_port_retries => '120',
