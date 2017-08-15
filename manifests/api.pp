@@ -101,6 +101,15 @@
 #   (Optional) Authentication type to load.
 #   Defaults to undef
 #
+# [*service_name*]
+#   (optional) Name of the service that will be providing the
+#   server functionality of watcher-api.
+#   If the value is 'httpd', this means watcher-api will be a web
+#   service, and you must use another class to configure that
+#   web service. For example, use class { 'watcher::wsgi::apache'...}
+#   to make watcher-api be a web app using apache mod_wsgi.
+#   Defaults to '$::watcher::params::api_service_name'
+#
 # === Watcher API service validation
 #
 # [*validation_options*]
@@ -149,12 +158,12 @@ class watcher::api (
   $watcher_client_keyfile             = $::os_service_default,
   $watcher_client_auth_type           = 'password',
   $validation_options                 = {},
+  $service_name                       = $::watcher::params::api_service_name,
   $create_db_schema                   = false,
   $upgrade_db                         = false,
   $auth_strategy                      = 'keystone',
-) {
+) inherits watcher::params {
 
-  include ::watcher::params
   include ::watcher::policy
   include ::watcher::deps
 
@@ -186,16 +195,34 @@ class watcher::api (
     include ::watcher::db::upgrade
   }
 
-  # NOTE(danpawlik) Watcher doesn't support db_sync command.
-  service { 'watcher-api':
-    ensure     => $service_ensure,
-    name       => $::watcher::params::api_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => [ 'watcher-service',
-                    'watcher-db-manage-create_schema',
-                    'watcher-db-manage-upgrade'],
+  if $service_name == $::watcher::params::api_service_name {
+    # NOTE(danpawlik) Watcher doesn't support db_sync command.
+    service { 'watcher-api':
+      ensure     => $service_ensure,
+      name       => $::watcher::params::api_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => [ 'watcher-service',
+                      'watcher-db-manage-create_schema',
+                      'watcher-db-manage-upgrade'],
+    }
+  } elsif $service_name == 'httpd' {
+    include ::apache::params
+    service { 'watcher-api':
+      ensure => 'stopped',
+      name   => $::watcher::params::api_service_name,
+      enable => false,
+      tag    => [ 'watcher-service',
+                  'watcher-db-manage-create_schema',
+                  'watcher-db-manage-upgrade'],
+    }
+
+    # we need to make sure watcher-api/eventlet is stopped before trying to start apache
+    Service['watcher-api'] -> Service[$service_name]
+  } else {
+    fail("Invalid service_name. Either watcher/openstack-watcher-api for running \
+as a standalone service, or httpd for being run by a httpd server")
   }
 
   if $enabled {

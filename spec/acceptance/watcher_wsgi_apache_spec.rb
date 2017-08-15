@@ -49,9 +49,14 @@ describe 'basic watcher' do
           default_transport_url => 'rabbit://watcher:my_secret@127.0.0.1:5672/',
         }
         class { '::watcher::api':
+          service_name            => 'httpd',
           watcher_client_password => 'a_big_secret',
-          create_db_schema  => true,
-          upgrade_db        => true,
+          create_db_schema        => true,
+          upgrade_db              => true,
+        }
+        include ::apache
+        class { '::watcher::wsgi::apache':
+          ssl => false,
         }
         class { '::watcher::applier':
           applier_workers => '2',
