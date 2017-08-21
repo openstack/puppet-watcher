@@ -61,5 +61,5 @@
     ],
     "source": "git://github.com/openstack/puppet-watcher.git",
     "summary": "Puppet module for OpenStack Watcher",
-    "version": "11.3.0-dev"
+    "version": "11.3.0"
 }
