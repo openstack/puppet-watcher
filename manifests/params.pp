@@ -13,6 +13,8 @@ class watcher::params {
       $decision_engine_package_name = 'openstack-watcher-decision-engine'
       $decision_engine_service_name = 'openstack-watcher-decision-engine'
       $client_package_name          = undef
+      $watcher_wsgi_script_source   = '/usr/lib/python2.7/site-packages/watcher/api/app.wsgi'
+      $watcher_wsgi_script_path     = '/var/www/cgi-bin/watcher'
     }
     'Debian': {
       $api_service_name             = 'watcher-api'
@@ -23,6 +25,8 @@ class watcher::params {
       $decision_engine_package_name = 'watcher-decision-engine'
       $decision_engine_service_name = 'watcher-decision-engine'
       $client_package_name          = 'python-watcherclient'
+      $watcher_wsgi_script_source   = '/usr/lib/python2.7/dist-packages/watcher/api/app.wsgi'
+      $watcher_wsgi_script_path     = '/usr/lib/cgi-bin/watcher'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem")

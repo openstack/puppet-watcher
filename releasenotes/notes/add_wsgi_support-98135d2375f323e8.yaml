@@ -1,0 +1,3 @@
+---
+features:
+  - Add support to run watcher-api with mod-wsgi.

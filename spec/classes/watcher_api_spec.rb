@@ -135,6 +135,50 @@ describe 'watcher::api' do
         is_expected.to contain_watcher_config('watcher_clients_auth/keyfile').with_value( params[:watcher_client_keyfile] )
       end
     end
+
+    context 'when running watcher-api in wsgi' do
+      before do
+        params.merge!({ :service_name => 'httpd' })
+      end
+
+      let :pre_condition do
+        "include ::apache
+         include ::watcher::db
+         class { 'watcher': }
+         class { '::watcher::keystone::authtoken':
+           password => 'a_big_secret',
+         }"
+      end
+
+      it 'configures watcher-api service with Apache' do
+        is_expected.to contain_service('watcher-api').with(
+          :ensure => 'stopped',
+          :name   => platform_params[:api_service_name],
+          :enable => false,
+          :tag    => ['watcher-service',
+                      'watcher-db-manage-create_schema',
+                      'watcher-db-manage-upgrade'],
+        )
+      end
+    end
+
+    context 'when service_name is not valid' do
+      before do
+        params.merge!({ :service_name => 'foobar' })
+      end
+
+      let :pre_condition do
+        "include ::apache
+         include ::watcher::db
+         class { 'watcher': }
+         class { '::watcher::keystone::authtoken':
+           password => 'a_big_secret',
+         }"
+      end
+
+      it_raises 'a Puppet::Error', /Invalid service_name/
+    end
+
   end
 
   on_supported_os({
