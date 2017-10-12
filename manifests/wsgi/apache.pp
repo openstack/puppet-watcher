@@ -52,6 +52,18 @@
 #     (optional) The number of threads for the vhost.
 #     Defaults to $::os_workers
 #
+#   [*access_log_file*]
+#     The log file name for the virtualhost.
+#     Optional. Defaults to false.
+#
+#   [*access_log_format*]
+#     The log format for the virtualhost.
+#     Optional. Defaults to false.
+#
+#   [*error_log_file*]
+#     The error log file name for the virtualhost.
+#     Optional. Defaults to undef.
+#
 #   [*wsgi_process_display_name*]
 #     (optional) Name of the WSGI process display-name.
 #     Defaults to undef
@@ -93,6 +105,9 @@ class watcher::wsgi::apache (
   $wsgi_process_display_name  = undef,
   $threads                    = $::os_workers,
   $priority                   = '10',
+  $access_log_file            = false,
+  $access_log_format          = false,
+  $error_log_file             = undef,
 ) {
 
   include ::watcher::deps
@@ -128,5 +143,8 @@ class watcher::wsgi::apache (
     wsgi_script_file          => 'app',
     wsgi_script_source        => $::watcher::params::watcher_wsgi_script_source,
     require                   => Anchor['watcher::install::end'],
+    access_log_file           => $access_log_file,
+    access_log_format         => $access_log_format,
+    error_log_file            => $error_log_file,
   }
 }
