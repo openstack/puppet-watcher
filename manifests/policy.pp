@@ -29,11 +29,14 @@ class watcher::policy (
 ) {
 
   include ::watcher::deps
+  include ::watcher::params
 
   validate_hash($policies)
 
   Openstacklib::Policy::Base {
-    file_path => $policy_path,
+    file_path  => $policy_path,
+    file_user  => 'root',
+    file_group => $::watcher::params::group,
   }
 
   create_resources('openstacklib::policy::base', $policies)

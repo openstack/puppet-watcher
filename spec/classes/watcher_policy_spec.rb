@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe 'watcher::policy' do
-  shared_examples_for 'watcher-policies' do
+
+  shared_examples_for 'watcher policies' do
     let :params do
       {
         :policy_path => '/etc/watcher/policy.json',
@@ -16,8 +17,10 @@ describe 'watcher::policy' do
 
     it 'set up the policies' do
       is_expected.to contain_openstacklib__policy__base('context_is_admin').with({
-        :key   => 'context_is_admin',
-        :value => 'foo:bar'
+        :key        => 'context_is_admin',
+        :value      => 'foo:bar',
+        :file_user  => 'root',
+        :file_group => 'watcher',
       })
       is_expected.to contain_oslo__policy('watcher_config').with(
         :policy_file => '/etc/watcher/policy.json',
@@ -26,14 +29,14 @@ describe 'watcher::policy' do
   end
 
   on_supported_os({
-    :supported_os => OSDefaults.get_supported_os
+    :supported_os   => OSDefaults.get_supported_os
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_behaves_like 'watcher-policies'
+      it_configures 'watcher policies'
     end
   end
 end

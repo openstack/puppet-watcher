@@ -2,6 +2,7 @@
 #
 class watcher::params {
   include ::openstacklib::defaults
+  $group = 'watcher'
 
   case $::osfamily {
     'RedHat': {
