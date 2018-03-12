@@ -19,6 +19,7 @@ describe 'watcher::db::create_schema' do
           'Anchor[watcher::db::create_schema::begin]'
         ],
         :notify      => 'Anchor[watcher::db::create_schema::end]',
+        :tag         => 'openstack-db',
       )
     end
 
@@ -44,6 +45,7 @@ describe 'watcher::db::create_schema' do
             'Anchor[watcher::db::create_schema::begin]'
           ],
           :notify      => 'Anchor[watcher::db::create_schema::end]',
+          :tag         => 'openstack-db',
         )
         }
       end
