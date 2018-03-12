@@ -26,6 +26,7 @@ class watcher::db::create_schema(
       Anchor['watcher::db::create_schema::begin']
     ],
     notify      => Anchor['watcher::db::create_schema::end'],
+    tag         => 'openstack-db',
   }
 
 }
