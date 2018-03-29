@@ -293,10 +293,6 @@
 #
 # DEPRECATED PARAMETERS
 #
-# [*ensure_package*]
-#  (optional) Whether the watcher api package will be installed
-#  Defaults to undef
-#
 # [*rabbit_max_retries*]
 #   (Optional) Maximum number of RabbitMQ connection retries. (integer value)
 #   Defaults to undef
@@ -377,7 +373,6 @@ class watcher (
   $notification_driver                  = $::os_service_default,
   $notification_topics                  = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $ensure_package                       = undef,
   $rabbit_max_retries                   = undef,
   $rpc_backend                          = 'rabbit',
 ) {
@@ -390,14 +385,6 @@ class watcher (
   include ::watcher::db
   include ::watcher::logging
 
-  if $ensure_package {
-    warning("watcher::ensure_package is deprecated and will be removed in \
-the future release. Please use watcher::package_ensure instead.")
-    $package_ensure_real = $ensure_package
-  } else {
-    $package_ensure_real = $package_ensure
-  }
-
   if $rabbit_max_retries {
     warning('The rabbit_max_retries parameter has been deprecated and will be removed in the future release.')
   }
@@ -407,7 +394,7 @@ the future release. Please use watcher::package_ensure instead.")
   }
 
   package { 'watcher':
-    ensure => $package_ensure_real,
+    ensure => $package_ensure,
     name   => $::watcher::params::common_package_name,
     tag    => ['openstack', 'watcher-package'],
   }
