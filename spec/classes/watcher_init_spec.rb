@@ -193,7 +193,7 @@ describe 'watcher' do
       end
     end
 
-    context 'with overriden amqp parameters' do
+    context 'with overridden amqp parameters' do
       let :params do
         { :default_transport_url => 'amqp://amqp_user:password@localhost:5672',
           :amqp_idle_timeout     => '60',
@@ -237,7 +237,7 @@ describe 'watcher' do
       end
     end
 
-    context 'with overriden zmq parameters' do
+    context 'with overridden zmq parameters' do
       let :params do
         { :default_transport_url     => 'zmq://zmq_user:password@localhost:5555',
           :rpc_zmq_min_port          => '49200',
