@@ -93,7 +93,7 @@ describe 'watcher::api' do
       it 'configures watcher clients auth' do
         is_expected.to contain_watcher_config('watcher_clients_auth/username').with_value('watcher')
         is_expected.to contain_watcher_config('watcher_clients_auth/password').with_value( params[:watcher_client_password] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/auth_url').with_value('http://localhost:35357/')
+        is_expected.to contain_watcher_config('watcher_clients_auth/auth_url').with_value('http://localhost:5000/')
         is_expected.to contain_watcher_config('watcher_clients_auth/auth_uri').with_value('http://localhost:5000/')
         is_expected.to contain_watcher_config('watcher_clients_auth/project_name').with_value('service')
         is_expected.to contain_watcher_config('watcher_clients_auth/project_domain_name').with_value('<SERVICE DEFAULT>')
