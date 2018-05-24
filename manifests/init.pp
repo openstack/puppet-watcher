@@ -297,11 +297,6 @@
 #   (Optional) Maximum number of RabbitMQ connection retries. (integer value)
 #   Defaults to undef
 #
-# [*rpc_backend*]
-#   (optional) The messaging driver to use, defaults to rabbit. Other drivers
-#   include amqp and zmq.
-#   Defaults to 'rabbit'.
-#
 # === Authors
 #
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
@@ -374,7 +369,6 @@ class watcher (
   $notification_topics                  = $::os_service_default,
   # DEPRECATED PARAMETERS
   $rabbit_max_retries                   = undef,
-  $rpc_backend                          = 'rabbit',
 ) {
 
   include ::openstacklib::openstackclient
@@ -387,10 +381,6 @@ class watcher (
 
   if $rabbit_max_retries {
     warning('The rabbit_max_retries parameter has been deprecated and will be removed in the future release.')
-  }
-
-  if $rpc_backend {
-    warning('The rpc_backend parameter has been deprecated, please use default_transport_url instead.')
   }
 
   package { 'watcher':

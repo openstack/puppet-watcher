@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The deprecated watcher::rpc_backend is now removed. Please use
+    watcher::default_transport_url instead.
