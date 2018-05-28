@@ -23,7 +23,7 @@
 #
 # [*watcher_client_auth_url*]
 #   Specifies the admin Identity URI for Watcher to use.
-#   Default 'http://localhost:35357/'
+#   Default 'http://localhost:5000/'
 #
 # [*package_ensure*]
 #   (Optional)Ensure state of the openstackclient package.
@@ -139,7 +139,7 @@ class watcher::api (
   $watcher_client_password,
   $watcher_client_username            = 'watcher',
   $watcher_client_auth_uri            = 'http://localhost:5000/',
-  $watcher_client_auth_url            = 'http://localhost:35357/',
+  $watcher_client_auth_url            = 'http://localhost:5000/',
   $package_ensure                     = 'present',
   $enabled                            = true,
   $manage_service                     = true,
