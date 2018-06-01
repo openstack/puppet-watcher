@@ -291,12 +291,6 @@
 #   in the watcher config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*rabbit_max_retries*]
-#   (Optional) Maximum number of RabbitMQ connection retries. (integer value)
-#   Defaults to undef
-#
 # === Authors
 #
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
@@ -367,8 +361,6 @@ class watcher (
   $notification_transport_url           = $::os_service_default,
   $notification_driver                  = $::os_service_default,
   $notification_topics                  = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $rabbit_max_retries                   = undef,
 ) {
 
   include ::openstacklib::openstackclient
@@ -378,10 +370,6 @@ class watcher (
   include ::watcher::policy
   include ::watcher::db
   include ::watcher::logging
-
-  if $rabbit_max_retries {
-    warning('The rabbit_max_retries parameter has been deprecated and will be removed in the future release.')
-  }
 
   package { 'watcher':
     ensure => $package_ensure,
