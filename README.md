@@ -90,6 +90,6 @@ Release Notes
 * https://docs.openstack.org/releasenotes/puppet-watcher
 
 Repository
--------------
+----------
 
 * https://git.openstack.org/cgit/openstack/puppet-watcher
