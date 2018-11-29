@@ -369,7 +369,6 @@ class watcher (
   include ::watcher::params
   include ::watcher::policy
   include ::watcher::db
-  include ::watcher::logging
 
   package { 'watcher':
     ensure => $package_ensure,
