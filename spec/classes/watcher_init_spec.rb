@@ -217,55 +217,6 @@ describe 'watcher' do
         is_expected.to contain_watcher_config('oslo_messaging_amqp/password').with_value('password')
       end
     end
-
-    context 'with zmq default parameters' do
-      it 'configures zmq' do
-        is_expected.to contain_watcher_config('DEFAULT/rpc_cast_timeout').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_poll_timeout').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_bind_address').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_bind_port_retries').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_concurrency').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_contexts').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_host').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_ipc_dir').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_matchmaker').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_max_port').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_min_port').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_topic_backlog').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/use_pub_sub').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/zmq_target_expire').with_value('<SERVICE DEFAULT>')
-      end
-    end
-
-    context 'with overridden zmq parameters' do
-      let :params do
-        { :default_transport_url     => 'zmq://zmq_user:password@localhost:5555',
-          :rpc_zmq_min_port          => '49200',
-          :rpc_zmq_max_port          => '65000',
-          :rpc_zmq_bind_port_retries => '120',
-          :rpc_zmq_contexts          => '2',
-          :rpc_zmq_host              => 'localhost',
-        }
-      end
-
-      it 'configures zmq' do
-        is_expected.to contain_watcher_config('DEFAULT/transport_url').with_value('zmq://zmq_user:password@localhost:5555')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_cast_timeout').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_poll_timeout').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_bind_address').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_bind_port_retries').with_value('120')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_concurrency').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_contexts').with_value('2')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_host').with_value('localhost')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_ipc_dir').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_matchmaker').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_max_port').with_value('65000')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_min_port').with_value('49200')
-        is_expected.to contain_watcher_config('DEFAULT/rpc_zmq_topic_backlog').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/use_pub_sub').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('DEFAULT/zmq_target_expire').with_value('<SERVICE DEFAULT>')
-      end
-    end
   end
 
   on_supported_os({
