@@ -9,10 +9,6 @@ describe 'watcher' do
         { :purge_config => false }
       end
 
-      it 'contains the logging class' do
-        is_expected.to contain_class('watcher::logging')
-      end
-
       it 'contains the db class' do
         is_expected.to contain_class('watcher::db')
       end
