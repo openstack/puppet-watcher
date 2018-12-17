@@ -33,7 +33,7 @@
 #
 # [*service_type*]
 #   (Optional) Type of service.
-#   Defaults to 'key-manager'.
+#   Defaults to 'infra-optim'.
 #
 # [*region*]
 #   (Optional) Region for endpoint.
