@@ -6,8 +6,10 @@ class watcher::params {
   if ($::os_package_type == 'debian') or ($::os['name'] == 'Fedora') or
     ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
     $pyvers = '3'
+    $pyver3 = '3.6'
   } else {
     $pyvers = ''
+    $pyver3 = '2.7'
   }
 
   $client_package_name = "python${pyvers}-watcherclient"
@@ -22,7 +24,7 @@ class watcher::params {
       $applier_service_name         = 'openstack-watcher-applier'
       $decision_engine_package_name = 'openstack-watcher-decision-engine'
       $decision_engine_service_name = 'openstack-watcher-decision-engine'
-      $watcher_wsgi_script_source   = '/usr/lib/python2.7/site-packages/watcher/api/app.wsgi'
+      $watcher_wsgi_script_source   = "/usr/lib/python${pyver3}/site-packages/watcher/api/app.wsgi"
       $watcher_wsgi_script_path     = '/var/www/cgi-bin/watcher'
     }
     'Debian': {
