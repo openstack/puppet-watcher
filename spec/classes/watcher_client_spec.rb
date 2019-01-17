@@ -27,11 +27,7 @@ describe 'watcher::client' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          if facts[:os_package_type] == 'debian'
-            { :client_package_name => 'python3-watcherclient' }
-          else
-            { :client_package_name => 'python-watcherclient' }
-          end
+          { :client_package_name => 'python3-watcherclient' }
         when 'RedHat'
           { :client_package_name => 'python-watcherclient' }
         end

@@ -3,14 +3,8 @@
 class watcher::params {
   include ::openstacklib::defaults
 
-  if ($::os_package_type == 'debian') or ($::os['name'] == 'Fedora') or
-    ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
-    $pyvers = '3'
-    $pyver3 = '3.6'
-  } else {
-    $pyvers = ''
-    $pyver3 = '2.7'
-  }
+  $pyvers = $::openstacklib::defaults::pyvers
+  $pyver3 = $::openstacklib::defaults::pyver3
 
   $client_package_name = "python${pyvers}-watcherclient"
   $group               = 'watcher'
@@ -38,7 +32,7 @@ class watcher::params {
       if ($::os_package_type == 'debian') {
         $watcher_wsgi_script_source = '/usr/share/watcher-common/app.wsgi'
       } else {
-        $watcher_wsgi_script_source = '/usr/lib/python2.7/dist-packages/watcher/api/app.wsgi'
+        $watcher_wsgi_script_source = "/usr/lib/python${pyver3}/dist-packages/watcher/api/app.wsgi"
       }
       $watcher_wsgi_script_path     = '/usr/lib/cgi-bin/watcher'
     }
