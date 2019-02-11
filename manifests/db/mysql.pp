@@ -49,7 +49,7 @@ class watcher::db::mysql(
 
   ::openstacklib::db::mysql { 'watcher':
     user          => $user,
-    password_hash => mysql_password($password),
+    password_hash => mysql::password($password),
     dbname        => $dbname,
     host          => $host,
     charset       => $charset,
