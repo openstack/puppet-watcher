@@ -35,7 +35,7 @@ Setup
 
 **What the watcher module affects**
 
-* [Watcher](https://wiki.openstack.org/wiki/Watcher), the Watcher service for OpenStack.
+* [Watcher](https://docs.openstack.org/watcher/latest/), the Watcher service for OpenStack.
 
 ### Installing watcher
 
