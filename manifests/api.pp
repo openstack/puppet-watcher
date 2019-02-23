@@ -171,7 +171,7 @@ class watcher::api (
     include ::watcher::keystone::authtoken
   }
 
-  validate_string($watcher_client_password)
+  validate_legacy(String, 'validate_string', $watcher_client_password)
 
   package { 'watcher-api':
     ensure => $package_ensure,

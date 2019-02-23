@@ -26,7 +26,7 @@ class watcher::config (
 
   include ::watcher::deps
 
-  validate_hash($watcher_config)
+  validate_legacy(Hash, 'validate_hash', $watcher_config)
 
   create_resources('watcher_config', $watcher_config)
 }

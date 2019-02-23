@@ -45,7 +45,7 @@ class watcher::db::mysql(
 
   include ::watcher::deps
 
-  validate_string($password)
+  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::mysql { 'watcher':
     user          => $user,
