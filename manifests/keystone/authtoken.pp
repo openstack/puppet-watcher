@@ -233,7 +233,7 @@ class watcher::keystone::authtoken (
     fail('Please set password for watcher service user')
   }
 
-  validate_string($password)
+  validate_legacy(String, 'validate_string', $password)
 
   if $check_revocations_for_cached {
     warning('check_revocations_for_cached parameter is deprecated, has no effect and will be removed in the future.')

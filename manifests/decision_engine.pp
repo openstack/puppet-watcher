@@ -68,7 +68,7 @@ class watcher::decision_engine (
   include ::watcher::deps
 
   if !is_service_default($weights) {
-    validate_hash($weights)
+    validate_legacy(Hash, 'validate_hash', $weights)
     $weights_real = join(sort(join_keys_to_values($weights, ':')), ',')
   } else {
     $weights_real = $weights
