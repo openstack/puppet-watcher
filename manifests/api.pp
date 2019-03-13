@@ -89,6 +89,10 @@
 #   (Optional) Domain name containing project.
 #   Defaults to undef
 #
+# [*watcher_client_user_domain_name*]
+#   (Optional) User Domain name.
+#   Defaults to undef
+#
 # [*watcher_client_insecure*]
 #   (Optional) Verify HTTPS connections.
 #   Defaults to undef
@@ -154,6 +158,7 @@ class watcher::api (
   $watcher_client_certfile            = $::os_service_default,
   $watcher_client_cafile              = $::os_service_default,
   $watcher_client_project_domain_name = $::os_service_default,
+  $watcher_client_user_domain_name    = $::os_service_default,
   $watcher_client_insecure            = $::os_service_default,
   $watcher_client_keyfile             = $::os_service_default,
   $watcher_client_auth_type           = 'password',
@@ -246,6 +251,7 @@ as a standalone service, or httpd for being run by a httpd server")
     'watcher_clients_auth/auth_uri':            value => $watcher_client_auth_uri;
     'watcher_clients_auth/project_name':        value => $watcher_client_project_name;
     'watcher_clients_auth/project_domain_name': value => $watcher_client_project_domain_name;
+    'watcher_clients_auth/user_domain_name':    value => $watcher_client_user_domain_name;
     'watcher_clients_auth/insecure':            value => $watcher_client_insecure;
     'watcher_clients_auth/auth_type':           value => $watcher_client_auth_type;
     'watcher_clients_auth/cafile':              value => $watcher_client_cafile;

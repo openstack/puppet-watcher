@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Add [watcher_clients_auth]/user_domain_name config parameter,
+    this parameter is required to communicate to keystone v3.
