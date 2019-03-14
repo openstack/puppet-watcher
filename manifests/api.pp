@@ -74,36 +74,36 @@
 #
 # [*watcher_client_project_name*]
 #   (Optional) Service project name.
-#   Defaults to undef
+#   Defaults to 'service'
 #
 # [*watcher_client_certfile*]
 #   (Optional) PEM encoded client certificate cert file.
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*watcher_client_cafile*]
 #   (Optional)PEM encoded Certificate Authority to use when verifying HTTPs
 #   connections.
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*watcher_client_project_domain_name*]
 #   (Optional) Domain name containing project.
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*watcher_client_user_domain_name*]
 #   (Optional) User Domain name.
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*watcher_client_insecure*]
 #   (Optional) Verify HTTPS connections.
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*watcher_client_keyfile*]
 #   (Optional) PEM encoded client certificate key file.
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*watcher_client_auth_type*]
 #   (Optional) Authentication type to load.
-#   Defaults to undef
+#   Defaults to 'password'
 #
 # [*service_name*]
 #   (optional) Name of the service that will be providing the
