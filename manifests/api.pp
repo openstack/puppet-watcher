@@ -74,7 +74,7 @@
 #
 # [*watcher_client_project_name*]
 #   (Optional) Service project name.
-#   Defaults to 'service'
+#   Defaults to 'services'
 #
 # [*watcher_client_certfile*]
 #   (Optional) PEM encoded client certificate cert file.
@@ -154,7 +154,7 @@ class watcher::api (
   $watcher_api_workers                = $::os_workers,
   $watcher_api_enable_ssl_api         = $::os_service_default,
   $watcher_client_default_domain_name = $::os_service_default,
-  $watcher_client_project_name        = 'service',
+  $watcher_client_project_name        = 'services',
   $watcher_client_certfile            = $::os_service_default,
   $watcher_client_cafile              = $::os_service_default,
   $watcher_client_project_domain_name = $::os_service_default,

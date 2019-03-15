@@ -1,0 +1,4 @@
+---
+upgrade:
+  - The default value for watcher::api::watcher_client_project_name is
+    changed to 'services'.
