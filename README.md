@@ -95,4 +95,4 @@ Release Notes
 Repository
 ----------
 
-* https://git.openstack.org/cgit/openstack/puppet-watcher
+* https://opendev.org/openstack/puppet-watcher
