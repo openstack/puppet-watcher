@@ -26,7 +26,7 @@
 #
 # [*nova_client_api_version*]
 #   (required) Version of Nova API to use in novaclient.
-#   Default is 2.
+#   Default is $::os_service_default
 #
 # [*package_ensure*]
 #  (optional) Whether the watcher api package will be installed
@@ -304,7 +304,7 @@ class watcher (
   $cinder_client_api_version            = '2',
   $glance_client_api_version            = '2',
   $neutron_client_api_version           = '2',
-  $nova_client_api_version              = '2',
+  $nova_client_api_version              = $::os_service_default,
   $package_ensure                       = 'present',
   $rabbit_login_method                  = $::os_service_default,
   $rabbit_retry_interval                = $::os_service_default,
