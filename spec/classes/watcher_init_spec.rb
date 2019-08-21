@@ -34,6 +34,7 @@ describe 'watcher' do
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_transient_queues_ttl').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/heartbeat_rate').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('oslo_messaging_rabbit/heartbeat_in_pthread').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('DEFAULT/transport_url').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('DEFAULT/rpc_response_timeout').with_value('<SERVICE DEFAULT>')
@@ -58,6 +59,7 @@ describe 'watcher' do
           :rabbit_ha_queues                   => 'undef',
           :rabbit_heartbeat_timeout_threshold => '60',
           :rabbit_heartbeat_rate              => '10',
+          :rabbit_heartbeat_in_pthread        => true,
           :kombu_compression                  => 'gzip',
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_topics                => 'notifications',
@@ -68,6 +70,7 @@ describe 'watcher' do
         is_expected.to contain_watcher_config('DEFAULT/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('60')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/heartbeat_rate').with_value('10')
+        is_expected.to contain_watcher_config('oslo_messaging_rabbit/heartbeat_in_pthread').with_value(true)
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_login_method').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_retry_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('oslo_messaging_rabbit/rabbit_retry_backoff').with_value('<SERVICE DEFAULT>')
