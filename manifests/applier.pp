@@ -47,8 +47,8 @@ class watcher::applier (
   $applier_workflow_engine = $::os_service_default,
 ) {
 
-  include ::watcher::params
-  include ::watcher::deps
+  include watcher::params
+  include watcher::deps
 
   package { 'watcher-applier':
     ensure => $package_ensure,

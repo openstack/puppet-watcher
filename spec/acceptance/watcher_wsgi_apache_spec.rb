@@ -6,16 +6,16 @@ describe 'basic watcher' do
 
     it 'should work with no errors' do
       pp= <<-EOS
-      include ::openstack_integration
-      include ::openstack_integration::repos
-      include ::openstack_integration::rabbitmq
-      include ::openstack_integration::mysql
-      include ::openstack_integration::keystone
+      include openstack_integration
+      include openstack_integration::repos
+      include openstack_integration::rabbitmq
+      include openstack_integration::mysql
+      include openstack_integration::keystone
 
       # TODO(aschultz): fix after Ubuntu ocata-m3/rc1. watcher-db-manage is
       # broken
       if ($::osfamily == 'RedHat') {
-        include ::openstack_integration::watcher
+        include openstack_integration::watcher
       }
       EOS
 

@@ -79,7 +79,7 @@ class watcher::keystone::auth (
   $internal_url        = 'http://127.0.0.1:9322',
 ) {
 
-  include ::watcher::deps
+  include watcher::deps
 
   $real_service_name = pick($service_name, $auth_name)
 

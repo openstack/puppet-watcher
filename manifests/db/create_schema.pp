@@ -12,7 +12,7 @@ class watcher::db::create_schema(
   $extra_params = '--config-file /etc/watcher/watcher.conf',
 ) {
 
-  include ::watcher::deps
+  include watcher::deps
 
   exec { 'watcher-db-manage-create_schema':
     command     => "watcher-db-manage ${extra_params} create_schema",

@@ -119,12 +119,12 @@ class watcher::wsgi::apache (
   $custom_wsgi_process_options = {},
 ) {
 
-  include ::watcher::deps
-  include ::watcher::params
-  include ::apache
-  include ::apache::mod::wsgi
+  include watcher::deps
+  include watcher::params
+  include apache
+  include apache::mod::wsgi
   if $ssl {
-    include ::apache::mod::ssl
+    include apache::mod::ssl
   }
 
   ::openstacklib::wsgi::apache { 'watcher_wsgi':

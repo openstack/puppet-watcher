@@ -12,8 +12,8 @@ class watcher::client (
   $ensure = 'present'
 ) {
 
-  include ::watcher::deps
-  include ::watcher::params
+  include watcher::deps
+  include watcher::params
 
   package { 'python-watcherclient':
     ensure => $ensure,

@@ -205,7 +205,7 @@ class watcher::keystone::authtoken (
   $service_token_roles_required   = $::os_service_default,
 ) {
 
-  include ::watcher::deps
+  include watcher::deps
 
   if is_service_default($password) and ! $::watcher::api::watcher_client_password {
     fail('Please set password for watcher service user')

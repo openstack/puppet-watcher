@@ -28,8 +28,8 @@ class watcher::policy (
   $policy_path = '/etc/watcher/policy.json',
 ) {
 
-  include ::watcher::deps
-  include ::watcher::params
+  include watcher::deps
+  include watcher::params
 
   validate_legacy(Hash, 'validate_hash', $policies)
 

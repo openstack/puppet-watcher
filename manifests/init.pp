@@ -376,12 +376,12 @@ class watcher (
   $zmq_target_expire                    = undef,
 ) {
 
-  include ::openstacklib::openstackclient
+  include openstacklib::openstackclient
 
-  include ::watcher::deps
-  include ::watcher::params
-  include ::watcher::policy
-  include ::watcher::db
+  include watcher::deps
+  include watcher::params
+  include watcher::policy
+  include watcher::db
 
   package { 'watcher':
     ensure => $package_ensure,

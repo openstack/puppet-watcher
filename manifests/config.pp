@@ -24,7 +24,7 @@ class watcher::config (
   $watcher_config = {},
 ) {
 
-  include ::watcher::deps
+  include watcher::deps
 
   validate_legacy(Hash, 'validate_hash', $watcher_config)
 

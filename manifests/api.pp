@@ -169,11 +169,11 @@ class watcher::api (
   $auth_strategy                      = 'keystone',
 ) inherits watcher::params {
 
-  include ::watcher::policy
-  include ::watcher::deps
+  include watcher::policy
+  include watcher::deps
 
   if $auth_strategy == 'keystone' {
-    include ::watcher::keystone::authtoken
+    include watcher::keystone::authtoken
   }
 
   validate_legacy(String, 'validate_string', $watcher_client_password)
@@ -193,11 +193,11 @@ class watcher::api (
   }
 
   if $create_db_schema {
-    include ::watcher::db::create_schema
+    include watcher::db::create_schema
   }
 
   if $upgrade_db {
-    include ::watcher::db::upgrade
+    include watcher::db::upgrade
   }
 
   if $service_name == $::watcher::params::api_service_name {
@@ -213,7 +213,7 @@ class watcher::api (
                       'watcher-db-manage-upgrade'],
     }
   } elsif $service_name == 'httpd' {
-    include ::apache::params
+    include apache::params
     service { 'watcher-api':
       ensure => 'stopped',
       name   => $::watcher::params::api_service_name,

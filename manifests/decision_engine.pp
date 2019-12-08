@@ -64,8 +64,8 @@ class watcher::decision_engine (
   $weights                             = $::os_service_default,
 ) {
 
-  include ::watcher::params
-  include ::watcher::deps
+  include watcher::params
+  include watcher::deps
 
   if !is_service_default($weights) {
     validate_legacy(Hash, 'validate_hash', $weights)

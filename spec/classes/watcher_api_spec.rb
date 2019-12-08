@@ -145,10 +145,10 @@ describe 'watcher::api' do
       end
 
       let :pre_condition do
-        "include ::apache
-         include ::watcher::db
+        "include apache
+         include watcher::db
          class { 'watcher': }
-         class { '::watcher::keystone::authtoken':
+         class { 'watcher::keystone::authtoken':
            password => 'a_big_secret',
          }"
       end
@@ -171,10 +171,10 @@ describe 'watcher::api' do
       end
 
       let :pre_condition do
-        "include ::apache
-         include ::watcher::db
+        "include apache
+         include watcher::db
          class { 'watcher': }
-         class { '::watcher::keystone::authtoken':
+         class { 'watcher::keystone::authtoken':
            password => 'a_big_secret',
          }"
       end

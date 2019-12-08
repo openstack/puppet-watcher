@@ -32,7 +32,7 @@ class watcher::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  include ::watcher::deps
+  include watcher::deps
 
   ::openstacklib::db::postgresql { 'watcher':
     password_hash => postgresql_password($user, $password),

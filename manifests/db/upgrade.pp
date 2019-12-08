@@ -13,7 +13,7 @@ class watcher::db::upgrade(
   $extra_params = '--config-file /etc/watcher/watcher.conf',
 ) {
 
-  include ::watcher::deps
+  include watcher::deps
 
   exec { 'watcher-db-manage-upgrade':
     command     => "watcher-db-manage ${extra_params} upgrade",

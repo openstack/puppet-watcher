@@ -1,7 +1,7 @@
 # Parameters for puppet-watcher
 #
 class watcher::params {
-  include ::openstacklib::defaults
+  include openstacklib::defaults
 
   $pyvers = $::openstacklib::defaults::pyvers
   $pyver3 = $::openstacklib::defaults::pyver3

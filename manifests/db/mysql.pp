@@ -43,7 +43,7 @@ class watcher::db::mysql(
   $allowed_hosts = undef
 ) {
 
-  include ::watcher::deps
+  include watcher::deps
 
   validate_legacy(String, 'validate_string', $password)
 
