@@ -46,8 +46,8 @@ Puppet::Type.newtype(:watcher_config) do
     defaultto('<SERVICE DEFAULT>')
   end
 
-  autorequire(:package) do
-    'watcher'
+  autorequire(:anchor) do
+    ['watcher::install::end']
   end
 
 end

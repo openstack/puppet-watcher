@@ -1,5 +1,6 @@
 require 'puppet'
 require 'puppet/type/watcher_config'
+
 describe 'Puppet::Type.type(:watcher_config)' do
   before :each do
     @watcher_config = Puppet::Type.type(:watcher_config).new(:name => 'DEFAULT/foo', :value => 'bar')
@@ -52,13 +53,12 @@ describe 'Puppet::Type.type(:watcher_config)' do
 
   it 'should autorequire the package that install the file' do
     catalog = Puppet::Resource::Catalog.new
-    package = Puppet::Type.type(:package).new(:name => 'watcher')
-    catalog.add_resource package, @watcher_config
+    anchor = Puppet::Type.type(:anchor).new(:name => 'watcher::install::end')
+    catalog.add_resource anchor, @watcher_config
     dependency = @watcher_config.autorequire
     expect(dependency.size).to eq(1)
     expect(dependency[0].target).to eq(@watcher_config)
-    expect(dependency[0].source).to eq(package)
+    expect(dependency[0].source).to eq(anchor)
   end
-
 
 end
