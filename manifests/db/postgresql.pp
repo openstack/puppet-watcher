@@ -35,11 +35,11 @@ class watcher::db::postgresql(
   include watcher::deps
 
   ::openstacklib::db::postgresql { 'watcher':
-    password_hash => postgresql_password($user, $password),
-    dbname        => $dbname,
-    user          => $user,
-    encoding      => $encoding,
-    privileges    => $privileges,
+    password   => $password,
+    dbname     => $dbname,
+    user       => $user,
+    encoding   => $encoding,
+    privileges => $privileges,
   }
 
   Anchor['watcher::db::begin']
