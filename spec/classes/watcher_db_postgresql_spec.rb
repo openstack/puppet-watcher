@@ -7,7 +7,7 @@ describe 'watcher::db::postgresql' do
   end
 
   let :required_params do
-    { :password => 'pw' }
+    { :password => 'watcherpass' }
   end
 
   shared_examples_for 'watcher-db-postgresql' do
@@ -16,9 +16,12 @@ describe 'watcher::db::postgresql' do
         required_params
       end
 
-      it { is_expected.to contain_postgresql__server__db('watcher').with(
-        :user     => 'watcher',
-        :password => 'md5bb8678c96047fcce9b899ad5da021642'
+      it { is_expected.to contain_openstacklib__db__postgresql('watcher').with(
+        :user       => 'watcher',
+        :password   => 'watcherpass',
+        :dbname     => 'watcher',
+        :encoding   => nil,
+        :privileges => 'ALL',
       )}
     end
   end
