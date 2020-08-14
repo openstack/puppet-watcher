@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    The rpc_cast_timeout, rpc_poll_timeout, rpc_zmq_bind_address,
+    rpc_zmq_bind_port_retries, rpc_zmq_concurrency, rpc_zmq_contexts,
+    rpc_zmq_host, rpc_zmq_ipc_dir, rpc_zmq_matchmaker,
+    rpc_zmq_max_port, rpc_zmq_min_port, rpc_zmq_topic_backlog, use_pub_sub
+    and zmq_target_expire parameters in watcher init class is removed.
+  - |
+    The database_min_pool_size parameter in watcher::db class is removed.

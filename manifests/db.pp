@@ -38,12 +38,6 @@
 #   (Optional) If set, use this value for pool_timeout with SQLAlchemy.
 #   Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*database_min_pool_size*]
-#   (Optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to undef
-#
 class watcher::db (
   $database_connection              = 'sqlite:////var/lib/watcher/watcher.sqlite',
   $database_connection_recycle_time = $::os_service_default,
@@ -53,15 +47,9 @@ class watcher::db (
   $database_retry_interval          = $::os_service_default,
   $database_max_overflow            = $::os_service_default,
   $database_pool_timeout            = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $database_min_pool_size           = undef,
 ) {
 
   include watcher::deps
-
-  if $database_min_pool_size {
-    warning('The database_min_pool_size parameter is deprecated, and will be removed in a future release.')
-  }
 
   validate_legacy(Oslo::Dbconn, 'validate_re', $database_connection,
     ['^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?'])
