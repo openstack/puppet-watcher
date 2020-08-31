@@ -57,9 +57,6 @@ class watcher::db (
 
   include watcher::deps
 
-  validate_legacy(Oslo::Dbconn, 'validate_re', $database_connection,
-    ['^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?'])
-
   oslo::db { 'watcher_config':
     connection              => $database_connection,
     connection_recycle_time => $database_connection_recycle_time,
