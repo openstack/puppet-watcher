@@ -16,6 +16,8 @@ describe 'watcher::db::mysql' do
         required_params
       end
 
+      it { should contain_class('watcher::deps') }
+
       it { is_expected.to contain_openstacklib__db__mysql('watcher').with(
         :user     => 'watcher',
         :password => 'watcherpass',
