@@ -16,6 +16,8 @@ describe 'watcher::db::postgresql' do
         required_params
       end
 
+      it { is_expected.to contain_class('watcher::deps') }
+
       it { is_expected.to contain_openstacklib__db__postgresql('watcher').with(
         :user       => 'watcher',
         :password   => 'watcherpass',
