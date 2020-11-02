@@ -184,7 +184,6 @@ describe 'watcher' do
           is_expected.to contain_watcher_config('oslo_messaging_amqp/ssl_cert_file').with_value('<SERVICE DEFAULT>')
           is_expected.to contain_watcher_config('oslo_messaging_amqp/ssl_key_file').with_value('<SERVICE DEFAULT>')
           is_expected.to contain_watcher_config('oslo_messaging_amqp/ssl_key_password').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_watcher_config('oslo_messaging_amqp/allow_insecure_clients').with_value('<SERVICE DEFAULT>')
           is_expected.to contain_watcher_config('oslo_messaging_amqp/sasl_mechanisms').with_value('<SERVICE DEFAULT>')
           is_expected.to contain_watcher_config('oslo_messaging_amqp/sasl_config_dir').with_value('<SERVICE DEFAULT>')
           is_expected.to contain_watcher_config('oslo_messaging_amqp/sasl_config_name').with_value('<SERVICE DEFAULT>')
