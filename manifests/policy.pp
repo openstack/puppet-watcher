@@ -32,11 +32,16 @@
 #   (Optional) Path to the watcher policy.yaml file
 #   Defaults to /etc/watcher/policy.yaml
 #
+# [*policy_dirs*]
+#   (Optional) Path to the watcher policy folder
+#   Defaults to $::os_service_default
+#
 class watcher::policy (
   $enforce_scope        = $::os_service_default,
   $enforce_new_defaults = $::os_service_default,
   $policies             = {},
   $policy_path          = '/etc/watcher/policy.yaml',
+  $policy_dirs          = $::os_service_default,
 ) {
 
   include watcher::deps
@@ -56,7 +61,8 @@ class watcher::policy (
   oslo::policy { 'watcher_config':
     enforce_scope        => $enforce_scope,
     enforce_new_defaults => $enforce_new_defaults,
-    policy_file          => $policy_path
+    policy_file          => $policy_path,
+    policy_dirs          => $policy_dirs,
   }
 
 }
