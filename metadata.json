@@ -10,6 +10,10 @@
             "version_requirement": ">=5.0.0 <8.0.0"
         },
         {
+            "name": "openstack/keystone",
+            "version_requirement": ">=19.0.0 <20.0.0"
+        },
+        {
             "name": "openstack/openstacklib",
             "version_requirement": ">=19.0.0 <20.0.0"
         },
