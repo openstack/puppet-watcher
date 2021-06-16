@@ -31,7 +31,7 @@ class watcher::params {
       if ($::os_package_type == 'debian') {
         $watcher_wsgi_script_source = '/usr/share/watcher-common/app.wsgi'
       } else {
-        $watcher_wsgi_script_source = "/usr/lib/python${pyver3}/dist-packages/watcher/api/app.wsgi"
+        $watcher_wsgi_script_source = '/usr/lib/python3/dist-packages/watcher/api/app.wsgi'
       }
       $watcher_wsgi_script_path     = '/usr/lib/cgi-bin/watcher'
     }
