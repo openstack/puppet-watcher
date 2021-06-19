@@ -95,24 +95,10 @@ describe 'watcher::wsgi::apache' do
             :wsgi_script_source => '/usr/lib/python3/dist-packages/watcher/api/app.wsgi'
           }
         when 'RedHat'
-          if facts[:operatingsystem] == 'Fedora'
-            {
-              :wsgi_script_path   => '/var/www/cgi-bin/watcher',
-              :wsgi_script_source => '/usr/lib/python3.6/site-packages/watcher/api/app.wsgi'
-            }
-          else
-            if facts[:operatingsystemmajrelease] > '7'
-              {
-                :wsgi_script_path   => '/var/www/cgi-bin/watcher',
-                :wsgi_script_source => '/usr/lib/python3.6/site-packages/watcher/api/app.wsgi'
-              }
-            else
-              {
-                :wsgi_script_path   => '/var/www/cgi-bin/watcher',
-                :wsgi_script_source => '/usr/lib/python2.7/site-packages/watcher/api/app.wsgi'
-              }
-            end
-          end
+          {
+            :wsgi_script_path   => '/var/www/cgi-bin/watcher',
+            :wsgi_script_source => '/usr/lib/python3.6/site-packages/watcher/api/app.wsgi'
+          }
         end
       end
 
