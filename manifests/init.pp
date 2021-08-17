@@ -14,7 +14,7 @@
 #
 # [*cinder_client_api_version*]
 #   (required) Version of Cinder API to use in cinderclient.
-#   Default is 2.
+#   Default is 3.
 #
 # [*glance_client_api_version*]
 #   (required) Version of Glance API to use in glanceclient.
@@ -242,7 +242,7 @@ class watcher (
   $purge_config                         = false,
   $use_ssl                              = false,
   $ceilometer_client_api_version        = '2',
-  $cinder_client_api_version            = '2',
+  $cinder_client_api_version            = '3',
   $glance_client_api_version            = '2',
   $neutron_client_api_version           = '2',
   $nova_client_api_version              = $::os_service_default,

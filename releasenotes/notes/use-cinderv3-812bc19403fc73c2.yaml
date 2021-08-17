@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Default value of the ``watcher::cinder_client_api_version`` has been updated from
+    ``2`` to ``3`` to use cinder v3 API instead of removed v2.
