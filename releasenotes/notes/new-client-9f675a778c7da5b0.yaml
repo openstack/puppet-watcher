@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The following new classes have been added.
+
+    - ``watcher::gnocchi_client``
+    - ``watcher::ironic_client``
+    - ``watcher::keystone_client``
+    - ``watcher::placement_client``
