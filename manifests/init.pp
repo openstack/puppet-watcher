@@ -10,15 +10,15 @@
 #
 # [*cinder_client_api_version*]
 #   (required) Version of Cinder API to use in cinderclient.
-#   Default is 3.
+#   Default is $::os_service_default.
 #
 # [*glance_client_api_version*]
 #   (required) Version of Glance API to use in glanceclient.
-#   Default is 2.
+#   Default is $::os_service_default.
 #
 # [*neutron_client_api_version*]
 #   (required) Version of Neutron API to use in neutronclient.
-#   Default is 2.
+#   Default is $::os_service_default.
 #
 # [*nova_client_api_version*]
 #   (required) Version of Nova API to use in novaclient.
@@ -241,9 +241,9 @@
 class watcher (
   $purge_config                         = false,
   $use_ssl                              = false,
-  $cinder_client_api_version            = '3',
-  $glance_client_api_version            = '2',
-  $neutron_client_api_version           = '2',
+  $cinder_client_api_version            = $::os_service_default,
+  $glance_client_api_version            = $::os_service_default,
+  $neutron_client_api_version           = $::os_service_default,
   $nova_client_api_version              = $::os_service_default,
   $package_ensure                       = 'present',
   $rabbit_login_method                  = $::os_service_default,
