@@ -8,10 +8,6 @@
 #   (required) Enable SSL on the API server.
 #   Defaults to false.
 #
-# [*ceilometer_client_api_version*]
-#   (required) Version of Ceilometer API to use in ceilometerclient.
-#   Default is 2.
-#
 # [*cinder_client_api_version*]
 #   (required) Version of Cinder API to use in cinderclient.
 #   Default is 3.
@@ -234,6 +230,10 @@
 #   (Optional) Accept clients using either SSL or plain TCP.
 #   Defaults to undef.
 #
+# [*ceilometer_client_api_version*]
+#   (required) Version of Ceilometer API to use in ceilometerclient.
+#   Default is undef
+#
 # === Authors
 #
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
@@ -241,7 +241,6 @@
 class watcher (
   $purge_config                         = false,
   $use_ssl                              = false,
-  $ceilometer_client_api_version        = '2',
   $cinder_client_api_version            = '3',
   $glance_client_api_version            = '2',
   $neutron_client_api_version           = '2',
@@ -291,6 +290,7 @@ class watcher (
   $notification_topics                  = $::os_service_default,
   # DEPRECATED PARAMETERS
   $amqp_allow_insecure_clients          = undef,
+  $ceilometer_client_api_version        = undef,
 ) {
 
   include openstacklib::openstackclient
@@ -305,6 +305,10 @@ class watcher (
 will be removed in a future release.')
   }
 
+  if $ceilometer_client_api_version != undef {
+    warning('The ceilometer_client_api_version parameter is deprecated and has no effect')
+  }
+
   package { 'watcher':
     ensure => $package_ensure,
     name   => $::watcher::params::common_package_name,
@@ -316,11 +320,10 @@ will be removed in a future release.')
   }
 
   watcher_config {
-    'ceilometer_client/api_version': value => $ceilometer_client_api_version;
-    'cinder_client/api_version':     value => $cinder_client_api_version;
-    'glance_client/api_version':     value => $glance_client_api_version;
-    'neutron_client/api_version':    value => $neutron_client_api_version;
-    'nova_client/api_version':       value => $nova_client_api_version;
+    'cinder_client/api_version':  value => $cinder_client_api_version;
+    'glance_client/api_version':  value => $glance_client_api_version;
+    'neutron_client/api_version': value => $neutron_client_api_version;
+    'nova_client/api_version':    value => $nova_client_api_version;
   }
 
   oslo::messaging::rabbit { 'watcher_config':
