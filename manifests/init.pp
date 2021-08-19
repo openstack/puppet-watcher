@@ -8,22 +8,6 @@
 #   (required) Enable SSL on the API server.
 #   Defaults to false.
 #
-# [*cinder_client_api_version*]
-#   (required) Version of Cinder API to use in cinderclient.
-#   Default is $::os_service_default.
-#
-# [*glance_client_api_version*]
-#   (required) Version of Glance API to use in glanceclient.
-#   Default is $::os_service_default.
-#
-# [*neutron_client_api_version*]
-#   (required) Version of Neutron API to use in neutronclient.
-#   Default is $::os_service_default.
-#
-# [*nova_client_api_version*]
-#   (required) Version of Nova API to use in novaclient.
-#   Default is $::os_service_default
-#
 # [*package_ensure*]
 #  (optional) Whether the watcher api package will be installed
 #  Defaults to 'present'
@@ -234,6 +218,22 @@
 #   (required) Version of Ceilometer API to use in ceilometerclient.
 #   Default is undef
 #
+# [*cinder_client_api_version*]
+#   (required) Version of Cinder API to use in cinderclient.
+#   Default is $::os_service_default.
+#
+# [*glance_client_api_version*]
+#   (required) Version of Glance API to use in glanceclient.
+#   Default is $::os_service_default.
+#
+# [*neutron_client_api_version*]
+#   (required) Version of Neutron API to use in neutronclient.
+#   Default is $::os_service_default.
+#
+# [*nova_client_api_version*]
+#   (required) Version of Nova API to use in novaclient.
+#   Default is $::os_service_default
+#
 # === Authors
 #
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
@@ -241,10 +241,6 @@
 class watcher (
   $purge_config                         = false,
   $use_ssl                              = false,
-  $cinder_client_api_version            = $::os_service_default,
-  $glance_client_api_version            = $::os_service_default,
-  $neutron_client_api_version           = $::os_service_default,
-  $nova_client_api_version              = $::os_service_default,
   $package_ensure                       = 'present',
   $rabbit_login_method                  = $::os_service_default,
   $rabbit_retry_interval                = $::os_service_default,
@@ -291,6 +287,10 @@ class watcher (
   # DEPRECATED PARAMETERS
   $amqp_allow_insecure_clients          = undef,
   $ceilometer_client_api_version        = undef,
+  $cinder_client_api_version            = undef,
+  $glance_client_api_version            = undef,
+  $neutron_client_api_version           = undef,
+  $nova_client_api_version              = undef,
 ) {
 
   include openstacklib::openstackclient
@@ -309,6 +309,30 @@ will be removed in a future release.')
     warning('The ceilometer_client_api_version parameter is deprecated and has no effect')
   }
 
+  if $cinder_client_api_version != undef {
+    warning('The cinder_client_api_version parameter is deprecated. \
+Use the watcher::cinder_client class instead')
+    include watcher::cinder_client
+  }
+
+  if $glance_client_api_version != undef {
+    warning('The glance_client_api_version parameter is deprecated. \
+Use the watcher::glance_client class instead')
+    include watcher::glance_client
+  }
+
+  if $neutron_client_api_version != undef {
+    warning('The neutron_client_api_version parameter is deprecated. \
+Use the watcher::neutron_client class instead')
+    include watcher::neutron_client
+  }
+
+  if $nova_client_api_version != undef {
+    warning('The nova_client_api_version parameter is deprecated. \
+Use the watcher::nova_client class instead')
+    include watcher::nova_client
+  }
+
   package { 'watcher':
     ensure => $package_ensure,
     name   => $::watcher::params::common_package_name,
@@ -317,13 +341,6 @@ will be removed in a future release.')
 
   resources { 'watcher_config':
     purge  => $purge_config,
-  }
-
-  watcher_config {
-    'cinder_client/api_version':  value => $cinder_client_api_version;
-    'glance_client/api_version':  value => $glance_client_api_version;
-    'neutron_client/api_version': value => $neutron_client_api_version;
-    'nova_client/api_version':    value => $nova_client_api_version;
   }
 
   oslo::messaging::rabbit { 'watcher_config':

@@ -1,0 +1,14 @@
+---
+features:
+  - |
+    The following new class have been added.
+
+    - ``watcher::cinder_client``
+    - ``watcher::glance_client``
+    - ``watcher::neutron_client``
+    - ``watcher::nova_client``
+
+deprecations:
+  - |
+    The ``watcher::<service>_client_api_version`` parameters have been
+    deprecated in favor of the new ``watcher::<service>_client`` classes.
