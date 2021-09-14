@@ -30,6 +30,7 @@ describe 'watcher::logging' do
      :syslog_log_facility            => 'LOG_FOO',
      :log_dir                        => '/var/log',
      :log_file                       => '/var/tmp/watcher_random.log',
+     :watch_log_file                 => true,
      :debug                          => true,
     }
   end
@@ -66,6 +67,7 @@ describe 'watcher::logging' do
         :syslog_log_facility => '<SERVICE DEFAULT>',
         :log_dir             => '/var/log/watcher',
         :log_file            => '/var/log/watcher/watcher.log',
+        :watch_log_file      => '<SERVICE DEFAULT>',
         :debug               => '<SERVICE DEFAULT>',
       )
     end
@@ -81,6 +83,7 @@ describe 'watcher::logging' do
         :syslog_log_facility => 'LOG_FOO',
         :log_dir             => '/var/log',
         :log_file            => '/var/tmp/watcher_random.log',
+        :watch_log_file      => true,
         :debug               => true,
       )
     end
