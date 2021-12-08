@@ -126,11 +126,6 @@ class watcher::wsgi::apache (
 
   include watcher::deps
   include watcher::params
-  include apache
-  include apache::mod::wsgi
-  if $ssl_real {
-    include apache::mod::ssl
-  }
 
   ::openstacklib::wsgi::apache { 'watcher_wsgi':
     bind_host                   => $bind_host,

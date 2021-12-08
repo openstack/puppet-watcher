@@ -5,9 +5,6 @@ describe 'watcher::wsgi::apache' do
   shared_examples_for 'apache serving watcher with mod_wsgi' do
     context 'with default parameters' do
       it { is_expected.to contain_class('watcher::params') }
-      it { is_expected.to contain_class('apache') }
-      it { is_expected.to contain_class('apache::mod::wsgi') }
-      it { is_expected.to contain_class('apache::mod::ssl') }
       it { is_expected.to contain_openstacklib__wsgi__apache('watcher_wsgi').with(
         :bind_port                   => 9322,
         :group                       => 'watcher',
@@ -46,9 +43,6 @@ describe 'watcher::wsgi::apache' do
         }
       end
       it { is_expected.to contain_class('watcher::params') }
-      it { is_expected.to contain_class('apache') }
-      it { is_expected.to contain_class('apache::mod::wsgi') }
-      it { is_expected.to_not contain_class('apache::mod::ssl') }
       it { is_expected.to contain_openstacklib__wsgi__apache('watcher_wsgi').with(
         :bind_host                   => '10.42.51.1',
         :bind_port                   => 12345,
