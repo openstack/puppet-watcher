@@ -37,11 +37,6 @@
 #   (Optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
 #
-# [*validate*]
-#   (Optional) Whether to validate the service is working after any service
-#   refreshes
-#   Defaults to false
-#
 # [*watcher_api_port*]
 #   (Optional) The port on which the watcher API will listen.
 #   Defaults to 9322.
@@ -114,15 +109,6 @@
 #   to make watcher-api be a web app using apache mod_wsgi.
 #   Defaults to '$::watcher::params::api_service_name'
 #
-# === Watcher API service validation
-#
-# [*validation_options*]
-#   (Optional) Service validation options
-#   Should be a hash of options defined in openstacklib::service_validation
-#   If empty, defaults values are taken from openstacklib function.
-#   Require validate set at True.
-#   Defaults to {}
-#
 # === DB management
 #
 # [*create_db_schema*]
@@ -139,6 +125,20 @@
 #   (optional) Type of authentication to be used.
 #   Defaults to 'keystone'
 #
+# DEPRECATED PARAMETERS
+#
+# [*validate*]
+#   (Optional) Whether to validate the service is working after any service
+#   refreshes
+#   Defaults to undef
+#
+# [*validation_options*]
+#   (Optional) Service validation options
+#   Should be a hash of options defined in openstacklib::service_validation
+#   If empty, defaults values are taken from openstacklib function.
+#   Require validate set at True.
+#   Defaults to undef
+#
 class watcher::api (
   $watcher_client_password,
   $watcher_client_username            = 'watcher',
@@ -147,7 +147,6 @@ class watcher::api (
   $package_ensure                     = 'present',
   $enabled                            = true,
   $manage_service                     = true,
-  $validate                           = false,
   $watcher_api_port                   = '9322',
   $watcher_api_max_limit              = $::os_service_default,
   $watcher_api_bind_host              = '0.0.0.0',
@@ -162,15 +161,23 @@ class watcher::api (
   $watcher_client_insecure            = $::os_service_default,
   $watcher_client_keyfile             = $::os_service_default,
   $watcher_client_auth_type           = 'password',
-  $validation_options                 = {},
   $service_name                       = $::watcher::params::api_service_name,
   $create_db_schema                   = false,
   $upgrade_db                         = false,
   $auth_strategy                      = 'keystone',
+  $validate                           = undef,
+  $validation_options                 = undef,
 ) inherits watcher::params {
 
   include watcher::policy
   include watcher::deps
+
+  if $validate != undef {
+    warning('The watcher::api::validate parameter has been deprecated and has no effect')
+  }
+  if $validation_options != undef {
+    warning('The watcher::api::validation_options parameter has been deprecated and has no effect')
+  }
 
   if $auth_strategy == 'keystone' {
     include watcher::keystone::authtoken
@@ -257,17 +264,4 @@ as a standalone service, or httpd for being run by a httpd server")
     'watcher_clients_auth/certfile':            value => $watcher_client_certfile;
     'watcher_clients_auth/keyfile':             value => $watcher_client_keyfile;
   }
-
-  if $validate {
-    $defaults = {
-      'watcher-api' => {
-        # lint:ignore:140chars
-        'command'  => "watcher --os-auth-url ${watcher_client_auth_url} --os-project-name ${watcher_client_project_name} --os-username ${watcher_client_username} --os-password ${watcher_client_password} goal list",
-        # lint:endignore
-      }
-    }
-    $validation_options_hash = merge($defaults, $validation_options)
-    create_resources('openstacklib::service_validation', $validation_options_hash, {'subscribe' => 'Anchor[watcher::service::end]'})
-  }
-
 }

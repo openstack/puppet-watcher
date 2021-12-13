@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The service validation feature of the ``watcher::api`` class is deprecated,
+    and the ``watcher::api::validate`` parameter has no effect now.
