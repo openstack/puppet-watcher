@@ -28,7 +28,7 @@ class watcher::params {
       $applier_service_name         = 'watcher-applier'
       $decision_engine_package_name = 'watcher-decision-engine'
       $decision_engine_service_name = 'watcher-decision-engine'
-      if ($::os_package_type == 'debian') {
+      if ($::operatingsystem == 'Debian') {
         $watcher_wsgi_script_source = '/usr/share/watcher-common/app.wsgi'
       } else {
         $watcher_wsgi_script_source = '/usr/lib/python3/dist-packages/watcher/api/app.wsgi'
