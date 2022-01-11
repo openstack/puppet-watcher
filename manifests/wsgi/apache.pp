@@ -127,6 +127,8 @@ class watcher::wsgi::apache (
   include watcher::deps
   include watcher::params
 
+  Anchor['watcher::install::end'] -> Class['apache']
+
   ::openstacklib::wsgi::apache { 'watcher_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
@@ -151,7 +153,6 @@ class watcher::wsgi::apache (
     wsgi_script_dir             => $::watcher::params::watcher_wsgi_script_path,
     wsgi_script_file            => 'app',
     wsgi_script_source          => $::watcher::params::watcher_wsgi_script_source,
-    require                     => Anchor['watcher::install::end'],
     access_log_file             => $access_log_file,
     access_log_format           => $access_log_format,
     error_log_file              => $error_log_file,
