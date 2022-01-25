@@ -1,0 +1,13 @@
+---
+features:
+  - |
+    The ``system_scope`` parameter has been added to
+    the ``watcher::keystone::authtoken`` class.
+
+  - |
+    The ``watcher::keystone::auth`` class now supports customizing roles
+    assigned to the watcher service user.
+
+  - |
+    The ``watcher::keystone::auth`` class now supports defining assignmet of
+    system-scoped roles to the watcher service user.
