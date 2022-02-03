@@ -84,21 +84,14 @@ describe 'watcher::wsgi::apache' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          if facts[:operatingsystem] == 'Debian'
-            {
-              :wsgi_script_path   => '/usr/lib/cgi-bin/watcher',
-              :wsgi_script_source => '/usr/share/watcher-common/app.wsgi'
-            }
-          else
-            {
-              :wsgi_script_path   => '/usr/lib/cgi-bin/watcher',
-              :wsgi_script_source => '/usr/lib/python3/dist-packages/watcher/api/app.wsgi'
-            }
-          end
+          {
+            :wsgi_script_path   => '/usr/lib/cgi-bin/watcher',
+            :wsgi_script_source => '/usr/bin/watcher-api-wsgi'
+          }
         when 'RedHat'
           {
             :wsgi_script_path   => '/var/www/cgi-bin/watcher',
-            :wsgi_script_source => '/usr/lib/python3.6/site-packages/watcher/api/app.wsgi'
+            :wsgi_script_source => '/usr/bin/watcher-api-wsgi'
           }
         end
       end

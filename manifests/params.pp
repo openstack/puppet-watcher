@@ -17,7 +17,7 @@ class watcher::params {
       $applier_service_name         = 'openstack-watcher-applier'
       $decision_engine_package_name = 'openstack-watcher-decision-engine'
       $decision_engine_service_name = 'openstack-watcher-decision-engine'
-      $watcher_wsgi_script_source   = "/usr/lib/python${pyver3}/site-packages/watcher/api/app.wsgi"
+      $watcher_wsgi_script_source   = '/usr/bin/watcher-api-wsgi'
       $watcher_wsgi_script_path     = '/var/www/cgi-bin/watcher'
     }
     'Debian': {
@@ -28,11 +28,7 @@ class watcher::params {
       $applier_service_name         = 'watcher-applier'
       $decision_engine_package_name = 'watcher-decision-engine'
       $decision_engine_service_name = 'watcher-decision-engine'
-      if ($::operatingsystem == 'Debian') {
-        $watcher_wsgi_script_source = '/usr/share/watcher-common/app.wsgi'
-      } else {
-        $watcher_wsgi_script_source = '/usr/lib/python3/dist-packages/watcher/api/app.wsgi'
-      }
+      $watcher_wsgi_script_source   = '/usr/bin/watcher-api-wsgi'
       $watcher_wsgi_script_path     = '/usr/lib/cgi-bin/watcher'
     }
     default: {
