@@ -98,13 +98,7 @@ class watcher::keystone::auth (
 
   $real_service_name = pick($service_name, $auth_name)
 
-  if $configure_user_role {
-    Keystone_user_role["${auth_name}@${tenant}"] ~> Anchor['watcher::service::end']
-  }
-
-  if $configure_endpoint {
-    Keystone_endpoint["${region}/${real_service_name}::${service_type}"]  ~> Anchor['watcher::service::end']
-  }
+  Keystone::Resource::Service_identity['watcher'] -> Anchor['watcher::service::end']
 
   keystone::resource::service_identity { 'watcher':
     configure_user      => $configure_user,
