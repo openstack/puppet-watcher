@@ -210,10 +210,6 @@
 #
 # DEPRECATED PARAMETERS
 #
-# [*amqp_allow_insecure_clients*]
-#   (Optional) Accept clients using either SSL or plain TCP.
-#   Defaults to undef.
-#
 # [*ceilometer_client_api_version*]
 #   (required) Version of Ceilometer API to use in ceilometerclient.
 #   Default is undef
@@ -285,7 +281,6 @@ class watcher (
   $notification_driver                  = $::os_service_default,
   $notification_topics                  = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $amqp_allow_insecure_clients          = undef,
   $ceilometer_client_api_version        = undef,
   $cinder_client_api_version            = undef,
   $glance_client_api_version            = undef,
@@ -299,11 +294,6 @@ class watcher (
   include watcher::params
   include watcher::policy
   include watcher::db
-
-  if $amqp_allow_insecure_clients != undef {
-    warning('The amqp_allow_insecure_clients parameter is deprecated and \
-will be removed in a future release.')
-  }
 
   if $ceilometer_client_api_version != undef {
     warning('The ceilometer_client_api_version parameter is deprecated and has no effect')
