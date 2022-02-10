@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    The following parameters of the ``watcher::api`` class have been deprecaed.
+
+    - ``watcher_api_port`` (replaced by ``port``)
+    - ``watcher_api_max_limit`` (replaced by ``max_limit``)
+    - ``watcher_api_bind_host`` (replaced by ``bind_host``)
+    - ``watcher_api_workers`` (replaced by ``workers``)
+    - ``watcher_api_enable_ssl_api`` (replaced by ``enable_ssl_api``)
