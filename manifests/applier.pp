@@ -62,15 +62,15 @@ class watcher::applier (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  service { 'watcher-applier':
-    ensure     => $service_ensure,
-    name       => $::watcher::params::applier_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => ['watcher-service'],
+    service { 'watcher-applier':
+      ensure     => $service_ensure,
+      name       => $::watcher::params::applier_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => ['watcher-service'],
+    }
   }
 
   watcher_config {
