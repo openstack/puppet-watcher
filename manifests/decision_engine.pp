@@ -94,15 +94,15 @@ class watcher::decision_engine (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  service { 'watcher-decision-engine':
-    ensure     => $service_ensure,
-    name       => $::watcher::params::decision_engine_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => ['watcher-service'],
+    service { 'watcher-decision-engine':
+      ensure     => $service_ensure,
+      name       => $::watcher::params::decision_engine_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => ['watcher-service'],
+    }
   }
 
   watcher_config {

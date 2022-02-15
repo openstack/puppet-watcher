@@ -26,9 +26,7 @@ describe 'watcher::applier' do
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
     context "when service should be #{param_hash[:enabled] ? 'enabled' : 'disabled'}" do
       let :params do
-        { :enabled           => true,
-          :manage_service    => true,
-        }
+        { :enabled => true, }
       end
       before do
         params.merge!(param_hash)
@@ -36,7 +34,7 @@ describe 'watcher::applier' do
 
       it 'configures watcher applier service' do
         is_expected.to contain_service('watcher-applier').with(
-          :ensure     => (params[:manage_service] && params[:enabled]) ? 'running' : 'stopped',
+          :ensure     => params[:enabled] ? 'running' : 'stopped',
           :name       => platform_params[:applier_service_name],
           :enable     => params[:enabled],
           :hasstatus  => true,
@@ -44,6 +42,18 @@ describe 'watcher::applier' do
           :tag        => ['watcher-service'],
         )
         end
+      end
+    end
+
+    context 'with disabled service managing' do
+      let :params do
+        {
+          :manage_service => false,
+        }
+      end
+
+      it 'should not configure watcher-applier service' do
+        is_expected.to_not contain_service('watcher-applier')
       end
     end
 

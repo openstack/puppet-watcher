@@ -4,7 +4,6 @@ describe 'watcher::api' do
 
   let :params do
     { :watcher_client_password => 'password',
-      :manage_service    => true,
       :enabled           => true,
       :package_ensure    => 'latest',
     }
@@ -36,7 +35,7 @@ describe 'watcher::api' do
 
         it 'configures watcher-api service' do
           is_expected.to contain_service('watcher-api').with(
-            :ensure     => (params[:manage_service] && params[:enabled]) ? 'running' : 'stopped',
+            :ensure     => params[:enabled] ? 'running' : 'stopped',
             :name       => platform_params[:api_service_name],
             :enable     => params[:enabled],
             :hasstatus  => true,
@@ -63,20 +62,19 @@ describe 'watcher::api' do
       before do
         params.merge!({
           :manage_service => false,
-          :enabled        => false })
+        })
       end
 
-      it 'configures watcher-api service' do
-        is_expected.to contain_service('watcher-api').with(
-          :ensure     => nil,
-          :name       => platform_params[:api_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => ['watcher-service',
-                          'watcher-db-manage-create_schema',
-                          'watcher-db-manage-upgrade'],
-        )
+      it 'should not configure watcher-api service' do
+        is_expected.to_not contain_service('watcher-api')
+      end
+    end
+
+    context 'with service disabled' do
+      before do
+        params.merge!({
+          :enabled => false
+        })
       end
 
       it 'should not configure the api configurations section when disabled' do
@@ -86,7 +84,6 @@ describe 'watcher::api' do
         is_expected.to_not contain_watcher_config('api/workers')
         is_expected.to_not contain_watcher_config('api/enable_ssl_api')
       end
-
     end
 
     context 'watcher clients auth section with default parameters' do
