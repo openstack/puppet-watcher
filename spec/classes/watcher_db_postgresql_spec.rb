@@ -36,7 +36,10 @@ describe 'watcher::db::postgresql' do
         facts.merge!(OSDefaults.get_facts({ :concat_basedir => '/var/lib/puppet/concat' }))
       end
 
-      it_behaves_like 'watcher-db-postgresql'
+      # TODO(tkajinam): Remove this once puppet-postgresql supports CentOS 9
+      unless facts[:osfamily] == 'RedHat' and facts[:operatingsystemmajrelease].to_i >= 9
+        it_behaves_like 'watcher-db-postgresql'
+      end
     end
   end
 end
