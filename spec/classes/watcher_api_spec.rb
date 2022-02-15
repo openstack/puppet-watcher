@@ -50,7 +50,7 @@ describe 'watcher::api' do
 
     context 'with default api configuration' do
       it 'should configure the api configurations section when enabled' do
-        is_expected.to contain_watcher_config('api/port').with_value('9322')
+        is_expected.to contain_watcher_config('api/port').with_value(9322)
         is_expected.to contain_watcher_config('api/max_limit').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('api/host').with_value('0.0.0.0')
         is_expected.to contain_watcher_config('api/workers').with_value(2)
@@ -67,22 +67,6 @@ describe 'watcher::api' do
 
       it 'should not configure watcher-api service' do
         is_expected.to_not contain_service('watcher-api')
-      end
-    end
-
-    context 'with service disabled' do
-      before do
-        params.merge!({
-          :enabled => false
-        })
-      end
-
-      it 'should not configure the api configurations section when disabled' do
-        is_expected.to_not contain_watcher_config('api/port')
-        is_expected.to_not contain_watcher_config('api/max_limit')
-        is_expected.to_not contain_watcher_config('api/host')
-        is_expected.to_not contain_watcher_config('api/workers')
-        is_expected.to_not contain_watcher_config('api/enable_ssl_api')
       end
     end
 

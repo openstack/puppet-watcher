@@ -37,24 +37,24 @@
 #   (Optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
 #
-# [*watcher_api_port*]
+# [*port*]
 #   (Optional) The port on which the watcher API will listen.
 #   Defaults to 9322.
 #
-# [*watcher_api_max_limit*]
+# [*max_limit*]
 #   (Optional)The maximum number of items returned in a single response from a
 #   collection resource.
 #   Defaults to $::os_service_default
 #
-# [*watcher_api_bind_host*]
+# [*bind_host*]
 #   (Optional) Listen IP for the watcher API server.
 #   Defaults to '0.0.0.0'.
 #
-# [*watcher_api_workers*]
+# [*workers*]
 #   (Optional) Number of worker processors to for the Watcher API service.
 #   Defaults to $::os_workers.
 #
-# [*watcher_api_enable_ssl_api*]
+# [*enable_ssl_api*]
 #   (Optional) Enable the integrated stand-alone API to service requests via HTTPS instead
 #   of HTTP. If there is a front-end service performing HTTPS offloading from the
 #   service, this option should be False; note, you will want to change public
@@ -139,6 +139,30 @@
 #   Require validate set at True.
 #   Defaults to undef
 #
+# [*watcher_api_port*]
+#   (Optional) The port on which the watcher API will listen.
+#   Defaults to undef.
+#
+# [*watcher_api_max_limit*]
+#   (Optional)The maximum number of items returned in a single response from a
+#   collection resource.
+#   Defaults to undef.
+#
+# [*watcher_api_bind_host*]
+#   (Optional) Listen IP for the watcher API server.
+#   Defaults to undef.
+#
+# [*watcher_api_workers*]
+#   (Optional) Number of worker processors to for the Watcher API service.
+#   Defaults to undef.
+#
+# [*watcher_api_enable_ssl_api*]
+#   (Optional) Enable the integrated stand-alone API to service requests via HTTPS instead
+#   of HTTP. If there is a front-end service performing HTTPS offloading from the
+#   service, this option should be False; note, you will want to change public
+#   API endpoint to represent SSL termination URL with 'public_endpoint' option.
+#   Defaults to undef.
+#
 class watcher::api (
   $watcher_client_password,
   $watcher_client_username            = 'watcher',
@@ -147,11 +171,11 @@ class watcher::api (
   $package_ensure                     = 'present',
   $enabled                            = true,
   $manage_service                     = true,
-  $watcher_api_port                   = '9322',
-  $watcher_api_max_limit              = $::os_service_default,
-  $watcher_api_bind_host              = '0.0.0.0',
-  $watcher_api_workers                = $::os_workers,
-  $watcher_api_enable_ssl_api         = $::os_service_default,
+  $port                               = 9322,
+  $max_limit                          = $::os_service_default,
+  $bind_host                          = '0.0.0.0',
+  $workers                            = $::os_workers,
+  $enable_ssl_api                     = $::os_service_default,
   $watcher_client_default_domain_name = $::os_service_default,
   $watcher_client_project_name        = 'services',
   $watcher_client_certfile            = $::os_service_default,
@@ -165,8 +189,14 @@ class watcher::api (
   $create_db_schema                   = false,
   $upgrade_db                         = false,
   $auth_strategy                      = 'keystone',
+  # DEPRECATED PARAMETERS
   $validate                           = undef,
   $validation_options                 = undef,
+  $watcher_api_port                   = undef,
+  $watcher_api_max_limit              = undef,
+  $watcher_api_bind_host              = undef,
+  $watcher_api_workers                = undef,
+  $watcher_api_enable_ssl_api         = undef,
 ) inherits watcher::params {
 
   include watcher::policy
@@ -177,6 +207,12 @@ class watcher::api (
   }
   if $validation_options != undef {
     warning('The watcher::api::validation_options parameter has been deprecated and has no effect')
+  }
+
+  [ 'port', 'max_limit', 'bind_host', 'workers', 'enable_ssl_api' ].each |String $opt|{
+    if getvar("watcher_api_${opt}") != undef {
+      warning("The watcher_api_${opt} parameter is deprecated. Use the ${opt} parameter.")
+    }
   }
 
   if $auth_strategy == 'keystone' {
@@ -236,14 +272,12 @@ as a standalone service, or httpd for being run by a httpd server")
     }
   }
 
-  if $enabled {
-    watcher_config {
-      'api/port':           value => $watcher_api_port;
-      'api/max_limit':      value => $watcher_api_max_limit;
-      'api/host':           value => $watcher_api_bind_host;
-      'api/workers':        value => $watcher_api_workers;
-      'api/enable_ssl_api': value => $watcher_api_enable_ssl_api;
-    }
+  watcher_config {
+    'api/port':           value => pick($watcher_api_port, $port);
+    'api/max_limit':      value => pick($watcher_api_max_limit, $max_limit);
+    'api/host':           value => pick($watcher_api_bind_host, $bind_host);
+    'api/workers':        value => pick($watcher_api_workers, $workers);
+    'api/enable_ssl_api': value => pick($watcher_api_enable_ssl_api, $enable_ssl_api);
   }
 
   # NOTE(danpawlik) Watcher and other core Openstack services are using
