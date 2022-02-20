@@ -3,8 +3,6 @@
 class watcher::params {
   include openstacklib::defaults
 
-  $pyver3 = $::openstacklib::defaults::pyver3
-
   $client_package_name = 'python3-watcherclient'
   $group               = 'watcher'
 
