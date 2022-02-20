@@ -24,6 +24,10 @@ class watcher::deps {
   -> Openstacklib::Policy<||>
   ~> Anchor['watcher::config::end']
 
+  # all cache settings should be applied and all packages should be installed
+  # before service startup
+  Oslo::Cache<||> -> Anchor['watcher::service::begin']
+
   # all db settings should be applied and all packages should be installed
   # before dbsync starts
   Oslo::Db<||> -> Anchor['watcher::db::create_schema::begin']
