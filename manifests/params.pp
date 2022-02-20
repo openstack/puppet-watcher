@@ -4,6 +4,7 @@ class watcher::params {
   include openstacklib::defaults
 
   $client_package_name = 'python3-watcherclient'
+  $user                = 'watcher'
   $group               = 'watcher'
 
   case $::osfamily {

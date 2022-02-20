@@ -14,11 +14,12 @@ class watcher::db::upgrade(
 ) {
 
   include watcher::deps
+  include watcher::params
 
   exec { 'watcher-db-manage-upgrade':
     command     => "watcher-db-manage ${extra_params} upgrade",
     path        => '/usr/bin',
-    user        => 'watcher',
+    user        => $::watcher::params::user,
     refreshonly => true,
     try_sleep   => 5,
     tries       => 10,
