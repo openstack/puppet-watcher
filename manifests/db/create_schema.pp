@@ -13,11 +13,12 @@ class watcher::db::create_schema(
 ) {
 
   include watcher::deps
+  include watcher::params
 
   exec { 'watcher-db-manage-create_schema':
     command     => "watcher-db-manage ${extra_params} create_schema",
     path        => '/usr/bin',
-    user        => 'watcher',
+    user        => $::watcher::params::user,
     refreshonly => true,
     try_sleep   => 5,
     tries       => 10,
