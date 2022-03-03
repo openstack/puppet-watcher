@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``watcher::api::watcher_client_auth_uri`` parameter has been deprecated
+    and has no effect.

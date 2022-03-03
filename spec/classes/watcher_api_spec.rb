@@ -75,7 +75,6 @@ describe 'watcher::api' do
         is_expected.to contain_watcher_config('watcher_clients_auth/username').with_value('watcher')
         is_expected.to contain_watcher_config('watcher_clients_auth/password').with_value( params[:watcher_client_password] )
         is_expected.to contain_watcher_config('watcher_clients_auth/auth_url').with_value('http://localhost:5000/')
-        is_expected.to contain_watcher_config('watcher_clients_auth/auth_uri').with_value('http://localhost:5000/')
         is_expected.to contain_watcher_config('watcher_clients_auth/project_name').with_value('services')
         is_expected.to contain_watcher_config('watcher_clients_auth/project_domain_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_clients_auth/user_domain_name').with_value('<SERVICE DEFAULT>')
@@ -92,7 +91,6 @@ describe 'watcher::api' do
         params.merge! ({
           :watcher_client_username            => 'watcher_user',
           :watcher_client_password            => 'PassWoRD',
-          :watcher_client_auth_uri            => 'http://localhost:5001/',
           :watcher_client_auth_url            => 'http://localhost:35358/',
           :watcher_client_project_name        => 'ProjectZero',
           :watcher_client_project_domain_name => 'WatcherDomain',
@@ -107,7 +105,6 @@ describe 'watcher::api' do
       it 'configures watcher clients auth' do
         is_expected.to contain_watcher_config('watcher_clients_auth/username').with_value( params[:watcher_client_username] )
         is_expected.to contain_watcher_config('watcher_clients_auth/password').with_value( params[:watcher_client_password] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/auth_uri').with_value('http://localhost:5001/')
         is_expected.to contain_watcher_config('watcher_clients_auth/auth_url').with_value('http://localhost:35358/')
         is_expected.to contain_watcher_config('watcher_clients_auth/project_name').with_value( params[:watcher_client_project_name] )
         is_expected.to contain_watcher_config('watcher_clients_auth/project_domain_name').with_value( params[:watcher_client_project_domain_name] )

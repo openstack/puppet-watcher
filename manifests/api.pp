@@ -17,10 +17,6 @@
 #   (optional) The name of the auth user
 #   Defaults to watcher.
 #
-# [*watcher_client_auth_uri*]
-#   (Optional) Public Identity API endpoint.
-#   Defaults to 'http://localhost:5000/'
-#
 # [*watcher_client_auth_url*]
 #   Specifies the admin Identity URI for Watcher to use.
 #   Default 'http://localhost:5000/'
@@ -163,10 +159,13 @@
 #   API endpoint to represent SSL termination URL with 'public_endpoint' option.
 #   Defaults to undef.
 #
+# [*watcher_client_auth_uri*]
+#   (Optional) Public Identity API endpoint.
+#   Defaults to undef
+#
 class watcher::api (
   $watcher_client_password,
   $watcher_client_username            = 'watcher',
-  $watcher_client_auth_uri            = 'http://localhost:5000/',
   $watcher_client_auth_url            = 'http://localhost:5000/',
   $package_ensure                     = 'present',
   $enabled                            = true,
@@ -197,6 +196,7 @@ class watcher::api (
   $watcher_api_bind_host              = undef,
   $watcher_api_workers                = undef,
   $watcher_api_enable_ssl_api         = undef,
+  $watcher_client_auth_uri            = undef,
 ) inherits watcher::params {
 
   include watcher::policy
@@ -288,7 +288,6 @@ as a standalone service, or httpd for being run by a httpd server")
     'watcher_clients_auth/username':            value => $watcher_client_username;
     'watcher_clients_auth/password':            value => $watcher_client_password, secret => true;
     'watcher_clients_auth/auth_url':            value => $watcher_client_auth_url;
-    'watcher_clients_auth/auth_uri':            value => $watcher_client_auth_uri;
     'watcher_clients_auth/project_name':        value => $watcher_client_project_name;
     'watcher_clients_auth/project_domain_name': value => $watcher_client_project_domain_name;
     'watcher_clients_auth/user_domain_name':    value => $watcher_client_user_domain_name;
@@ -298,4 +297,12 @@ as a standalone service, or httpd for being run by a httpd server")
     'watcher_clients_auth/certfile':            value => $watcher_client_certfile;
     'watcher_clients_auth/keyfile':             value => $watcher_client_keyfile;
   }
+
+  if $watcher_client_auth_uri != undef {
+    warning('The watcher_client_auth_uri is deprecated and has no effect.')
+  }
+  watcher_config {
+    'watcher_clients_auth/auth_uri': ensure => absent;
+  }
+
 }
