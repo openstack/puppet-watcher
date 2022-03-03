@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``watcher::cache`` class, to manage parameters of the oslo.cache
+    library, has been added.
