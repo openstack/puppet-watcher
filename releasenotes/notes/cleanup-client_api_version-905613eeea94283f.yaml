@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``watcher::<service>_client_api_version`` parameters have been removed.

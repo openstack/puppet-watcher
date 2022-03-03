@@ -208,28 +208,6 @@
 #   in the watcher config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*ceilometer_client_api_version*]
-#   (required) Version of Ceilometer API to use in ceilometerclient.
-#   Default is undef
-#
-# [*cinder_client_api_version*]
-#   (required) Version of Cinder API to use in cinderclient.
-#   Default is $::os_service_default.
-#
-# [*glance_client_api_version*]
-#   (required) Version of Glance API to use in glanceclient.
-#   Default is $::os_service_default.
-#
-# [*neutron_client_api_version*]
-#   (required) Version of Neutron API to use in neutronclient.
-#   Default is $::os_service_default.
-#
-# [*nova_client_api_version*]
-#   (required) Version of Nova API to use in novaclient.
-#   Default is $::os_service_default
-#
 # === Authors
 #
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
@@ -280,12 +258,6 @@ class watcher (
   $notification_transport_url           = $::os_service_default,
   $notification_driver                  = $::os_service_default,
   $notification_topics                  = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $ceilometer_client_api_version        = undef,
-  $cinder_client_api_version            = undef,
-  $glance_client_api_version            = undef,
-  $neutron_client_api_version           = undef,
-  $nova_client_api_version              = undef,
 ) {
 
   include openstacklib::openstackclient
@@ -294,34 +266,6 @@ class watcher (
   include watcher::params
   include watcher::policy
   include watcher::db
-
-  if $ceilometer_client_api_version != undef {
-    warning('The ceilometer_client_api_version parameter is deprecated and has no effect')
-  }
-
-  if $cinder_client_api_version != undef {
-    warning('The cinder_client_api_version parameter is deprecated. \
-Use the watcher::cinder_client class instead')
-    include watcher::cinder_client
-  }
-
-  if $glance_client_api_version != undef {
-    warning('The glance_client_api_version parameter is deprecated. \
-Use the watcher::glance_client class instead')
-    include watcher::glance_client
-  }
-
-  if $neutron_client_api_version != undef {
-    warning('The neutron_client_api_version parameter is deprecated. \
-Use the watcher::neutron_client class instead')
-    include watcher::neutron_client
-  }
-
-  if $nova_client_api_version != undef {
-    warning('The nova_client_api_version parameter is deprecated. \
-Use the watcher::nova_client class instead')
-    include watcher::nova_client
-  }
 
   package { 'watcher':
     ensure => $package_ensure,

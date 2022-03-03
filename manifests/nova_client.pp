@@ -26,10 +26,8 @@ class watcher::nova_client (
   include watcher::deps
   include watcher::params
 
-  $api_version_real = pick($::watcher::nova_client_api_version, $api_version)
-
   watcher_config {
-    'nova_client/api_version':   value => $api_version_real;
+    'nova_client/api_version':   value => $api_version;
     'nova_client/endpoint_type': value => $endpoint_type;
     'nova_client/region_name':   value => $region_name;
   }

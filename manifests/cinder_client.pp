@@ -26,10 +26,8 @@ class watcher::cinder_client (
   include watcher::deps
   include watcher::params
 
-  $api_version_real = pick($::watcher::cinder_client_api_version, $api_version)
-
   watcher_config {
-    'cinder_client/api_version':   value => $api_version_real;
+    'cinder_client/api_version':   value => $api_version;
     'cinder_client/endpoint_type': value => $endpoint_type;
     'cinder_client/region_name':   value => $region_name;
   }

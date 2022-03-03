@@ -26,10 +26,8 @@ class watcher::neutron_client (
   include watcher::deps
   include watcher::params
 
-  $api_version_real = pick($::watcher::neutron_client_api_version, $api_version)
-
   watcher_config {
-    'neutron_client/api_version':   value => $api_version_real;
+    'neutron_client/api_version':   value => $api_version;
     'neutron_client/endpoint_type': value => $endpoint_type;
     'neutron_client/region_name':   value => $region_name;
   }

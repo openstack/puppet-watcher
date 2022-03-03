@@ -26,10 +26,8 @@ class watcher::glance_client (
   include watcher::deps
   include watcher::params
 
-  $api_version_real = pick($::watcher::glance_client_api_version, $api_version)
-
   watcher_config {
-    'glance_client/api_version':   value => $api_version_real;
+    'glance_client/api_version':   value => $api_version;
     'glance_client/endpoint_type': value => $endpoint_type;
     'glance_client/region_name':   value => $region_name;
   }
