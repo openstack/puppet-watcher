@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``watcher::api::watcher_client_default_domain_name`` parameter has been
+    deprecated. The parameter has never been used actually.

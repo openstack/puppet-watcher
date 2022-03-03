@@ -57,12 +57,6 @@
 #   API endpoint to represent SSL termination URL with 'public_endpoint' option.
 #   Defaults to $::os_service_default.
 #
-# [*watcher_client_default_domain_name*]
-#   (Optional)domain name to use with v3 API and v2 parameters. It will
-#   be used for both the user and project domain in v3 and ignored in v2
-#   authentication.
-#   Defaults to $::os_service_default
-#
 # [*watcher_client_project_name*]
 #   (Optional) Service project name.
 #   Defaults to 'services'
@@ -163,6 +157,12 @@
 #   (Optional) Public Identity API endpoint.
 #   Defaults to undef
 #
+# [*watcher_client_default_domain_name*]
+#   (Optional)domain name to use with v3 API and v2 parameters. It will
+#   be used for both the user and project domain in v3 and ignored in v2
+#   authentication.
+#   Defaults to undef
+#
 class watcher::api (
   $watcher_client_password,
   $watcher_client_username            = 'watcher',
@@ -175,7 +175,6 @@ class watcher::api (
   $bind_host                          = '0.0.0.0',
   $workers                            = $::os_workers,
   $enable_ssl_api                     = $::os_service_default,
-  $watcher_client_default_domain_name = $::os_service_default,
   $watcher_client_project_name        = 'services',
   $watcher_client_certfile            = $::os_service_default,
   $watcher_client_cafile              = $::os_service_default,
@@ -197,6 +196,7 @@ class watcher::api (
   $watcher_api_workers                = undef,
   $watcher_api_enable_ssl_api         = undef,
   $watcher_client_auth_uri            = undef,
+  $watcher_client_default_domain_name = undef,
 ) inherits watcher::params {
 
   include watcher::policy
@@ -303,6 +303,10 @@ as a standalone service, or httpd for being run by a httpd server")
   }
   watcher_config {
     'watcher_clients_auth/auth_uri': ensure => absent;
+  }
+
+  if $watcher_client_default_domain_name != undef {
+    warning('The watcher_client_default_domain_name parameter is deprecated and has no effect.')
   }
 
 }
