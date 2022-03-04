@@ -1,0 +1,20 @@
+---
+features:
+  - |
+    The new ``watcher::watcher_clients_auth`` class has been added.
+
+deprecations:
+  - |
+    The following parameters of the ``watcher::api`` class have been
+    deprecated in favor of the new ``watcher::watcher_clients_auth`` class.
+
+    - ``watcher_client_password``
+    - ``watcher_client_username``
+    - ``watcher_client_auth_url``
+    - ``watcher_client_user_domain_name``
+    - ``watcher_client_project_domain_name``
+    - ``watcher_client_insecure``
+    - ``watcher_client_keyfile``
+    - ``watcher_client_certfile``
+    - ``watcher_client_cafile``
+    - ``watcher_client_auth_type``

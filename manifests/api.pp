@@ -8,18 +8,7 @@
 # All options defaults to $::os_service_default and
 # the default values from the service are used.
 #
-# === Watcher configuration section: watcher_clients_auth
-#
-# [*watcher_client_password*]
-#   (required) User's password
-#
-# [*watcher_client_username*]
-#   (optional) The name of the auth user
-#   Defaults to watcher.
-#
-# [*watcher_client_auth_url*]
-#   Specifies the admin Identity URI for Watcher to use.
-#   Default 'http://localhost:5000/'
+# === Watcher configuration
 #
 # [*package_ensure*]
 #   (Optional)Ensure state of the openstackclient package.
@@ -56,39 +45,6 @@
 #   service, this option should be False; note, you will want to change public
 #   API endpoint to represent SSL termination URL with 'public_endpoint' option.
 #   Defaults to $::os_service_default.
-#
-# [*watcher_client_project_name*]
-#   (Optional) Service project name.
-#   Defaults to 'services'
-#
-# [*watcher_client_certfile*]
-#   (Optional) PEM encoded client certificate cert file.
-#   Defaults to $::os_service_default
-#
-# [*watcher_client_cafile*]
-#   (Optional)PEM encoded Certificate Authority to use when verifying HTTPs
-#   connections.
-#   Defaults to $::os_service_default
-#
-# [*watcher_client_project_domain_name*]
-#   (Optional) Domain name containing project.
-#   Defaults to $::os_service_default
-#
-# [*watcher_client_user_domain_name*]
-#   (Optional) User Domain name.
-#   Defaults to $::os_service_default
-#
-# [*watcher_client_insecure*]
-#   (Optional) Verify HTTPS connections.
-#   Defaults to $::os_service_default
-#
-# [*watcher_client_keyfile*]
-#   (Optional) PEM encoded client certificate key file.
-#   Defaults to $::os_service_default
-#
-# [*watcher_client_auth_type*]
-#   (Optional) Authentication type to load.
-#   Defaults to 'password'
 #
 # [*service_name*]
 #   (optional) Name of the service that will be providing the
@@ -163,10 +119,52 @@
 #   authentication.
 #   Defaults to undef
 #
+# [*watcher_client_password*]
+#   (optional) User's password
+#   Defaults to undef
+#
+# [*watcher_client_username*]
+#   (optional) The name of the auth user
+#   Defaults to undef
+#
+# [*watcher_client_auth_url*]
+#   Specifies the admin Identity URI for Watcher to use.
+#   Defaults to undef
+#
+# [*watcher_client_project_name*]
+#   (Optional) Service project name.
+#   Defaults to undef
+#
+# [*watcher_client_certfile*]
+#   (Optional) PEM encoded client certificate cert file.
+#   Defaults to undef
+#
+# [*watcher_client_cafile*]
+#   (Optional)PEM encoded Certificate Authority to use when verifying HTTPs
+#   connections.
+#   Defaults to undef
+#
+# [*watcher_client_project_domain_name*]
+#   (Optional) Domain name containing project.
+#   Defaults to undef
+#
+# [*watcher_client_user_domain_name*]
+#   (Optional) User Domain name.
+#   Defaults to undef
+#
+# [*watcher_client_insecure*]
+#   (Optional) Verify HTTPS connections.
+#   Defaults to undef
+#
+# [*watcher_client_keyfile*]
+#   (Optional) PEM encoded client certificate key file.
+#   Defaults to undef
+#
+# [*watcher_client_auth_type*]
+#   (Optional) Authentication type to load.
+#   Defaults to undef
+#
 class watcher::api (
-  $watcher_client_password,
-  $watcher_client_username            = 'watcher',
-  $watcher_client_auth_url            = 'http://localhost:5000/',
   $package_ensure                     = 'present',
   $enabled                            = true,
   $manage_service                     = true,
@@ -175,14 +173,6 @@ class watcher::api (
   $bind_host                          = '0.0.0.0',
   $workers                            = $::os_workers,
   $enable_ssl_api                     = $::os_service_default,
-  $watcher_client_project_name        = 'services',
-  $watcher_client_certfile            = $::os_service_default,
-  $watcher_client_cafile              = $::os_service_default,
-  $watcher_client_project_domain_name = $::os_service_default,
-  $watcher_client_user_domain_name    = $::os_service_default,
-  $watcher_client_insecure            = $::os_service_default,
-  $watcher_client_keyfile             = $::os_service_default,
-  $watcher_client_auth_type           = 'password',
   $service_name                       = $::watcher::params::api_service_name,
   $create_db_schema                   = false,
   $upgrade_db                         = false,
@@ -197,6 +187,17 @@ class watcher::api (
   $watcher_api_enable_ssl_api         = undef,
   $watcher_client_auth_uri            = undef,
   $watcher_client_default_domain_name = undef,
+  $watcher_client_password            = undef,
+  $watcher_client_username            = undef,
+  $watcher_client_auth_url            = undef,
+  $watcher_client_project_name        = undef,
+  $watcher_client_certfile            = undef,
+  $watcher_client_cafile              = undef,
+  $watcher_client_project_domain_name = undef,
+  $watcher_client_user_domain_name    = undef,
+  $watcher_client_insecure            = undef,
+  $watcher_client_keyfile             = undef,
+  $watcher_client_auth_type           = undef,
 ) inherits watcher::params {
 
   include watcher::policy
@@ -280,24 +281,6 @@ as a standalone service, or httpd for being run by a httpd server")
     'api/enable_ssl_api': value => pick($watcher_api_enable_ssl_api, $enable_ssl_api);
   }
 
-  # NOTE(danpawlik) Watcher and other core Openstack services are using
-  # keystone_authtoken section and also another similar section used to
-  # configure client auth credentials. So these parameters are similar to
-  # parameters in watcher::keystone::authtoken.
-  watcher_config {
-    'watcher_clients_auth/username':            value => $watcher_client_username;
-    'watcher_clients_auth/password':            value => $watcher_client_password, secret => true;
-    'watcher_clients_auth/auth_url':            value => $watcher_client_auth_url;
-    'watcher_clients_auth/project_name':        value => $watcher_client_project_name;
-    'watcher_clients_auth/project_domain_name': value => $watcher_client_project_domain_name;
-    'watcher_clients_auth/user_domain_name':    value => $watcher_client_user_domain_name;
-    'watcher_clients_auth/insecure':            value => $watcher_client_insecure;
-    'watcher_clients_auth/auth_type':           value => $watcher_client_auth_type;
-    'watcher_clients_auth/cafile':              value => $watcher_client_cafile;
-    'watcher_clients_auth/certfile':            value => $watcher_client_certfile;
-    'watcher_clients_auth/keyfile':             value => $watcher_client_keyfile;
-  }
-
   if $watcher_client_auth_uri != undef {
     warning('The watcher_client_auth_uri is deprecated and has no effect.')
   }
@@ -307,6 +290,16 @@ as a standalone service, or httpd for being run by a httpd server")
 
   if $watcher_client_default_domain_name != undef {
     warning('The watcher_client_default_domain_name parameter is deprecated and has no effect.')
+  }
+
+  [ 'password', 'auth_url', 'username', 'project_name', 'project_domain_name',
+    'user_domain_anme', 'auth_type', 'insecure', 'keyfile', 'certfile',
+    'cafile' ].each |String $client_opt|{
+    if getvar("watcher_client_${client_opt}") != undef {
+      warning("The watcher_client_${client_opt} parameter is deprecated. \
+Use the watcher_clients_auth class instead.")
+    }
+    include watcher::watcher_clients_auth
   }
 
 }
