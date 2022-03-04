@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``watcher::watcher_clients_auth::system_scope`` parameter has been
+    added.

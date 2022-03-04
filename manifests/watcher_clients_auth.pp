@@ -27,6 +27,10 @@
 #   (Optional) User Domain name.
 #   Defaults to 'Default'
 #
+# [*system_scope*]
+#   (Optional) Scope for system operations.
+#   Defaults to $::os_service_default
+#
 # [*auth_type*]
 #   (Optional) Authentication type to load.
 #   Defaults to 'password'
@@ -55,6 +59,7 @@ class watcher::watcher_clients_auth (
   $project_name        = 'services',
   $project_domain_name = 'Default',
   $user_domain_name    = 'Default',
+  $system_scope        = $::os_service_default,
   $auth_type           = 'password',
   $insecure            = $::os_service_default,
   $certfile            = $::os_service_default,
@@ -69,10 +74,16 @@ class watcher::watcher_clients_auth (
     fail('password is required')
   }
 
+  if is_service_default($system_scope) {
+    $project_name_real = pick($::watcher::api::watcher_client_project_name, $project_name)
+    $project_domain_name_real = pick($::watcher::api::watcher_client_project_domain_name, $project_domain_name)
+  } else {
+    $project_name_real = $::os_service_default
+    $project_domain_name_real = $::os_service_default
+  }
+
   $auth_url_real = pick($::watcher::api::watcher_client_auth_url, $auth_url)
   $username_real = pick($::watcher::api::watcher_client_username, $username)
-  $project_name_real = pick($::watcher::api::watcher_client_project_name, $project_name)
-  $project_domain_name_real = pick($::watcher::api::watcher_client_project_domain_name, $project_domain_name)
   $user_domain_name_real = pick($::watcher::api::watcher_client_user_domain_name, $user_domain_name)
   $auth_type_real = pick($::watcher::api::watcher_client_auth_type, $auth_type)
   $insecure_real = pick($::watcher::api::watcher_client_insecure, $insecure)
@@ -87,6 +98,7 @@ class watcher::watcher_clients_auth (
     'watcher_clients_auth/project_name':        value => $project_name_real;
     'watcher_clients_auth/project_domain_name': value => $project_domain_name_real;
     'watcher_clients_auth/user_domain_name':    value => $user_domain_name_real;
+    'watcher_clients_auth/system_scope':        value => $system_scope;
     'watcher_clients_auth/insecure':            value => $insecure_real;
     'watcher_clients_auth/auth_type':           value => $auth_type_real;
     'watcher_clients_auth/cafile':              value => $cafile_real;

@@ -15,6 +15,7 @@ describe 'watcher::watcher_clients_auth' do
         should contain_watcher_config('watcher_clients_auth/project_name').with_value('services')
         should contain_watcher_config('watcher_clients_auth/user_domain_name').with_value('Default')
         should contain_watcher_config('watcher_clients_auth/project_domain_name').with_value('Default')
+        should contain_watcher_config('watcher_clients_auth/system_scope').with_value('<SERVICE DEFAULT>')
         should contain_watcher_config('watcher_clients_auth/insecure').with_value('<SERVICE DEFAULT>')
         should contain_watcher_config('watcher_clients_auth/certfile').with_value('<SERVICE DEFAULT>')
         should contain_watcher_config('watcher_clients_auth/cafile').with_value('<SERVICE DEFAULT>')
@@ -43,10 +44,24 @@ describe 'watcher::watcher_clients_auth' do
         should contain_watcher_config('watcher_clients_auth/project_name').with_value('alt_services')
         should contain_watcher_config('watcher_clients_auth/user_domain_name').with_value('user_domain')
         should contain_watcher_config('watcher_clients_auth/project_domain_name').with_value('project_domain')
+        should contain_watcher_config('watcher_clients_auth/system_scope').with_value('<SERVICE DEFAULT>')
         should contain_watcher_config('watcher_clients_auth/insecure').with_value(false)
         should contain_watcher_config('watcher_clients_auth/certfile').with_value('path_to_cert')
         should contain_watcher_config('watcher_clients_auth/cafile').with_value('path_to_ca')
         should contain_watcher_config('watcher_clients_auth/keyfile').with_value('path_to_key')
+      end
+    end
+
+    context 'when system_scope is set' do
+      before do
+        params.merge!(
+          :system_scope => 'all'
+        )
+      end
+      it 'configures system-scoped credential' do
+        is_expected.to contain_watcher_config('watcher_clients_auth/project_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('watcher_clients_auth/project_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('watcher_clients_auth/system_scope').with_value('all')
       end
     end
   end
