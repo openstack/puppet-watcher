@@ -45,7 +45,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-copyright = u'2017, Puppet OpenStack Developers'
+copyright = '2017, Puppet OpenStack Developers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -185,8 +185,8 @@ htmlhelp_basename = 'puppet-watcherReleaseNotesdoc'
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'puppet-watcherReleaseNotes.tex', u'puppet-watcher Release Notes Documentation',
-   u'2017, Puppet OpenStack Developers', 'manual'),
+  ('index', 'puppet-watcherReleaseNotes.tex', 'puppet-watcher Release Notes Documentation',
+   '2017, Puppet OpenStack Developers', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -215,8 +215,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'puppet-watcherreleasenotes', u'puppet-watcher Release Notes Documentation',
-     [u'2017, Puppet OpenStack Developers'], 1)
+    ('index', 'puppet-watcherreleasenotes', 'puppet-watcher Release Notes Documentation',
+     ['2017, Puppet OpenStack Developers'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -229,8 +229,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'puppet-watcherReleaseNotes', u'puppet-watcher Release Notes Documentation',
-   u'2017, Puppet OpenStack Developers', 'puppet-watcherReleaseNotes', 'One line description of project.',
+  ('index', 'puppet-watcherReleaseNotes', 'puppet-watcher Release Notes Documentation',
+   '2017, Puppet OpenStack Developers', 'puppet-watcherReleaseNotes', 'One line description of project.',
    'Miscellaneous'),
 ]
 
