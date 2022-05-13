@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Validation of the deprecated ``watcher::api::watcher_client_password``
+    parameter has been removed and the parameter is no longer required.
