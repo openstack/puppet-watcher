@@ -78,13 +78,21 @@
 #     apache::vhost ssl parameters.
 #     Optional. Default to apache::vhost 'ssl_*' defaults.
 #
-# [*custom_wsgi_process_options*]
-#   (optional) gives you the oportunity to add custom process options or to
-#   overwrite the default options for the WSGI main process.
-#   eg. to use a virtual python environment for the WSGI process
-#   you could set it to:
-#   { python-path => '/my/python/virtualenv' }
-#   Defaults to {}
+#   [*custom_wsgi_process_options*]
+#     (optional) gives you the oportunity to add custom process options or to
+#     overwrite the default options for the WSGI main process.
+#     eg. to use a virtual python environment for the WSGI process
+#     you could set it to:
+#     { python-path => '/my/python/virtualenv' }
+#     Defaults to {}
+#
+#   [*headers*]
+#     (optional) Headers for the vhost.
+#     Defaults to undef
+#
+#   [*request_headers*]
+#     (optional) Modifies collected request headers in various ways.
+#     Defaults to undef
 #
 # == Dependencies
 #
@@ -117,6 +125,8 @@ class watcher::wsgi::apache (
   $access_log_format           = false,
   $error_log_file              = undef,
   $custom_wsgi_process_options = {},
+  $headers                     = undef,
+  $request_headers             = undef,
 ) {
 
   include watcher::deps
@@ -148,6 +158,8 @@ class watcher::wsgi::apache (
     wsgi_script_dir             => $::watcher::params::watcher_wsgi_script_path,
     wsgi_script_file            => 'app',
     wsgi_script_source          => $::watcher::params::watcher_wsgi_script_source,
+    headers                     => $headers,
+    request_headers             => $request_headers,
     access_log_file             => $access_log_file,
     access_log_format           => $access_log_format,
     error_log_file              => $error_log_file,
