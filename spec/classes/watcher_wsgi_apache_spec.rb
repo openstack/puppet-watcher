@@ -9,6 +9,7 @@ describe 'watcher::wsgi::apache' do
         :bind_port                   => 9322,
         :group                       => 'watcher',
         :path                        => '/',
+        :priority                    => 10,
         :servername                  => facts[:fqdn],
         :ssl                         => false,
         :threads                     => 1,
@@ -21,8 +22,8 @@ describe 'watcher::wsgi::apache' do
         :wsgi_script_source          => platform_params[:wsgi_script_source],
         :headers                     => nil,
         :request_headers             => nil,
-        :access_log_file             => false,
-        :access_log_format           => false,
+        :access_log_file             => nil,
+        :access_log_format           => nil,
         :custom_wsgi_process_options => {},
       )}
     end
