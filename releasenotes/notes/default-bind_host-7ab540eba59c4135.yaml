@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Default value of the ``watcher::api::bind_host`` parameter has been changed
+    from ``0.0.0.0`` to the service default(``127.0.0.1``). The parameter
+    should be configured propelry during upgrade.

@@ -29,11 +29,11 @@
 # [*max_limit*]
 #   (Optional)The maximum number of items returned in a single response from a
 #   collection resource.
-#   Defaults to $::os_service_default
+#   Defaults to $::os_service_default.
 #
 # [*bind_host*]
 #   (Optional) Listen IP for the watcher API server.
-#   Defaults to '0.0.0.0'.
+#   Defaults to $::os_service_default.
 #
 # [*workers*]
 #   (Optional) Number of worker processors to for the Watcher API service.
@@ -170,7 +170,7 @@ class watcher::api (
   $manage_service                     = true,
   $port                               = 9322,
   $max_limit                          = $::os_service_default,
-  $bind_host                          = '0.0.0.0',
+  $bind_host                          = $::os_service_default,
   $workers                            = $::os_workers,
   $enable_ssl_api                     = $::os_service_default,
   $service_name                       = $::watcher::params::api_service_name,
