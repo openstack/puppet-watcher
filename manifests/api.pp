@@ -24,7 +24,7 @@
 #
 # [*port*]
 #   (Optional) The port on which the watcher API will listen.
-#   Defaults to 9322.
+#   Defaults to $::os_service_default.
 #
 # [*max_limit*]
 #   (Optional)The maximum number of items returned in a single response from a
@@ -168,7 +168,7 @@ class watcher::api (
   $package_ensure                     = 'present',
   $enabled                            = true,
   $manage_service                     = true,
-  $port                               = 9322,
+  $port                               = $::os_service_default,
   $max_limit                          = $::os_service_default,
   $bind_host                          = $::os_service_default,
   $workers                            = $::os_workers,
