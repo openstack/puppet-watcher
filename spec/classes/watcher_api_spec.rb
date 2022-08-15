@@ -52,7 +52,7 @@ describe 'watcher::api' do
       it 'should configure the api configurations section when enabled' do
         is_expected.to contain_watcher_config('api/port').with_value(9322)
         is_expected.to contain_watcher_config('api/max_limit').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('api/host').with_value('0.0.0.0')
+        is_expected.to contain_watcher_config('api/host').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('api/workers').with_value(2)
         is_expected.to contain_watcher_config('api/enable_ssl_api').with_value('<SERVICE DEFAULT>')
       end
