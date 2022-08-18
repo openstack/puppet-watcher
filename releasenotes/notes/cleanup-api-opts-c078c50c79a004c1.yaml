@@ -1,0 +1,11 @@
+---
+upgrade:
+  - |
+    The following parameters of the ``watcher::api`` class have been removed.
+
+    - ``watcher_api_port``
+    - ``watcher_api_max_limit``
+    - ``watcher_api_bind_host``
+    - ``watcher_api_workers``
+    - ``watcher_api_enable_ssl_api``
+

@@ -85,30 +85,6 @@
 #   Require validate set at True.
 #   Defaults to undef
 #
-# [*watcher_api_port*]
-#   (Optional) The port on which the watcher API will listen.
-#   Defaults to undef.
-#
-# [*watcher_api_max_limit*]
-#   (Optional)The maximum number of items returned in a single response from a
-#   collection resource.
-#   Defaults to undef.
-#
-# [*watcher_api_bind_host*]
-#   (Optional) Listen IP for the watcher API server.
-#   Defaults to undef.
-#
-# [*watcher_api_workers*]
-#   (Optional) Number of worker processors to for the Watcher API service.
-#   Defaults to undef.
-#
-# [*watcher_api_enable_ssl_api*]
-#   (Optional) Enable the integrated stand-alone API to service requests via HTTPS instead
-#   of HTTP. If there is a front-end service performing HTTPS offloading from the
-#   service, this option should be False; note, you will want to change public
-#   API endpoint to represent SSL termination URL with 'public_endpoint' option.
-#   Defaults to undef.
-#
 # [*watcher_client_auth_uri*]
 #   (Optional) Public Identity API endpoint.
 #   Defaults to undef
@@ -180,11 +156,6 @@ class watcher::api (
   # DEPRECATED PARAMETERS
   $validate                           = undef,
   $validation_options                 = undef,
-  $watcher_api_port                   = undef,
-  $watcher_api_max_limit              = undef,
-  $watcher_api_bind_host              = undef,
-  $watcher_api_workers                = undef,
-  $watcher_api_enable_ssl_api         = undef,
   $watcher_client_auth_uri            = undef,
   $watcher_client_default_domain_name = undef,
   $watcher_client_password            = undef,
@@ -208,12 +179,6 @@ class watcher::api (
   }
   if $validation_options != undef {
     warning('The watcher::api::validation_options parameter has been deprecated and has no effect')
-  }
-
-  [ 'port', 'max_limit', 'bind_host', 'workers', 'enable_ssl_api' ].each |String $opt|{
-    if getvar("watcher_api_${opt}") != undef {
-      warning("The watcher_api_${opt} parameter is deprecated. Use the ${opt} parameter.")
-    }
   }
 
   if $auth_strategy == 'keystone' {
@@ -272,11 +237,11 @@ as a standalone service, or httpd for being run by a httpd server")
   }
 
   watcher_config {
-    'api/port':           value => pick($watcher_api_port, $port);
-    'api/max_limit':      value => pick($watcher_api_max_limit, $max_limit);
-    'api/host':           value => pick($watcher_api_bind_host, $bind_host);
-    'api/workers':        value => pick($watcher_api_workers, $workers);
-    'api/enable_ssl_api': value => pick($watcher_api_enable_ssl_api, $enable_ssl_api);
+    'api/port':           value => $port;
+    'api/max_limit':      value => $max_limit;
+    'api/host':           value => $bind_host;
+    'api/workers':        value => $workers;
+    'api/enable_ssl_api': value => $enable_ssl_api;
   }
 
   if $watcher_client_auth_uri != undef {
