@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The deprecated ``watcher::api::watcher_clinet_*`` parameters have been
+    removed.

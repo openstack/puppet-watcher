@@ -3,18 +3,21 @@ require 'spec_helper'
 describe 'watcher::api' do
 
   let :params do
-    { :watcher_client_password => 'password',
-      :enabled           => true,
-      :package_ensure    => 'latest',
+    {
+      :enabled        => true,
+      :package_ensure => 'latest',
     }
   end
 
-  shared_examples 'watcher-api' do
+  let :pre_condition do
+    "include watcher::db
+     class { 'watcher': }
+     class { 'watcher::keystone::authtoken':
+       password => 'a_big_secret',
+     }"
+  end
 
-    context 'without required parameter watcher_client_password' do
-      before { params.delete(:watcher_client_password) }
-      it { expect { is_expected.to raise_error(Puppet::Error) } }
-    end
+  shared_examples 'watcher-api' do
 
     it { is_expected.to contain_class('watcher::params') }
     it { is_expected.to contain_class('watcher::deps') }
@@ -67,53 +70,6 @@ describe 'watcher::api' do
 
       it 'should not configure watcher-api service' do
         is_expected.to_not contain_service('watcher-api')
-      end
-    end
-
-    context 'watcher clients auth section with default parameters' do
-      it 'configures watcher clients auth' do
-        is_expected.to contain_watcher_config('watcher_clients_auth/username').with_value('watcher')
-        is_expected.to contain_watcher_config('watcher_clients_auth/password').with_value( params[:watcher_client_password] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/auth_url').with_value('http://localhost:5000/')
-        is_expected.to contain_watcher_config('watcher_clients_auth/project_name').with_value('services')
-        is_expected.to contain_watcher_config('watcher_clients_auth/project_domain_name').with_value('Default')
-        is_expected.to contain_watcher_config('watcher_clients_auth/user_domain_name').with_value('Default')
-        is_expected.to contain_watcher_config('watcher_clients_auth/insecure').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('watcher_clients_auth/auth_type').with_value('password')
-        is_expected.to contain_watcher_config('watcher_clients_auth/cafile').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('watcher_clients_auth/certfile').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_watcher_config('watcher_clients_auth/keyfile').with_value('<SERVICE DEFAULT>')
-      end
-    end
-
-    context 'watcher clients auth section with overridden parameters' do
-      before do
-        params.merge! ({
-          :watcher_client_username            => 'watcher_user',
-          :watcher_client_password            => 'PassWoRD',
-          :watcher_client_auth_url            => 'http://localhost:35358/',
-          :watcher_client_project_name        => 'ProjectZero',
-          :watcher_client_project_domain_name => 'WatcherDomain',
-          :watcher_client_user_domain_name    => 'WatcherUserDomain',
-          :watcher_client_insecure            => 'true',
-          :watcher_client_auth_type           => 'password',
-          :watcher_client_cafile              => '/tmp/ca.crt',
-          :watcher_client_certfile            => '/tmp/watcher.com.crt',
-          :watcher_client_keyfile             => '/tmp/key.pm',
-        })
-      end
-      it 'configures watcher clients auth' do
-        is_expected.to contain_watcher_config('watcher_clients_auth/username').with_value( params[:watcher_client_username] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/password').with_value( params[:watcher_client_password] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/auth_url').with_value('http://localhost:35358/')
-        is_expected.to contain_watcher_config('watcher_clients_auth/project_name').with_value( params[:watcher_client_project_name] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/project_domain_name').with_value( params[:watcher_client_project_domain_name] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/user_domain_name').with_value( params[:watcher_client_user_domain_name] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/insecure').with_value( params[:watcher_client_insecure] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/auth_type').with_value( params[:watcher_client_auth_type] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/cafile').with_value( params[:watcher_client_cafile] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/certfile').with_value( params[:watcher_client_certfile] )
-        is_expected.to contain_watcher_config('watcher_clients_auth/keyfile').with_value( params[:watcher_client_keyfile] )
       end
     end
 

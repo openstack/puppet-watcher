@@ -53,7 +53,7 @@
 #   Defaults to $::os_service_default
 #
 class watcher::watcher_clients_auth (
-  $password            = false,
+  $password,
   $auth_url            = 'http://localhost:5000/',
   $username            = 'watcher',
   $project_name        = 'services',
@@ -69,40 +69,26 @@ class watcher::watcher_clients_auth (
 
   include watcher::deps
 
-  $password_real = pick($::watcher::api::watcher_client_password, $password)
-  if ! $password_real {
-    fail('password is required')
-  }
-
   if is_service_default($system_scope) {
-    $project_name_real = pick($::watcher::api::watcher_client_project_name, $project_name)
-    $project_domain_name_real = pick($::watcher::api::watcher_client_project_domain_name, $project_domain_name)
+    $project_name_real = $project_name
+    $project_domain_name_real = $project_domain_name
   } else {
     $project_name_real = $::os_service_default
     $project_domain_name_real = $::os_service_default
   }
 
-  $auth_url_real = pick($::watcher::api::watcher_client_auth_url, $auth_url)
-  $username_real = pick($::watcher::api::watcher_client_username, $username)
-  $user_domain_name_real = pick($::watcher::api::watcher_client_user_domain_name, $user_domain_name)
-  $auth_type_real = pick($::watcher::api::watcher_client_auth_type, $auth_type)
-  $insecure_real = pick($::watcher::api::watcher_client_insecure, $insecure)
-  $certfile_real = pick($::watcher::api::watcher_client_certfile, $certfile)
-  $cafile_real = pick($::watcher::api::watcher_client_cafile, $cafile)
-  $keyfile_real = pick($::watcher::api::watcher_client_keyfile, $keyfile)
-
   watcher_config {
-    'watcher_clients_auth/password':            value => $password_real, secret => true;
-    'watcher_clients_auth/username':            value => $username_real;
-    'watcher_clients_auth/auth_url':            value => $auth_url_real;
+    'watcher_clients_auth/password':            value => $password, secret => true;
+    'watcher_clients_auth/username':            value => $username;
+    'watcher_clients_auth/auth_url':            value => $auth_url;
     'watcher_clients_auth/project_name':        value => $project_name_real;
     'watcher_clients_auth/project_domain_name': value => $project_domain_name_real;
-    'watcher_clients_auth/user_domain_name':    value => $user_domain_name_real;
+    'watcher_clients_auth/user_domain_name':    value => $user_domain_name;
     'watcher_clients_auth/system_scope':        value => $system_scope;
-    'watcher_clients_auth/insecure':            value => $insecure_real;
-    'watcher_clients_auth/auth_type':           value => $auth_type_real;
-    'watcher_clients_auth/cafile':              value => $cafile_real;
-    'watcher_clients_auth/certfile':            value => $certfile_real;
-    'watcher_clients_auth/keyfile':             value => $keyfile_real;
+    'watcher_clients_auth/insecure':            value => $insecure;
+    'watcher_clients_auth/auth_type':           value => $auth_type;
+    'watcher_clients_auth/cafile':              value => $cafile;
+    'watcher_clients_auth/certfile':            value => $certfile;
+    'watcher_clients_auth/keyfile':             value => $keyfile;
   }
 }

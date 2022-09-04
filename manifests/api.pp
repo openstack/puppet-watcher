@@ -85,90 +85,22 @@
 #   Require validate set at True.
 #   Defaults to undef
 #
-# [*watcher_client_auth_uri*]
-#   (Optional) Public Identity API endpoint.
-#   Defaults to undef
-#
-# [*watcher_client_default_domain_name*]
-#   (Optional)domain name to use with v3 API and v2 parameters. It will
-#   be used for both the user and project domain in v3 and ignored in v2
-#   authentication.
-#   Defaults to undef
-#
-# [*watcher_client_password*]
-#   (optional) User's password
-#   Defaults to undef
-#
-# [*watcher_client_username*]
-#   (optional) The name of the auth user
-#   Defaults to undef
-#
-# [*watcher_client_auth_url*]
-#   Specifies the admin Identity URI for Watcher to use.
-#   Defaults to undef
-#
-# [*watcher_client_project_name*]
-#   (Optional) Service project name.
-#   Defaults to undef
-#
-# [*watcher_client_certfile*]
-#   (Optional) PEM encoded client certificate cert file.
-#   Defaults to undef
-#
-# [*watcher_client_cafile*]
-#   (Optional)PEM encoded Certificate Authority to use when verifying HTTPs
-#   connections.
-#   Defaults to undef
-#
-# [*watcher_client_project_domain_name*]
-#   (Optional) Domain name containing project.
-#   Defaults to undef
-#
-# [*watcher_client_user_domain_name*]
-#   (Optional) User Domain name.
-#   Defaults to undef
-#
-# [*watcher_client_insecure*]
-#   (Optional) Verify HTTPS connections.
-#   Defaults to undef
-#
-# [*watcher_client_keyfile*]
-#   (Optional) PEM encoded client certificate key file.
-#   Defaults to undef
-#
-# [*watcher_client_auth_type*]
-#   (Optional) Authentication type to load.
-#   Defaults to undef
-#
 class watcher::api (
-  $package_ensure                     = 'present',
-  $enabled                            = true,
-  $manage_service                     = true,
-  $port                               = $::os_service_default,
-  $max_limit                          = $::os_service_default,
-  $bind_host                          = $::os_service_default,
-  $workers                            = $::os_workers,
-  $enable_ssl_api                     = $::os_service_default,
-  $service_name                       = $::watcher::params::api_service_name,
-  $create_db_schema                   = false,
-  $upgrade_db                         = false,
-  $auth_strategy                      = 'keystone',
+  $package_ensure     = 'present',
+  $enabled            = true,
+  $manage_service     = true,
+  $port               = $::os_service_default,
+  $max_limit          = $::os_service_default,
+  $bind_host          = $::os_service_default,
+  $workers            = $::os_workers,
+  $enable_ssl_api     = $::os_service_default,
+  $service_name       = $::watcher::params::api_service_name,
+  $create_db_schema   = false,
+  $upgrade_db         = false,
+  $auth_strategy      = 'keystone',
   # DEPRECATED PARAMETERS
-  $validate                           = undef,
-  $validation_options                 = undef,
-  $watcher_client_auth_uri            = undef,
-  $watcher_client_default_domain_name = undef,
-  $watcher_client_password            = undef,
-  $watcher_client_username            = undef,
-  $watcher_client_auth_url            = undef,
-  $watcher_client_project_name        = undef,
-  $watcher_client_certfile            = undef,
-  $watcher_client_cafile              = undef,
-  $watcher_client_project_domain_name = undef,
-  $watcher_client_user_domain_name    = undef,
-  $watcher_client_insecure            = undef,
-  $watcher_client_keyfile             = undef,
-  $watcher_client_auth_type           = undef,
+  $validate           = undef,
+  $validation_options = undef,
 ) inherits watcher::params {
 
   include watcher::policy
@@ -243,26 +175,4 @@ as a standalone service, or httpd for being run by a httpd server")
     'api/workers':        value => $workers;
     'api/enable_ssl_api': value => $enable_ssl_api;
   }
-
-  if $watcher_client_auth_uri != undef {
-    warning('The watcher_client_auth_uri is deprecated and has no effect.')
-  }
-  watcher_config {
-    'watcher_clients_auth/auth_uri': ensure => absent;
-  }
-
-  if $watcher_client_default_domain_name != undef {
-    warning('The watcher_client_default_domain_name parameter is deprecated and has no effect.')
-  }
-
-  [ 'password', 'auth_url', 'username', 'project_name', 'project_domain_name',
-    'user_domain_anme', 'auth_type', 'insecure', 'keyfile', 'certfile',
-    'cafile' ].each |String $client_opt|{
-    if getvar("watcher_client_${client_opt}") != undef {
-      warning("The watcher_client_${client_opt} parameter is deprecated. \
-Use the watcher_clients_auth class instead.")
-    }
-    include watcher::watcher_clients_auth
-  }
-
 }
