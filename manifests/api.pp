@@ -71,20 +71,6 @@
 #   (optional) Type of authentication to be used.
 #   Defaults to 'keystone'
 #
-# DEPRECATED PARAMETERS
-#
-# [*validate*]
-#   (Optional) Whether to validate the service is working after any service
-#   refreshes
-#   Defaults to undef
-#
-# [*validation_options*]
-#   (Optional) Service validation options
-#   Should be a hash of options defined in openstacklib::service_validation
-#   If empty, defaults values are taken from openstacklib function.
-#   Require validate set at True.
-#   Defaults to undef
-#
 class watcher::api (
   $package_ensure     = 'present',
   $enabled            = true,
@@ -98,20 +84,10 @@ class watcher::api (
   $create_db_schema   = false,
   $upgrade_db         = false,
   $auth_strategy      = 'keystone',
-  # DEPRECATED PARAMETERS
-  $validate           = undef,
-  $validation_options = undef,
 ) inherits watcher::params {
 
   include watcher::policy
   include watcher::deps
-
-  if $validate != undef {
-    warning('The watcher::api::validate parameter has been deprecated and has no effect')
-  }
-  if $validation_options != undef {
-    warning('The watcher::api::validation_options parameter has been deprecated and has no effect')
-  }
 
   if $auth_strategy == 'keystone' {
     include watcher::keystone::authtoken
