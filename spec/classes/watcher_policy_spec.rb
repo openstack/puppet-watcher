@@ -9,6 +9,7 @@ describe 'watcher::policy' do
           :enforce_scope        => false,
           :enforce_new_defaults => false,
           :policy_path          => '/etc/watcher/policy.yaml',
+          :policy_default_rule  => 'default',
           :policy_dirs          => '/etc/watcher/policy.d',
           :policies             => {
             'context_is_admin' => {
@@ -37,6 +38,7 @@ describe 'watcher::policy' do
           :enforce_scope        => false,
           :enforce_new_defaults => false,
           :policy_file          => '/etc/watcher/policy.yaml',
+          :policy_default_rule  => 'default',
           :policy_dirs          => '/etc/watcher/policy.d',
         )
       end
