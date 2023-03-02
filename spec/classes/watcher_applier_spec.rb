@@ -86,7 +86,7 @@ describe 'watcher::applier' do
         facts.merge!(OSDefaults.get_facts())
       end
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :watcher_applier_package => 'watcher-applier',
             :applier_service_name    => 'watcher-applier',

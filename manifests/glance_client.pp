@@ -6,21 +6,21 @@
 #
 # [*api_version*]
 #  (Optional) Version of Glance API to use in glanceclient.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*endpoint_type*]
 #  (Optional) Type of endpoint to use in glanceclient.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*region_name*]
 #  (Optional) Region in Identify service catalog to use for communication
 #  with the OpenStack service.
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 class watcher::glance_client (
-  $api_version   = $::os_service_default,
-  $endpoint_type = $::os_service_default,
-  $region_name   = $::os_service_default,
+  $api_version   = $facts['os_service_default'],
+  $endpoint_type = $facts['os_service_default'],
+  $region_name   = $facts['os_service_default'],
 ) {
 
   include watcher::deps

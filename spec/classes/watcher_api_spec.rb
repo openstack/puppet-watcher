@@ -126,7 +126,7 @@ describe 'watcher::api' do
         facts.merge!(OSDefaults.get_facts())
       end
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :api_package_name => 'watcher-api',
             :api_service_name => 'watcher-api' }

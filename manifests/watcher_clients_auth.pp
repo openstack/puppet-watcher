@@ -29,7 +29,7 @@
 #
 # [*system_scope*]
 #   (Optional) Scope for system operations.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*auth_type*]
 #   (Optional) Authentication type to load.
@@ -37,20 +37,20 @@
 #
 # [*insecure*]
 #   (Optional) Verify HTTPS connections.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*keyfile*]
 #   (Optional) PEM encoded client certificate key file.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*certfile*]
 #   (Optional) PEM encoded client certificate cert file.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*cafile*]
 #   (Optional)PEM encoded Certificate Authority to use when verifying HTTPs
 #   connections.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 class watcher::watcher_clients_auth (
   $password,
@@ -59,12 +59,12 @@ class watcher::watcher_clients_auth (
   $project_name        = 'services',
   $project_domain_name = 'Default',
   $user_domain_name    = 'Default',
-  $system_scope        = $::os_service_default,
+  $system_scope        = $facts['os_service_default'],
   $auth_type           = 'password',
-  $insecure            = $::os_service_default,
-  $certfile            = $::os_service_default,
-  $cafile              = $::os_service_default,
-  $keyfile             = $::os_service_default,
+  $insecure            = $facts['os_service_default'],
+  $certfile            = $facts['os_service_default'],
+  $cafile              = $facts['os_service_default'],
+  $keyfile             = $facts['os_service_default'],
 ) {
 
   include watcher::deps
@@ -73,8 +73,8 @@ class watcher::watcher_clients_auth (
     $project_name_real = $project_name
     $project_domain_name_real = $project_domain_name
   } else {
-    $project_name_real = $::os_service_default
-    $project_domain_name_real = $::os_service_default
+    $project_name_real = $facts['os_service_default']
+    $project_domain_name_real = $facts['os_service_default']
   }
 
   watcher_config {

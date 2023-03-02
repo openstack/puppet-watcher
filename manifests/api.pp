@@ -5,7 +5,7 @@
 # === Parameters:
 #
 # All options are optional unless specified otherwise.
-# All options defaults to $::os_service_default and
+# All options defaults to $facts['os_service_default'] and
 # the default values from the service are used.
 #
 # === Watcher configuration
@@ -24,27 +24,27 @@
 #
 # [*port*]
 #   (Optional) The port on which the watcher API will listen.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*max_limit*]
 #   (Optional)The maximum number of items returned in a single response from a
 #   collection resource.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*bind_host*]
 #   (Optional) Listen IP for the watcher API server.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*workers*]
 #   (Optional) Number of worker processors to for the Watcher API service.
-#   Defaults to $::os_workers.
+#   Defaults to $facts['os_workers'].
 #
 # [*enable_ssl_api*]
 #   (Optional) Enable the integrated stand-alone API to service requests via HTTPS instead
 #   of HTTP. If there is a front-end service performing HTTPS offloading from the
 #   service, this option should be False; note, you will want to change public
 #   API endpoint to represent SSL termination URL with 'public_endpoint' option.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*service_name*]
 #   (optional) Name of the service that will be providing the
@@ -75,11 +75,11 @@ class watcher::api (
   $package_ensure     = 'present',
   $enabled            = true,
   $manage_service     = true,
-  $port               = $::os_service_default,
-  $max_limit          = $::os_service_default,
-  $bind_host          = $::os_service_default,
-  $workers            = $::os_workers,
-  $enable_ssl_api     = $::os_service_default,
+  $port               = $facts['os_service_default'],
+  $max_limit          = $facts['os_service_default'],
+  $bind_host          = $facts['os_service_default'],
+  $workers            = $facts['os_workers'],
+  $enable_ssl_api     = $facts['os_service_default'],
   $service_name       = $::watcher::params::api_service_name,
   $create_db_schema   = false,
   $upgrade_db         = false,

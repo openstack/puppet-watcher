@@ -16,35 +16,35 @@
 #
 # [*applier_workers*]
 #   (Optional) Number of workers for watcher applier service.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*applier_conductor_topic*]
 #   (Optional) The topic name used forcontrol events, this topic used
 #   for rpc call
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*applier_status_topic*]
 #   (Optional) The topic name used for status events, this topic is used
 #   so as to notifythe others components of the system
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*applier_publisher_id*]
 #   (Optional) The identifier used by watcher module on the message broker
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*applier_workflow_engine*]
 #   (Optional) Select the engine to use to execute the workflow
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 class watcher::applier (
   $package_ensure          = 'present',
   $enabled                 = true,
   $manage_service          = true,
-  $applier_workers         = $::os_service_default,
-  $applier_conductor_topic = $::os_service_default,
-  $applier_status_topic    = $::os_service_default,
-  $applier_publisher_id    = $::os_service_default,
-  $applier_workflow_engine = $::os_service_default,
+  $applier_workers         = $facts['os_service_default'],
+  $applier_conductor_topic = $facts['os_service_default'],
+  $applier_status_topic    = $facts['os_service_default'],
+  $applier_publisher_id    = $facts['os_service_default'],
+  $applier_workflow_engine = $facts['os_service_default'],
 ) {
 
   include watcher::params

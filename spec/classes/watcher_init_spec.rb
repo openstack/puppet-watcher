@@ -227,7 +227,7 @@ describe 'watcher' do
         facts.merge!(OSDefaults.get_facts())
       end
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :watcher_common_package => 'watcher-common' }
         when 'RedHat'

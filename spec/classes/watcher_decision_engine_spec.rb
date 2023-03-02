@@ -94,7 +94,7 @@ describe 'watcher::decision_engine' do
         facts.merge!(OSDefaults.get_facts())
       end
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :watcher_decision_engine_package => 'watcher-decision-engine',
             :decision_engine_service_name    => 'watcher-decision-engine',

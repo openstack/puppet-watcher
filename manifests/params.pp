@@ -7,7 +7,7 @@ class watcher::params {
   $user                = 'watcher'
   $group               = 'watcher'
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $api_service_name             = 'openstack-watcher-api'
       $api_package_name             = 'openstack-watcher-api'
@@ -31,8 +31,8 @@ class watcher::params {
       $watcher_wsgi_script_path     = '/usr/lib/cgi-bin/watcher'
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem")
+      fail("Unsupported osfamily: ${facts['os']['family']}")
     }
 
-  } # Case $::osfamily
+  } # Case $facts['os']['family']
 }

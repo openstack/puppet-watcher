@@ -17,35 +17,35 @@
 # [*decision_engine_conductor_topic*]
 #   (Optional) The topic name used forcontrol events, this topic used
 #   for rpc call
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*decision_engine_status_topic*]
 #   (Optional) The topic name used for status events, this topic is used
 #   so as to notifythe others components of the system
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*decision_engine_notification_topics*]
 #   (Optional) The topic names from which notification events will be
 #   listened to (list value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*decision_engine_publisher_id*]
 #   (Optional) The identifier used by watcher module on the message broker
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*decision_engine_workers*]
 #   (Optional) The maximum number of threads that can be used to execute
 #   strategies
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*planner*]
 #   (Optional) The selected planner used to schedule the actions (string value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*weights*]
 #   (Optional) Hash of weights used to schedule the actions (dict value).
 #   The key is an action, value is an order number.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #   Example:
 #     { 'change_nova_service_state' => '2',
 #       'migrate' => '3', 'nop' => '0', 'sleep' => '1' }
@@ -55,13 +55,13 @@ class watcher::decision_engine (
   $package_ensure                      = 'present',
   $enabled                             = true,
   $manage_service                      = true,
-  $decision_engine_conductor_topic     = $::os_service_default,
-  $decision_engine_status_topic        = $::os_service_default,
-  $decision_engine_notification_topics = $::os_service_default,
-  $decision_engine_publisher_id        = $::os_service_default,
-  $decision_engine_workers             = $::os_service_default,
-  $planner                             = $::os_service_default,
-  $weights                             = $::os_service_default,
+  $decision_engine_conductor_topic     = $facts['os_service_default'],
+  $decision_engine_status_topic        = $facts['os_service_default'],
+  $decision_engine_notification_topics = $facts['os_service_default'],
+  $decision_engine_publisher_id        = $facts['os_service_default'],
+  $decision_engine_workers             = $facts['os_service_default'],
+  $planner                             = $facts['os_service_default'],
+  $weights                             = $facts['os_service_default'],
 ) {
 
   include watcher::params
