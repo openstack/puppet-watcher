@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The new ``watcher::cron::db_purge`` class has been added. This class can be
+    used to configure cron job to periodically purge deleted or orphaned
+    objects from database.
