@@ -25,6 +25,9 @@ describe 'basic watcher' do
     describe port(9322) do
       it { is_expected.to be_listening }
     end
-  end
 
+    describe cron do
+      it { is_expected.to have_entry('1 0 * * * watcher-db-manage purge -d 30 >>/var/log/watcher/watcher-rowsflush.log 2>&1').with_user('watcher') }
+    end
+  end
 end
