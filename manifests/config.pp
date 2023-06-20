@@ -21,12 +21,10 @@
 #   or Puppet catalog compilation will fail with duplicate resources.
 #
 class watcher::config (
-  $watcher_config = {},
+  Hash $watcher_config = {},
 ) {
 
   include watcher::deps
-
-  validate_legacy(Hash, 'validate_hash', $watcher_config)
 
   create_resources('watcher_config', $watcher_config)
 }
