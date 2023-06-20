@@ -5,8 +5,7 @@
 # === Parameters:
 #
 # [*password*]
-#   (Optional) Password to create for the service user
-#   Defaults to $facts['os_service_default']
+#   (Required) Password to create for the service user
 #
 # [*username*]
 #   (Optional) The name of the service user
@@ -194,7 +193,7 @@
 #  Defaults to $facts['os_service_default'].
 #
 class watcher::keystone::authtoken (
-  $password                       = $facts['os_service_default'],
+  String[1] $password,
   $username                       = 'watcher',
   $auth_url                       = 'http://localhost:5000',
   $project_name                   = 'services',
@@ -234,12 +233,6 @@ class watcher::keystone::authtoken (
 ) {
 
   include watcher::deps
-
-  if is_service_default($password) and ! $::watcher::api::watcher_client_password {
-    fail('Please set password for watcher service user')
-  }
-
-  validate_legacy(String, 'validate_string', $password)
 
   keystone::resource::authtoken { 'watcher_config':
     password                       => $password,
