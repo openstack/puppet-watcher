@@ -21,7 +21,7 @@ class watcher::deps {
 
   # policy config should occur in the config block also.
   Anchor['watcher::config::begin']
-  -> Openstacklib::Policy<||>
+  -> Openstacklib::Policy<| tag == 'watcher' |>
   ~> Anchor['watcher::config::end']
 
   # all cache settings should be applied and all packages should be installed

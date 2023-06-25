@@ -62,6 +62,7 @@ class watcher::policy (
     file_group   => $::watcher::params::group,
     file_format  => 'yaml',
     purge_config => $purge_config,
+    tag          => 'watcher',
   }
 
   create_resources('openstacklib::policy', { $policy_path => $policy_parameters })
