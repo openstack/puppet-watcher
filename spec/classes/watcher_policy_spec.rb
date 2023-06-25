@@ -33,6 +33,7 @@ describe 'watcher::policy' do
           :file_group   => 'watcher',
           :file_format  => 'yaml',
           :purge_config => false,
+          :tag          => 'watcher',
         )
         is_expected.to contain_oslo__policy('watcher_config').with(
           :enforce_scope        => false,
@@ -63,6 +64,7 @@ describe 'watcher::policy' do
           :file_group   => 'watcher',
           :file_format  => 'yaml',
           :purge_config => true,
+          :tag          => 'watcher',
         )
         is_expected.to contain_oslo__policy('watcher_config').with(
           :enforce_scope        => false,
