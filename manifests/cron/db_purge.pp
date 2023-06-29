@@ -69,20 +69,18 @@
 #
 class watcher::cron::db_purge (
   Enum['present', 'absent'] $ensure = 'present',
-  $minute          = 1,
-  $hour            = 0,
-  $monthday        = '*',
-  $month           = '*',
-  $weekday         = '*',
-  $user            = $::watcher::params::user,
-  $age             = 30,
-  $destination     = '/var/log/watcher/watcher-rowsflush.log',
-  $maxdelay        = 0,
-  $exclude_orphans = false,
-  $max_number      = undef,
+  $minute                           = 1,
+  $hour                             = 0,
+  $monthday                         = '*',
+  $month                            = '*',
+  $weekday                          = '*',
+  $user                             = $::watcher::params::user,
+  $age                              = 30,
+  $destination                      = '/var/log/watcher/watcher-rowsflush.log',
+  $maxdelay                         = 0,
+  Boolean $exclude_orphans          = false,
+  $max_number                       = undef,
 ) inherits watcher::params {
-
-  validate_legacy(Boolean, 'validate_bool', $exclude_orphans)
 
   include watcher::deps
 

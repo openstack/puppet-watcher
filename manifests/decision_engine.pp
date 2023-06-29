@@ -53,8 +53,8 @@
 #
 class watcher::decision_engine (
   $package_ensure                      = 'present',
-  $enabled                             = true,
-  $manage_service                      = true,
+  Boolean $enabled                     = true,
+  Boolean $manage_service              = true,
   $decision_engine_conductor_topic     = $facts['os_service_default'],
   $decision_engine_status_topic        = $facts['os_service_default'],
   $decision_engine_notification_topics = $facts['os_service_default'],

@@ -34,7 +34,7 @@
 #   Defaults to 'utf8_general_ci'
 #
 class watcher::db::mysql(
-  $password,
+  String[1] $password,
   $dbname        = 'watcher',
   $user          = 'watcher',
   $host          = '127.0.0.1',
@@ -44,8 +44,6 @@ class watcher::db::mysql(
 ) {
 
   include watcher::deps
-
-  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::mysql { 'watcher':
     user          => $user,
