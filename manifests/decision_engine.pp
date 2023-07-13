@@ -67,11 +67,10 @@ class watcher::decision_engine (
   include watcher::params
   include watcher::deps
 
-  if !is_service_default($weights) {
-    validate_legacy(Hash, 'validate_hash', $weights)
+  if $weights =~ Hash {
     $weights_real = join(sort(join_keys_to_values($weights, ':')), ',')
   } else {
-    $weights_real = $weights
+    $weights_real = join(any2array($weights), ',')
   }
 
   if !is_service_default($decision_engine_notification_topics) or
