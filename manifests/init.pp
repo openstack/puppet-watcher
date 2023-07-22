@@ -213,7 +213,7 @@
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
 #
 class watcher (
-  $purge_config                         = false,
+  Boolean $purge_config                 = false,
   $use_ssl                              = false,
   $package_ensure                       = 'present',
   $rabbit_login_method                  = $facts['os_service_default'],
