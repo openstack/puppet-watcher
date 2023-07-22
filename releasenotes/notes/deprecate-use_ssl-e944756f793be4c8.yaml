@@ -1,0 +1,4 @@
+---
+deprecations:
+  - |
+    The ``watcher::use_ssl`` parameter has been deprecated.

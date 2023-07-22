@@ -4,10 +4,6 @@
 #
 # === Parameters:
 #
-# [*use_ssl*]
-#   (required) Enable SSL on the API server.
-#   Defaults to false.
-#
 # [*package_ensure*]
 #  (optional) Whether the watcher api package will be installed
 #  Defaults to 'present'
@@ -208,13 +204,17 @@
 #   in the watcher config.
 #   Defaults to false.
 #
+# DEPRECATED PARAMETERS
+#
+# [*use_ssl*]
+#   (optional) Enable SSL on the API server.
+#
 # === Authors
 #
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
 #
 class watcher (
   Boolean $purge_config                 = false,
-  $use_ssl                              = false,
   $package_ensure                       = 'present',
   $rabbit_login_method                  = $facts['os_service_default'],
   $rabbit_retry_interval                = $facts['os_service_default'],
@@ -258,9 +258,15 @@ class watcher (
   $notification_transport_url           = $facts['os_service_default'],
   $notification_driver                  = $facts['os_service_default'],
   $notification_topics                  = $facts['os_service_default'],
+  # DEPRECATED PARAMETERS
+  $use_ssl                              = undef,
 ) {
 
   include openstacklib::openstackclient
+
+  if $use_ssl != undef {
+    warning('The use_ssl parameter is deprecated and will be removed.')
+  }
 
   include watcher::deps
   include watcher::params
