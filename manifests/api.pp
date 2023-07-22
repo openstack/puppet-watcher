@@ -72,18 +72,18 @@
 #   Defaults to 'keystone'
 #
 class watcher::api (
-  $package_ensure     = 'present',
-  $enabled            = true,
-  $manage_service     = true,
-  $port               = $facts['os_service_default'],
-  $max_limit          = $facts['os_service_default'],
-  $bind_host          = $facts['os_service_default'],
-  $workers            = $facts['os_workers'],
-  $enable_ssl_api     = $facts['os_service_default'],
-  $service_name       = $::watcher::params::api_service_name,
-  $create_db_schema   = false,
-  $upgrade_db         = false,
-  $auth_strategy      = 'keystone',
+  $package_ensure           = 'present',
+  Boolean $enabled          = true,
+  Boolean $manage_service   = true,
+  $port                     = $facts['os_service_default'],
+  $max_limit                = $facts['os_service_default'],
+  $bind_host                = $facts['os_service_default'],
+  $workers                  = $facts['os_workers'],
+  $enable_ssl_api           = $facts['os_service_default'],
+  $service_name             = $::watcher::params::api_service_name,
+  Boolean $create_db_schema = false,
+  Boolean $upgrade_db       = false,
+  $auth_strategy            = 'keystone',
 ) inherits watcher::params {
 
   include watcher::policy

@@ -38,8 +38,8 @@
 #
 class watcher::applier (
   $package_ensure          = 'present',
-  $enabled                 = true,
-  $manage_service          = true,
+  Boolean $enabled         = true,
+  Boolean $manage_service  = true,
   $applier_workers         = $facts['os_service_default'],
   $applier_conductor_topic = $facts['os_service_default'],
   $applier_status_topic    = $facts['os_service_default'],
