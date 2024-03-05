@@ -6,7 +6,7 @@ describe 'watcher::db::create_schema' do
 
     it 'runs watcher-db-manage' do
       is_expected.to contain_exec('watcher-db-manage-create_schema').with(
-        :command     => 'watcher-db-manage --config-file /etc/watcher/watcher.conf create_schema',
+        :command     => 'watcher-db-manage  create_schema',
         :path        => '/usr/bin',
         :user        => 'watcher',
         :refreshonly => 'true',

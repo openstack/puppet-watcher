@@ -7,10 +7,10 @@
 # [*extra_params*]
 #   (Optional) String of extra command line parameters to append
 #   to the watcher-db-manage upgrade command.
-#   Defaults to '--config-file /etc/watcher/watcher.conf'
+#   Defaults to ''
 #
 class watcher::db::upgrade(
-  $extra_params = '--config-file /etc/watcher/watcher.conf',
+  $extra_params = '',
 ) {
 
   include watcher::deps

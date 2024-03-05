@@ -6,10 +6,10 @@
 # [*extra_params*]
 #   (Optional) String of extra command line parameters to append
 #   to the watcher-db-manage create_schema command.
-#   Defaults to '--config-file /etc/watcher/watcher.conf'
+#   Defaults to ''
 #
 class watcher::db::create_schema(
-  $extra_params = '--config-file /etc/watcher/watcher.conf',
+  $extra_params = '',
 ) {
 
   include watcher::deps
