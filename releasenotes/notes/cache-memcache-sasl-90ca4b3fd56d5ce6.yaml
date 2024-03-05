@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``watcher::cache`` class now supports options to allow memcached
+    with SASL enabled.
