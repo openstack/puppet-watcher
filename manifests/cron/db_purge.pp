@@ -77,7 +77,7 @@ class watcher::cron::db_purge (
   $user                             = $::watcher::params::user,
   $age                              = 30,
   $destination                      = '/var/log/watcher/watcher-rowsflush.log',
-  $maxdelay                         = 0,
+  Integer[0] $maxdelay              = 0,
   Boolean $exclude_orphans          = false,
   $max_number                       = undef,
 ) inherits watcher::params {
