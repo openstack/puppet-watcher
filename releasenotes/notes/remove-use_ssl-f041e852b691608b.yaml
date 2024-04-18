@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The deprecated and ineffective ``watcher::use_ssl`` parameter has been
+    removed.

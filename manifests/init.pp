@@ -204,11 +204,6 @@
 #   in the watcher config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*use_ssl*]
-#   (optional) Enable SSL on the API server.
-#
 # === Authors
 #
 # Daniel Pawlik  <daniel.pawlik@corp.ovh.com>
@@ -258,15 +253,9 @@ class watcher (
   $notification_transport_url           = $facts['os_service_default'],
   $notification_driver                  = $facts['os_service_default'],
   $notification_topics                  = $facts['os_service_default'],
-  # DEPRECATED PARAMETERS
-  $use_ssl                              = undef,
 ) {
 
   include openstacklib::openstackclient
-
-  if $use_ssl != undef {
-    warning('The use_ssl parameter is deprecated and will be removed.')
-  }
 
   include watcher::deps
   include watcher::params
