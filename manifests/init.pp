@@ -124,66 +124,6 @@
 #   option.
 #   Defaults to $facts['os_service_default']
 #
-# [*amqp_password*]
-#   (Optional) Password for message broker authentication.
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_username*]
-#   (Optional) User name for message broker authentication.
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_ssl_ca_file*]
-#   (Optional) CA certificate PEM file to verify server certificate.
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_ssl_key_file*]
-#   (Optional) Private key PEM file used to sign cert_file certificate.
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_container_name*]
-#   (Optional) Name for the AMQP container.
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_sasl_mechanisms*]
-#   (Optional) Space separated list of acceptable SASL mechanisms.
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_server_request_prefix*]
-#   (Optional) Address prefix used when sending to a specific server.
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_ssl_key_password*]
-#   (Optional) Password for decrypting ssl_key_file (if encrypted).
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_idle_timeout*]
-#   (Optional) Timeout for inactive connections (in seconds).
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_ssl_cert_file*]
-#   (Optional) Identifying certificate PEM file to present to clients.
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_broadcast_prefix*]
-#   (Optional) Address prefix used when broadcasting to all servers.
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_trace*]
-#   (Optional) Debug: dump AMQP frames to stdout.
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_sasl_config_name*]
-#   (Optional) Name of configuration file (without .conf suffix).
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_sasl_config_dir*]
-#   (Optional) Path to directory that contains the SASL configuration.
-#   Defaults to $facts['os_service_default']
-#
-# [*amqp_group_request_prefix*]
-#   (Optional) Address prefix when sending to any server in group.
-#   Defaults to $facts['os_service_default']
-#
 # [*notification_transport_url*]
 #  (optional) A URL representing the messaging driver to use for notifications
 #  and its full configuration. Transport URLs take the form:
@@ -233,23 +173,6 @@ class watcher (
   $default_transport_url                = $facts['os_service_default'],
   $rpc_response_timeout                 = $facts['os_service_default'],
   $control_exchange                     = $facts['os_service_default'],
-  # amqp
-  $amqp_username                        = $facts['os_service_default'],
-  $amqp_password                        = $facts['os_service_default'],
-  $amqp_ssl_ca_file                     = $facts['os_service_default'],
-  $amqp_ssl_key_file                    = $facts['os_service_default'],
-  $amqp_container_name                  = $facts['os_service_default'],
-  $amqp_sasl_mechanisms                 = $facts['os_service_default'],
-  $amqp_server_request_prefix           = $facts['os_service_default'],
-  $amqp_ssl_key_password                = $facts['os_service_default'],
-  $amqp_idle_timeout                    = $facts['os_service_default'],
-  $amqp_ssl_cert_file                   = $facts['os_service_default'],
-  $amqp_broadcast_prefix                = $facts['os_service_default'],
-  $amqp_trace                           = $facts['os_service_default'],
-  $amqp_sasl_config_name                = $facts['os_service_default'],
-  $amqp_sasl_config_dir                 = $facts['os_service_default'],
-  $amqp_group_request_prefix            = $facts['os_service_default'],
-  # messaging
   $notification_transport_url           = $facts['os_service_default'],
   $notification_driver                  = $facts['os_service_default'],
   $notification_topics                  = $facts['os_service_default'],
@@ -292,24 +215,6 @@ class watcher (
     heartbeat_timeout_threshold          => $rabbit_heartbeat_timeout_threshold,
     heartbeat_rate                       => $rabbit_heartbeat_rate,
     heartbeat_in_pthread                 => $rabbit_heartbeat_in_pthread,
-  }
-
-  oslo::messaging::amqp { 'watcher_config':
-    username              => $amqp_username,
-    password              => $amqp_password,
-    server_request_prefix => $amqp_server_request_prefix,
-    broadcast_prefix      => $amqp_broadcast_prefix,
-    group_request_prefix  => $amqp_group_request_prefix,
-    container_name        => $amqp_container_name,
-    idle_timeout          => $amqp_idle_timeout,
-    trace                 => $amqp_trace,
-    ssl_ca_file           => $amqp_ssl_ca_file,
-    ssl_cert_file         => $amqp_ssl_cert_file,
-    ssl_key_file          => $amqp_ssl_key_file,
-    ssl_key_password      => $amqp_ssl_key_password,
-    sasl_mechanisms       => $amqp_sasl_mechanisms,
-    sasl_config_dir       => $amqp_sasl_config_dir,
-    sasl_config_name      => $amqp_sasl_config_name,
   }
 
   oslo::messaging::default { 'watcher_config':
