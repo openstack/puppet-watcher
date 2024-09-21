@@ -66,7 +66,7 @@ describe 'watcher::logging' do
         :use_stderr          => '<SERVICE DEFAULT>',
         :syslog_log_facility => '<SERVICE DEFAULT>',
         :log_dir             => '/var/log/watcher',
-        :log_file            => '/var/log/watcher/watcher.log',
+        :log_file            => '<SERVICE DEFAULT>',
         :debug               => '<SERVICE DEFAULT>',
       )
     end
