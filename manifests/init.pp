@@ -50,6 +50,24 @@
 #   option, you must wipe the RabbitMQ database.
 #   Defaults to $facts['os_service_default']
 #
+# [*rabbit_quorum_queue*]
+#   (Optional) Use quorum queues in RabbitMQ.
+#   Defaults to $facts['os_service_default']
+#
+# [*rabbit_quorum_delivery_limit*]
+#   (Optional) Each time a message is rdelivered to a consumer, a counter is
+#   incremented. Once the redelivery count exceeds the delivery limit
+#   the message gets dropped or dead-lettered.
+#   Defaults to $facts['os_service_default']
+#
+# [*rabbit_quorum_max_memory_length*]
+#   (Optional) Limit the number of messages in the quorum queue.
+#   Defaults to $facts['os_service_default']
+#
+# [*rabbit_quorum_max_memory_bytes*]
+#   (Optional) Limit the number of memory bytes used by the quorum queue.
+#   Defaults to $facts['os_service_default']
+#
 # [*rabbit_transient_queues_ttl*]
 #   (Optional) Positive integer representing duration in seconds for
 #   queue TTL (x-expires). Queues which are unused for the duration
@@ -159,6 +177,10 @@ class watcher (
   $rabbit_heartbeat_rate                = $facts['os_service_default'],
   $rabbit_heartbeat_in_pthread          = $facts['os_service_default'],
   $rabbit_ha_queues                     = $facts['os_service_default'],
+  $rabbit_quorum_queue                  = $facts['os_service_default'],
+  $rabbit_quorum_delivery_limit         = $facts['os_service_default'],
+  $rabbit_quorum_max_memory_length      = $facts['os_service_default'],
+  $rabbit_quorum_max_memory_bytes       = $facts['os_service_default'],
   $rabbit_transient_queues_ttl          = $facts['os_service_default'],
   $rabbit_heartbeat_timeout_threshold   = $facts['os_service_default'],
   $kombu_ssl_ca_certs                   = $facts['os_service_default'],
@@ -211,6 +233,10 @@ class watcher (
     rabbit_retry_backoff                 => $rabbit_retry_backoff,
     rabbit_interval_max                  => $rabbit_interval_max,
     rabbit_ha_queues                     => $rabbit_ha_queues,
+    rabbit_quorum_queue                  => $rabbit_quorum_queue,
+    rabbit_quorum_delivery_limit         => $rabbit_quorum_delivery_limit,
+    rabbit_quorum_max_memory_length      => $rabbit_quorum_max_memory_length,
+    rabbit_quorum_max_memory_bytes       => $rabbit_quorum_max_memory_bytes,
     rabbit_transient_queues_ttl          => $rabbit_transient_queues_ttl,
     heartbeat_timeout_threshold          => $rabbit_heartbeat_timeout_threshold,
     heartbeat_rate                       => $rabbit_heartbeat_rate,
