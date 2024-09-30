@@ -51,7 +51,8 @@ describe 'watcher' do
         is_expected.to contain_oslo__messaging__notifications('watcher_config').with(
           :transport_url => '<SERVICE DEFAULT>',
           :driver        => '<SERVICE DEFAULT>',
-          :topics        => '<SERVICE DEFAULT>'
+          :topics        => '<SERVICE DEFAULT>',
+          :retry         => '<SERVICE DEFAULT>',
         )
       end
 
@@ -80,6 +81,7 @@ describe 'watcher' do
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver                => 'messaging',
           :notification_topics                => 'notifications',
+          :notification_retry                 => 10,
         }
       end
       it 'configures messaging' do
@@ -107,7 +109,8 @@ describe 'watcher' do
         is_expected.to contain_oslo__messaging__notifications('watcher_config').with(
           :transport_url => 'rabbit://rabbit_user:password@localhost:5673',
           :driver        => 'messaging',
-          :topics        => 'notifications'
+          :topics        => 'notifications',
+          :retry         => 10,
         )
       end
 
