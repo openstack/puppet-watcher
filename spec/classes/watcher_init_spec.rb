@@ -51,6 +51,7 @@ describe 'watcher' do
           :rabbit_quorum_delivery_limit    => '<SERVICE DEFAULT>',
           :rabbit_quorum_max_memory_length => '<SERVICE DEFAULT>',
           :rabbit_quorum_max_memory_bytes  => '<SERVICE DEFAULT>',
+          :enable_cancel_on_failover       => '<SERVICE DEFAULT>',
           :rabbit_retry_interval           => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_oslo__messaging__notifications('watcher_config').with(
@@ -81,6 +82,7 @@ describe 'watcher' do
           :rabbit_quorum_delivery_limit       => 3,
           :rabbit_quorum_max_memory_length    => 5,
           :rabbit_quorum_max_memory_bytes     => 1073741824,
+          :rabbit_enable_cancel_on_failover   => false,
           :rabbit_heartbeat_timeout_threshold => '60',
           :rabbit_heartbeat_rate              => '10',
           :rabbit_heartbeat_in_pthread        => true,
@@ -119,6 +121,7 @@ describe 'watcher' do
           :rabbit_quorum_delivery_limit    => 3,
           :rabbit_quorum_max_memory_length => 5,
           :rabbit_quorum_max_memory_bytes  => 1073741824,
+          :enable_cancel_on_failover       => false,
           :rabbit_retry_interval           => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_oslo__messaging__notifications('watcher_config').with(
