@@ -13,6 +13,7 @@ describe 'watcher::cache' do
         is_expected.to contain_oslo__cache('watcher_config').with(
           :config_prefix                        => '<SERVICE DEFAULT>',
           :expiration_time                      => '<SERVICE DEFAULT>',
+          :backend_expiration_time              => '<SERVICE DEFAULT>',
           :backend                              => '<SERVICE DEFAULT>',
           :backend_argument                     => '<SERVICE DEFAULT>',
           :proxies                              => '<SERVICE DEFAULT>',
@@ -58,6 +59,7 @@ describe 'watcher::cache' do
         {
           :config_prefix                        => 'prefix',
           :expiration_time                      => 3600,
+          :backend_expiration_time              => 7200,
           :backend                              => 'oslo_cache.memcache_pool',
           :proxies                              => ['proxy01:8888', 'proxy02:8888'],
           :enabled                              => true,
@@ -97,6 +99,7 @@ describe 'watcher::cache' do
         is_expected.to contain_oslo__cache('watcher_config').with(
           :config_prefix                        => 'prefix',
           :expiration_time                      => 3600,
+          :backend_expiration_time              => 7200,
           :backend                              => 'oslo_cache.memcache_pool',
           :backend_argument                     => '<SERVICE DEFAULT>',
           :proxies                              => ['proxy01:8888', 'proxy02:8888'],
