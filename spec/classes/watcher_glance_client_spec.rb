@@ -24,7 +24,7 @@ describe 'watcher::glance_client' do
         }
       end
 
-      it 'should set the defaults' do
+      it 'should set the overridden values' do
         should contain_watcher_config('glance_client/api_version').with_value(2)
         should contain_watcher_config('glance_client/endpoint_type').with_value('publicURL')
         should contain_watcher_config('glance_client/region_name').with_value('regionOne')
