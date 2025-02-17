@@ -45,7 +45,7 @@ class watcher::db::mysql(
 
   include watcher::deps
 
-  ::openstacklib::db::mysql { 'watcher':
+  openstacklib::db::mysql { 'watcher':
     user          => $user,
     password      => $password,
     dbname        => $dbname,
