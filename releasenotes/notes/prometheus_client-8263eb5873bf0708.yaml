@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``watcher::prometheus_client`` class has been added.
