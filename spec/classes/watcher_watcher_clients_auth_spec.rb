@@ -38,7 +38,7 @@ describe 'watcher::watcher_clients_auth' do
         })
       end
 
-      it 'should set the parameters' do
+      it 'should set the overridden values' do
         should contain_watcher_config('watcher_clients_auth/auth_url').with_value('http://127.0.0.1:5000/')
         should contain_watcher_config('watcher_clients_auth/username').with_value('alt_watcher')
         should contain_watcher_config('watcher_clients_auth/project_name').with_value('alt_services')

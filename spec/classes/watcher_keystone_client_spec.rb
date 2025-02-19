@@ -22,7 +22,7 @@ describe 'watcher::keystone_client' do
         }
       end
 
-      it 'should set the defaults' do
+      it 'should set the overridden values' do
         should contain_watcher_config('keystone_client/endpoint_type').with_value('publicURL')
         should contain_watcher_config('keystone_client/region_name').with_value('regionOne')
       end
