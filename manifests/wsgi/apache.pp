@@ -154,7 +154,7 @@ class watcher::wsgi::apache (
 
   Anchor['watcher::install::end'] -> Class['apache']
 
-  ::openstacklib::wsgi::apache { 'watcher_wsgi':
+  openstacklib::wsgi::apache { 'watcher_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
     group                       => $::watcher::params::group,

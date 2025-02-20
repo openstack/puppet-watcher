@@ -34,7 +34,7 @@ class watcher::db::postgresql(
 
   include watcher::deps
 
-  ::openstacklib::db::postgresql { 'watcher':
+  openstacklib::db::postgresql { 'watcher':
     password   => $password,
     dbname     => $dbname,
     user       => $user,
