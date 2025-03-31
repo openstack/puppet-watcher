@@ -234,7 +234,7 @@ class watcher (
   }
 
   resources { 'watcher_config':
-    purge  => $purge_config,
+    purge => $purge_config,
   }
 
   oslo::messaging::rabbit { 'watcher_config':
@@ -278,4 +278,3 @@ class watcher (
     retry         => $notification_retry,
   }
 }
-
