@@ -51,6 +51,8 @@ describe 'watcher' do
           :rabbit_quorum_delivery_limit    => '<SERVICE DEFAULT>',
           :rabbit_quorum_max_memory_length => '<SERVICE DEFAULT>',
           :rabbit_quorum_max_memory_bytes  => '<SERVICE DEFAULT>',
+          :use_queue_manager               => '<SERVICE DEFAULT>',
+          :rabbit_stream_fanout            => '<SERVICE DEFAULT>',
           :enable_cancel_on_failover       => '<SERVICE DEFAULT>',
           :rabbit_retry_interval           => '<SERVICE DEFAULT>',
         )
@@ -82,6 +84,8 @@ describe 'watcher' do
           :rabbit_quorum_delivery_limit       => 3,
           :rabbit_quorum_max_memory_length    => 5,
           :rabbit_quorum_max_memory_bytes     => 1073741824,
+          :rabbit_use_queue_manager           => true,
+          :rabbit_stream_fanout               => true,
           :rabbit_enable_cancel_on_failover   => false,
           :rabbit_heartbeat_timeout_threshold => '60',
           :rabbit_heartbeat_rate              => '10',
@@ -121,6 +125,8 @@ describe 'watcher' do
           :rabbit_quorum_delivery_limit    => 3,
           :rabbit_quorum_max_memory_length => 5,
           :rabbit_quorum_max_memory_bytes  => 1073741824,
+          :use_queue_manager               => true,
+          :rabbit_stream_fanout            => true,
           :enable_cancel_on_failover       => false,
           :rabbit_retry_interval           => '<SERVICE DEFAULT>',
         )
