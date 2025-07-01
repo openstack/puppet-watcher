@@ -86,7 +86,7 @@
 # [*rabbit_heartbeat_timeout_threshold*]
 #   (Optional) Number of seconds after which the Rabbit broker is
 #   considered down if heartbeat's keep-alive fails
-#   (0 disable the heartbeat). EXPERIMENTAL. (integer value)
+#   (0 disable the heartbeat). (integer value)
 #   Defaults to $facts['os_service_default']
 #
 # [*kombu_ssl_ca_certs*]
