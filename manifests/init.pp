@@ -239,7 +239,7 @@ class watcher (
 
   package { 'watcher':
     ensure => $package_ensure,
-    name   => $::watcher::params::common_package_name,
+    name   => $watcher::params::common_package_name,
     tag    => ['openstack', 'watcher-package'],
   }
 

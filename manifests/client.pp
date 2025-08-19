@@ -17,7 +17,7 @@ class watcher::client (
 
   package { 'python-watcherclient':
     ensure => $ensure,
-    name   => $::watcher::params::client_package_name,
+    name   => $watcher::params::client_package_name,
     tag    => 'openstack',
   }
 

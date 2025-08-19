@@ -83,7 +83,7 @@ class watcher::decision_engine (
 
   package { 'watcher-decision-engine':
     ensure => $package_ensure,
-    name   => $::watcher::params::decision_engine_package_name,
+    name   => $watcher::params::decision_engine_package_name,
     tag    => ['openstack', 'watcher-package'],
   }
 
@@ -96,7 +96,7 @@ class watcher::decision_engine (
 
     service { 'watcher-decision-engine':
       ensure     => $service_ensure,
-      name       => $::watcher::params::decision_engine_service_name,
+      name       => $watcher::params::decision_engine_service_name,
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,

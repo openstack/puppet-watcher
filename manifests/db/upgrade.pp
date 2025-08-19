@@ -19,7 +19,7 @@ class watcher::db::upgrade(
   exec { 'watcher-db-manage-upgrade':
     command     => "watcher-db-manage ${extra_params} upgrade",
     path        => '/usr/bin',
-    user        => $::watcher::params::user,
+    user        => $watcher::params::user,
     refreshonly => true,
     try_sleep   => 5,
     tries       => 10,

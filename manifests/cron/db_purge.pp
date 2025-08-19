@@ -74,7 +74,7 @@ class watcher::cron::db_purge (
   $monthday                         = '*',
   $month                            = '*',
   $weekday                          = '*',
-  $user                             = $::watcher::params::user,
+  $user                             = $watcher::params::user,
   $age                              = 30,
   $destination                      = '/var/log/watcher/watcher-rowsflush.log',
   Integer[0] $maxdelay              = 0,

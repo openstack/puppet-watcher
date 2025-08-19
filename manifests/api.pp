@@ -53,7 +53,7 @@
 #   service, and you must use another class to configure that
 #   web service. For example, use class { 'watcher::wsgi::apache'...}
 #   to make watcher-api be a web app using apache mod_wsgi.
-#   Defaults to '$::watcher::params::api_service_name'
+#   Defaults to '$watcher::params::api_service_name'
 #
 # === DB management
 #
@@ -80,7 +80,7 @@ class watcher::api (
   $bind_host                = $facts['os_service_default'],
   $workers                  = $facts['os_workers'],
   $enable_ssl_api           = $facts['os_service_default'],
-  $service_name             = $::watcher::params::api_service_name,
+  $service_name             = $watcher::params::api_service_name,
   Boolean $create_db_schema = false,
   Boolean $upgrade_db       = false,
   $auth_strategy            = 'keystone',
@@ -95,7 +95,7 @@ class watcher::api (
 
   package { 'watcher-api':
     ensure => $package_ensure,
-    name   => $::watcher::params::api_package_name,
+    name   => $watcher::params::api_package_name,
     tag    => ['openstack', 'watcher-package'],
   }
 
@@ -114,11 +114,11 @@ class watcher::api (
       $service_ensure = 'stopped'
     }
 
-    if $service_name == $::watcher::params::api_service_name {
+    if $service_name == $watcher::params::api_service_name {
       # NOTE(danpawlik) Watcher doesn't support db_sync command.
       service { 'watcher-api':
         ensure     => $service_ensure,
-        name       => $::watcher::params::api_service_name,
+        name       => $watcher::params::api_service_name,
         enable     => $enabled,
         hasstatus  => true,
         hasrestart => true,
@@ -129,7 +129,7 @@ class watcher::api (
     } elsif $service_name == 'httpd' {
       service { 'watcher-api':
         ensure => 'stopped',
-        name   => $::watcher::params::api_service_name,
+        name   => $watcher::params::api_service_name,
         enable => false,
         tag    => [ 'watcher-service',
                     'watcher-db-manage-create_schema',
