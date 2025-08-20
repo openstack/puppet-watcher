@@ -229,7 +229,6 @@ class watcher (
   # DEPRECATED PARAMETERS
   $rabbit_heartbeat_in_pthread          = undef,
 ) {
-
   include openstacklib::openstackclient
 
   include watcher::deps

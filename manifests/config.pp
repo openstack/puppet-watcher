@@ -23,7 +23,6 @@
 class watcher::config (
   Hash $watcher_config = {},
 ) {
-
   include watcher::deps
 
   create_resources('watcher_config', $watcher_config)

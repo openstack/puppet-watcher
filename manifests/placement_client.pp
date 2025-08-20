@@ -22,7 +22,6 @@ class watcher::placement_client (
   $interface   = $facts['os_service_default'],
   $region_name = $facts['os_service_default'],
 ) {
-
   include watcher::deps
   include watcher::params
 

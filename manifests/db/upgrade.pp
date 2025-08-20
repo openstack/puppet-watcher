@@ -9,10 +9,9 @@
 #   to the watcher-db-manage upgrade command.
 #   Defaults to ''
 #
-class watcher::db::upgrade(
+class watcher::db::upgrade (
   $extra_params = '',
 ) {
-
   include watcher::deps
   include watcher::params
 
@@ -32,5 +31,4 @@ class watcher::db::upgrade(
     ],
     notify      => Anchor['watcher::db::upgrade::end'],
   }
-
 }

@@ -54,7 +54,6 @@ class watcher::db (
   $database_pool_timeout            = $facts['os_service_default'],
   $mysql_enable_ndb                 = $facts['os_service_default'],
 ) {
-
   include watcher::deps
 
   oslo::db { 'watcher_config':

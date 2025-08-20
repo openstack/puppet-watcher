@@ -148,7 +148,6 @@ class watcher::wsgi::apache (
   $headers                     = undef,
   $request_headers             = undef,
 ) {
-
   include watcher::deps
   include watcher::params
 

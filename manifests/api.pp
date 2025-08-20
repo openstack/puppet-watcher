@@ -85,7 +85,6 @@ class watcher::api (
   Boolean $upgrade_db       = false,
   $auth_strategy            = 'keystone',
 ) inherits watcher::params {
-
   include watcher::policy
   include watcher::deps
 
@@ -122,18 +121,22 @@ class watcher::api (
         enable     => $enabled,
         hasstatus  => true,
         hasrestart => true,
-        tag        => [ 'watcher-service',
-                        'watcher-db-manage-create_schema',
-                        'watcher-db-manage-upgrade'],
+        tag        => [
+          'watcher-service',
+          'watcher-db-manage-create_schema',
+          'watcher-db-manage-upgrade',
+        ],
       }
     } elsif $service_name == 'httpd' {
       service { 'watcher-api':
         ensure => 'stopped',
         name   => $watcher::params::api_service_name,
         enable => false,
-        tag    => [ 'watcher-service',
-                    'watcher-db-manage-create_schema',
-                    'watcher-db-manage-upgrade'],
+        tag    => [
+          'watcher-service',
+          'watcher-db-manage-create_schema',
+          'watcher-db-manage-upgrade',
+        ],
       }
 
       # we need to make sure watcher-api/eventlet is stopped before trying to start apache

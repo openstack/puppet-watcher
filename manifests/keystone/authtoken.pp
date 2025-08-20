@@ -231,7 +231,6 @@ class watcher::keystone::authtoken (
   $service_type                   = $facts['os_service_default'],
   $interface                      = $facts['os_service_default'],
 ) {
-
   include watcher::deps
 
   keystone::resource::authtoken { 'watcher_config':
@@ -273,5 +272,4 @@ class watcher::keystone::authtoken (
     service_type                   => $service_type,
     interface                      => $interface,
   }
-
 }

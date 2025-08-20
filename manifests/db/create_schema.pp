@@ -8,10 +8,9 @@
 #   to the watcher-db-manage create_schema command.
 #   Defaults to ''
 #
-class watcher::db::create_schema(
+class watcher::db::create_schema (
   $extra_params = '',
 ) {
-
   include watcher::deps
   include watcher::params
 
@@ -31,5 +30,4 @@ class watcher::db::create_schema(
     notify      => Anchor['watcher::db::create_schema::end'],
     tag         => 'openstack-db',
   }
-
 }

@@ -22,9 +22,7 @@ class watcher::cinder_client (
   $endpoint_type = $facts['os_service_default'],
   $region_name   = $facts['os_service_default'],
 ) {
-
   include watcher::deps
-  include watcher::params
 
   watcher_config {
     'cinder_client/api_version':   value => $api_version;
