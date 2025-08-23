@@ -15,6 +15,8 @@ describe 'watcher::decision_engine' do
       end
 
       it 'configures watcher decision engine service' do
+        is_expected.to contain_watcher_config('watcher_decision_engine/max_audit_workers').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_watcher_config('watcher_decision_engine/max_general_workers').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_decision_engine/conductor_topic').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_decision_engine/status_topic').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_watcher_config('watcher_decision_engine/notification_topics').with_value('<SERVICE DEFAULT>')
@@ -63,6 +65,8 @@ describe 'watcher::decision_engine' do
       let :params do
         {
           :package_ensure                      => '2012.1.1-15.el6',
+          :max_audit_workers                   => 2,
+          :max_general_workers                 => 4,
           :decision_engine_conductor_topic     => 'test_conductor_topic',
           :decision_engine_status_topic        => 'niceTopic',
           :decision_engine_notification_topics => ['topic_1','topic_2'],
@@ -76,6 +80,8 @@ describe 'watcher::decision_engine' do
         }
       end
       it 'configures watcher decision engine' do
+        is_expected.to contain_watcher_config('watcher_decision_engine/max_audit_workers').with_value(2)
+        is_expected.to contain_watcher_config('watcher_decision_engine/max_general_workers').with_value(4)
         is_expected.to contain_watcher_config('watcher_decision_engine/conductor_topic').with_value('test_conductor_topic')
         is_expected.to contain_watcher_config('watcher_decision_engine/status_topic').with_value('niceTopic')
         is_expected.to contain_watcher_config('watcher_decision_engine/notification_topics').with_value('topic_1,topic_2')

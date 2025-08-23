@@ -10,6 +10,16 @@
 #   (Optional) The state of the service
 #   Defaults to 'true'.
 #
+# [*max_audit_workers*]
+#   (Optional) The maximum number of threads that can be used to execute
+#   audits in pararell.
+#   Defaults to $facts['os_service_default']
+#
+# [*max_general_workers*]
+#   (Optional) The maximum number of threads that can be used to execute
+#   general tasks in parallel.
+#   Defaults to $facts['os_service_default']
+#
 # [*manage_service*]
 #   (Optional) Whether to start/stop the service.
 #   Defaults to 'true'.
@@ -55,6 +65,8 @@ class watcher::decision_engine (
   $package_ensure                      = 'present',
   Boolean $enabled                     = true,
   Boolean $manage_service              = true,
+  $max_audit_workers                   = $facts['os_service_default'],
+  $max_general_workers                 = $facts['os_service_default'],
   $decision_engine_conductor_topic     = $facts['os_service_default'],
   $decision_engine_status_topic        = $facts['os_service_default'],
   $decision_engine_notification_topics = $facts['os_service_default'],
@@ -96,6 +108,8 @@ class watcher::decision_engine (
   }
 
   watcher_config {
+    'watcher_decision_engine/max_audit_workers':   value => $max_audit_workers;
+    'watcher_decision_engine/max_general_workers': value => $max_general_workers;
     'watcher_decision_engine/conductor_topic':     value => $decision_engine_conductor_topic;
     'watcher_decision_engine/status_topic':        value => $decision_engine_status_topic;
     'watcher_decision_engine/notification_topics': value => join(any2array($decision_engine_notification_topics), ',');

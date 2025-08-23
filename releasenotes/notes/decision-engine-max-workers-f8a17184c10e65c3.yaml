@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The ``watcher::decision_engine`` class now supports the following two new
+    parameters.
+
+    - ``max_audit_workers``
+    - ``max_general_workers``
