@@ -159,7 +159,7 @@ describe 'watcher::wsgi::apache' do
         when 'RedHat'
           {
             :wsgi_script_path   => '/var/www/cgi-bin/watcher',
-            :wsgi_script_source => '/usr/bin/watcher-api-wsgi'
+            :wsgi_script_source => '/usr/lib/python3.9/site-packages/watcher/wsgi/api.py',
           }
         end
       end

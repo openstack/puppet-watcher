@@ -3,6 +3,8 @@
 class watcher::params {
   include openstacklib::defaults
 
+  $pyver3 = $openstacklib::defaults::pyver3
+
   $client_package_name = 'python3-watcherclient'
   $user                = 'watcher'
   $group               = 'watcher'
@@ -16,7 +18,7 @@ class watcher::params {
       $applier_service_name         = 'openstack-watcher-applier'
       $decision_engine_package_name = 'openstack-watcher-decision-engine'
       $decision_engine_service_name = 'openstack-watcher-decision-engine'
-      $watcher_wsgi_script_source   = '/usr/bin/watcher-api-wsgi'
+      $watcher_wsgi_script_source   = "/usr/lib/python${pyver3}/site-packages/watcher/wsgi/api.py"
       $watcher_wsgi_script_path     = '/var/www/cgi-bin/watcher'
     }
     'Debian': {
