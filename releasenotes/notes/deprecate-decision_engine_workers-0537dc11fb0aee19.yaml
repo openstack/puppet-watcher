@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    The ``watcher::decision_engine::decision_engine_workers`` parameter has
+    been deprecated and has no effect now. It will be removed in a future
+    release.

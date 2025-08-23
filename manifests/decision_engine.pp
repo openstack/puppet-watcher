@@ -43,11 +43,6 @@
 #   (Optional) The identifier used by watcher module on the message broker
 #   Defaults to $facts['os_service_default']
 #
-# [*decision_engine_workers*]
-#   (Optional) The maximum number of threads that can be used to execute
-#   strategies
-#   Defaults to $facts['os_service_default']
-#
 # [*planner*]
 #   (Optional) The selected planner used to schedule the actions (string value)
 #   Defaults to $facts['os_service_default']
@@ -60,6 +55,12 @@
 #     { 'change_nova_service_state' => '2',
 #       'migrate' => '3', 'nop' => '0', 'sleep' => '1' }
 #
+# DEPRECATED PARAMETERS
+#
+# [*decision_engine_workers*]
+#   (Optional) The maximum number of threads that can be used to execute
+#   strategies
+#   Defaults to $facts['os_service_default']
 #
 class watcher::decision_engine (
   $package_ensure                      = 'present',
@@ -71,12 +72,17 @@ class watcher::decision_engine (
   $decision_engine_status_topic        = $facts['os_service_default'],
   $decision_engine_notification_topics = $facts['os_service_default'],
   $decision_engine_publisher_id        = $facts['os_service_default'],
-  $decision_engine_workers             = $facts['os_service_default'],
   $planner                             = $facts['os_service_default'],
   $weights                             = $facts['os_service_default'],
+  # DEPRECATED PARAMETERS
+  $decision_engine_workers             = undef,
 ) {
   include watcher::params
   include watcher::deps
+
+  if $decision_engine_workers {
+    warning('The decision_engine_workers parameter is deprecated and has no effect.')
+  }
 
   if $weights =~ Hash {
     $weights_real = join(sort(join_keys_to_values($weights, ':')), ',')
@@ -114,7 +120,11 @@ class watcher::decision_engine (
     'watcher_decision_engine/status_topic':        value => $decision_engine_status_topic;
     'watcher_decision_engine/notification_topics': value => join(any2array($decision_engine_notification_topics), ',');
     'watcher_decision_engine/publisher_id':        value => $decision_engine_publisher_id;
-    'watcher_decision_engine/max_workers':         value => $decision_engine_workers;
+  }
+
+  # TODO(tkajinam): Remove this after 2026.1 release
+  watcher_config {
+    'watcher_decision_engine/max_workers': ensure => absent;
   }
 
   watcher_config {
