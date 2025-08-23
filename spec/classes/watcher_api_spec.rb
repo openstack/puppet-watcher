@@ -43,9 +43,7 @@ describe 'watcher::api' do
             :enable     => params[:enabled],
             :hasstatus  => true,
             :hasrestart => true,
-            :tag        => ['watcher-service',
-                            'watcher-db-manage-create_schema',
-                            'watcher-db-manage-upgrade'],
+            :tag        => ['watcher-service'],
           )
         end
       end
@@ -92,9 +90,7 @@ describe 'watcher::api' do
           :ensure => 'stopped',
           :name   => platform_params[:api_service_name],
           :enable => false,
-          :tag    => ['watcher-service',
-                      'watcher-db-manage-create_schema',
-                      'watcher-db-manage-upgrade'],
+          :tag    => ['watcher-service'],
         )
       end
     end

@@ -121,11 +121,7 @@ class watcher::api (
         enable     => $enabled,
         hasstatus  => true,
         hasrestart => true,
-        tag        => [
-          'watcher-service',
-          'watcher-db-manage-create_schema',
-          'watcher-db-manage-upgrade',
-        ],
+        tag        => ['watcher-service'],
       }
     } elsif $service_name == 'httpd' {
       Service <| title == 'httpd' |> { tag +> 'watcher-service' }
@@ -134,11 +130,7 @@ class watcher::api (
         ensure => 'stopped',
         name   => $watcher::params::api_service_name,
         enable => false,
-        tag    => [
-          'watcher-service',
-          'watcher-db-manage-create_schema',
-          'watcher-db-manage-upgrade',
-        ],
+        tag    => ['watcher-service'],
       }
 
       # we need to make sure watcher-api/eventlet is stopped before trying to start apache
