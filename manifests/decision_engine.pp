@@ -72,14 +72,6 @@ class watcher::decision_engine (
     $weights_real = join(any2array($weights), ',')
   }
 
-  if !is_service_default($decision_engine_notification_topics) or
-    empty($decision_engine_notification_topics) {
-    warning('$decision_engine_notification_topics needs to be an array')
-    $decision_engine_notification_topics_real = any2array($decision_engine_notification_topics)
-  } else {
-    $decision_engine_notification_topics_real = $decision_engine_notification_topics
-  }
-
   package { 'watcher-decision-engine':
     ensure => $package_ensure,
     name   => $watcher::params::decision_engine_package_name,
@@ -106,7 +98,7 @@ class watcher::decision_engine (
   watcher_config {
     'watcher_decision_engine/conductor_topic':     value => $decision_engine_conductor_topic;
     'watcher_decision_engine/status_topic':        value => $decision_engine_status_topic;
-    'watcher_decision_engine/notification_topics': value => $decision_engine_notification_topics_real;
+    'watcher_decision_engine/notification_topics': value => join(any2array($decision_engine_notification_topics), ',');
     'watcher_decision_engine/publisher_id':        value => $decision_engine_publisher_id;
     'watcher_decision_engine/max_workers':         value => $decision_engine_workers;
   }
