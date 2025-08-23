@@ -127,6 +127,8 @@ class watcher::api (
                         'watcher-db-manage-upgrade'],
       }
     } elsif $service_name == 'httpd' {
+      Service <| title == 'httpd' |> { tag +> 'watcher-service' }
+
       service { 'watcher-api':
         ensure => 'stopped',
         name   => $watcher::params::api_service_name,
