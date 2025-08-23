@@ -63,7 +63,6 @@ class watcher::decision_engine (
   $planner                             = $facts['os_service_default'],
   $weights                             = $facts['os_service_default'],
 ) {
-
   include watcher::params
   include watcher::deps
 
@@ -116,5 +115,4 @@ class watcher::decision_engine (
     'watcher_planner/planner':          value => $planner;
     'watcher_planners.default/weights': value => $weights_real;
   }
-
 }

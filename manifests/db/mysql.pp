@@ -33,7 +33,7 @@
 #   Only used with mysql modules >= 2.2.
 #   Defaults to 'utf8_general_ci'
 #
-class watcher::db::mysql(
+class watcher::db::mysql (
   String[1] $password,
   $dbname        = 'watcher',
   $user          = 'watcher',
@@ -42,7 +42,6 @@ class watcher::db::mysql(
   $collate       = 'utf8_general_ci',
   $allowed_hosts = undef
 ) {
-
   include watcher::deps
 
   openstacklib::db::mysql { 'watcher':
@@ -58,5 +57,4 @@ class watcher::db::mysql(
   Anchor['watcher::db::begin']
   ~> Class['watcher::db::mysql']
   ~> Anchor['watcher::db::end']
-
 }

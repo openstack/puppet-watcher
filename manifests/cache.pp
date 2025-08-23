@@ -259,7 +259,6 @@ class watcher::cache (
   $dead_timeout                         = $facts['os_service_default'],
   Boolean $manage_backend_package       = true,
 ) {
-
   include watcher::deps
 
   oslo::cache { 'watcher_config':

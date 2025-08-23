@@ -46,7 +46,6 @@ class watcher::applier (
   $applier_publisher_id    = $facts['os_service_default'],
   $applier_workflow_engine = $facts['os_service_default'],
 ) {
-
   include watcher::params
   include watcher::deps
 
@@ -80,5 +79,4 @@ class watcher::applier (
     'watcher_applier/publisher_id':     value => $applier_publisher_id;
     'watcher_applier/workflow_engine':  value => $applier_workflow_engine;
   }
-
 }

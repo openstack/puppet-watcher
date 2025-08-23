@@ -81,7 +81,6 @@ class watcher::cron::db_purge (
   Boolean $exclude_orphans          = false,
   $max_number                       = undef,
 ) inherits watcher::params {
-
   include watcher::deps
 
   $sleep = $maxdelay ? {

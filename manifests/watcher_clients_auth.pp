@@ -66,7 +66,6 @@ class watcher::watcher_clients_auth (
   $cafile              = $facts['os_service_default'],
   $keyfile             = $facts['os_service_default'],
 ) {
-
   include watcher::deps
 
   if is_service_default($system_scope) {

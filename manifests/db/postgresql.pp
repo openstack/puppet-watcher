@@ -24,14 +24,13 @@
 #    (Optional) Privileges given to the database user.
 #    Default to 'ALL'
 #
-class watcher::db::postgresql(
+class watcher::db::postgresql (
   $password,
   $dbname     = 'watcher',
   $user       = 'watcher',
   $encoding   = undef,
   $privileges = 'ALL',
 ) {
-
   include watcher::deps
 
   openstacklib::db::postgresql { 'watcher':
@@ -45,5 +44,4 @@ class watcher::db::postgresql(
   Anchor['watcher::db::begin']
   ~> Class['watcher::db::postgresql']
   ~> Anchor['watcher::db::end']
-
 }

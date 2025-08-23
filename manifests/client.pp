@@ -11,7 +11,6 @@
 class watcher::client (
   $ensure = 'present'
 ) {
-
   include watcher::deps
   include watcher::params
 
@@ -20,5 +19,4 @@ class watcher::client (
     name   => $watcher::params::client_package_name,
     tag    => 'openstack',
   }
-
 }

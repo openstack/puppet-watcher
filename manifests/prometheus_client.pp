@@ -38,7 +38,6 @@ class watcher::prometheus_client (
   $username            = $facts['os_service_default'],
   $password            = $facts['os_service_default'],
 ) {
-
   include watcher::deps
 
   watcher_config {
