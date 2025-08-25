@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``watcher::host`` parameter has been added.

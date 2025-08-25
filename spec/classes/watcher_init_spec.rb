@@ -26,6 +26,10 @@ describe 'watcher' do
       it { is_expected.to contain_class('watcher::policy') }
       it { is_expected.to contain_class('watcher::deps') }
 
+      it 'cofigures common options' do
+        is_expected.to contain_watcher_config('DEFAULT/host').with_value('<SERVICE DEFAULT>')
+      end
+
       it 'configures messaging' do
         is_expected.to contain_oslo__messaging__default('watcher_config').with(
           :transport_url        => '<SERVICE DEFAULT>',
@@ -75,6 +79,7 @@ describe 'watcher' do
     context 'with overridden parameters' do
       let :params do
         {
+          :host                               => 'localhost',
           :default_transport_url              => 'rabbit://rabbit_user:password@localhost:5673',
           :rpc_response_timeout               => '120',
           :control_exchange                   => 'watcher',
@@ -99,6 +104,10 @@ describe 'watcher' do
           :notification_topics                => 'notifications',
           :notification_retry                 => 10,
         }
+      end
+
+      it 'cofigures common options' do
+        is_expected.to contain_watcher_config('DEFAULT/host').with_value('localhost')
       end
       it 'configures messaging' do
         is_expected.to contain_oslo__messaging__default('watcher_config').with(

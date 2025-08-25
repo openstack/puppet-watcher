@@ -5,8 +5,12 @@
 # === Parameters:
 #
 # [*package_ensure*]
-#  (optional) Whether the watcher api package will be installed
-#  Defaults to 'present'
+#   (optional) Whether the watcher api package will be installed
+#   Defaults to 'present'
+#
+# [*host*]
+#   (optional) Name of this node.
+#   Defaults to $facts['os_service_default'].
 #
 # [*rabbit_login_method*]
 #   (optional) The RabbitMQ login method. (string value)
@@ -192,6 +196,7 @@
 #
 class watcher (
   $package_ensure                       = 'present',
+  $host                                 = $facts['os_service_default'],
   $rabbit_login_method                  = $facts['os_service_default'],
   $rabbit_retry_interval                = $facts['os_service_default'],
   $rabbit_retry_backoff                 = $facts['os_service_default'],
@@ -244,6 +249,10 @@ class watcher (
 
   resources { 'watcher_config':
     purge => $purge_config,
+  }
+
+  watcher_config {
+    'DEFAULT/host': value => $host;
   }
 
   oslo::messaging::rabbit { 'watcher_config':
