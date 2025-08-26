@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``watcher::datasources`` class has been added.
