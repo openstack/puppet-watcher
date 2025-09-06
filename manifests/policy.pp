@@ -69,6 +69,11 @@ class watcher::policy (
 
   create_resources('openstacklib::policy', { $policy_path => $policy_parameters })
 
+  # policy config should occur in the config block also.
+  Anchor['watcher::config::begin']
+  -> Openstacklib::Policy[$policy_path]
+  -> Anchor['watcher::config::end']
+
   oslo::policy { 'watcher_config':
     enforce_scope        => $enforce_scope,
     enforce_new_defaults => $enforce_new_defaults,

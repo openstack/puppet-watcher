@@ -303,4 +303,8 @@ class watcher::cache (
     dead_timeout                         => $dead_timeout,
     manage_backend_package               => $manage_backend_package,
   }
+
+  # all cache settings should be applied and all packages should be installed
+  # before service startup
+  Oslo::Cache['watcher_config'] -> Anchor['watcher::service::begin']
 }

@@ -19,19 +19,6 @@ class watcher::deps {
   ~> Service<| tag == 'watcher-service' |>
   ~> anchor { 'watcher::service::end': }
 
-  # policy config should occur in the config block also.
-  Anchor['watcher::config::begin']
-  -> Openstacklib::Policy<| tag == 'watcher' |>
-  -> Anchor['watcher::config::end']
-
-  # all cache settings should be applied and all packages should be installed
-  # before service startup
-  Oslo::Cache<||> -> Anchor['watcher::service::begin']
-
-  # all db settings should be applied and all packages should be installed
-  # before dbsync starts
-  Oslo::Db<||> -> Anchor['watcher::db::create_schema::begin']
-
   Anchor['watcher::install::end'] ~> Anchor['watcher::service::begin']
   Anchor['watcher::config::end']  ~> Anchor['watcher::service::begin']
 
