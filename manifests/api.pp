@@ -85,8 +85,8 @@ class watcher::api (
   Boolean $upgrade_db       = false,
   $auth_strategy            = 'keystone',
 ) inherits watcher::params {
-  include watcher::policy
   include watcher::deps
+  include watcher::policy
 
   if $auth_strategy == 'keystone' {
     include watcher::keystone::authtoken

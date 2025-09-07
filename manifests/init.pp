@@ -222,7 +222,6 @@ class watcher (
 ) {
   include watcher::deps
   include watcher::params
-  include watcher::policy
   include watcher::db
 
   package { 'watcher':
