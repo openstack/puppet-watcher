@@ -220,8 +220,6 @@ class watcher (
   $notification_retry                   = $facts['os_service_default'],
   Boolean $purge_config                 = false,
 ) {
-  include openstacklib::openstackclient
-
   include watcher::deps
   include watcher::params
   include watcher::policy
