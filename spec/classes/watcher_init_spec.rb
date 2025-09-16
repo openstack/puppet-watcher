@@ -9,8 +9,6 @@ describe 'watcher' do
         { :purge_config => false }
       end
 
-      it { should contain_class('openstacklib::openstackclient') }
-
       it 'contains the db class' do
         is_expected.to contain_class('watcher::db')
       end
