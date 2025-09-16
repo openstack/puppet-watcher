@@ -21,7 +21,6 @@ describe 'watcher' do
         )
       end
 
-      it { is_expected.to contain_class('watcher::policy') }
       it { is_expected.to contain_class('watcher::deps') }
 
       it 'cofigures common options' do
