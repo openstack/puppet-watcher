@@ -37,14 +37,14 @@
 #   Defaults to $facts['os_service_default']
 #
 class watcher::applier (
-  $package_ensure          = 'present',
-  Boolean $enabled         = true,
-  Boolean $manage_service  = true,
-  $applier_workers         = $facts['os_service_default'],
-  $applier_conductor_topic = $facts['os_service_default'],
-  $applier_status_topic    = $facts['os_service_default'],
-  $applier_publisher_id    = $facts['os_service_default'],
-  $applier_workflow_engine = $facts['os_service_default'],
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  Boolean $enabled                        = true,
+  Boolean $manage_service                 = true,
+  $applier_workers                        = $facts['os_service_default'],
+  $applier_conductor_topic                = $facts['os_service_default'],
+  $applier_status_topic                   = $facts['os_service_default'],
+  $applier_publisher_id                   = $facts['os_service_default'],
+  $applier_workflow_engine                = $facts['os_service_default'],
 ) {
   include watcher::params
   include watcher::deps

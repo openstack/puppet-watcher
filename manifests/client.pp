@@ -9,7 +9,7 @@
 #   Defaults to 'present'.
 #
 class watcher::client (
-  $ensure = 'present'
+  Stdlib::Ensure::Package $ensure = 'present',
 ) {
   include watcher::deps
   include watcher::params

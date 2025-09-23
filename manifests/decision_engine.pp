@@ -63,19 +63,19 @@
 #   Defaults to $facts['os_service_default']
 #
 class watcher::decision_engine (
-  $package_ensure                      = 'present',
-  Boolean $enabled                     = true,
-  Boolean $manage_service              = true,
-  $max_audit_workers                   = $facts['os_service_default'],
-  $max_general_workers                 = $facts['os_service_default'],
-  $decision_engine_conductor_topic     = $facts['os_service_default'],
-  $decision_engine_status_topic        = $facts['os_service_default'],
-  $decision_engine_notification_topics = $facts['os_service_default'],
-  $decision_engine_publisher_id        = $facts['os_service_default'],
-  $planner                             = $facts['os_service_default'],
-  $weights                             = $facts['os_service_default'],
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  Boolean $enabled                        = true,
+  Boolean $manage_service                 = true,
+  $max_audit_workers                      = $facts['os_service_default'],
+  $max_general_workers                    = $facts['os_service_default'],
+  $decision_engine_conductor_topic        = $facts['os_service_default'],
+  $decision_engine_status_topic           = $facts['os_service_default'],
+  $decision_engine_notification_topics    = $facts['os_service_default'],
+  $decision_engine_publisher_id           = $facts['os_service_default'],
+  $planner                                = $facts['os_service_default'],
+  $weights                                = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
-  $decision_engine_workers             = undef,
+  $decision_engine_workers                = undef,
 ) {
   include watcher::params
   include watcher::deps
