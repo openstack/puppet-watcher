@@ -80,7 +80,7 @@ class watcher::api (
   $bind_host                              = $facts['os_service_default'],
   $workers                                = $facts['os_workers'],
   $enable_ssl_api                         = $facts['os_service_default'],
-  $service_name                           = $watcher::params::api_service_name,
+  String[1] $service_name                 = $watcher::params::api_service_name,
   Boolean $create_db_schema               = false,
   Boolean $upgrade_db                     = false,
   $auth_strategy                          = 'keystone',
@@ -107,37 +107,35 @@ class watcher::api (
   }
 
   if $manage_service {
-    if $enabled {
-      $service_ensure = 'running'
-    } else {
-      $service_ensure = 'stopped'
-    }
+    case $service_name {
+      'httpd': {
+        Service <| title == 'httpd' |> { tag +> 'watcher-service' }
 
-    if $service_name == $watcher::params::api_service_name {
-      # NOTE(danpawlik) Watcher doesn't support db_sync command.
-      service { 'watcher-api':
-        ensure     => $service_ensure,
-        name       => $watcher::params::api_service_name,
-        enable     => $enabled,
-        hasstatus  => true,
-        hasrestart => true,
-        tag        => ['watcher-service'],
+        service { 'watcher-api':
+          ensure => 'stopped',
+          name   => $watcher::params::api_service_name,
+          enable => false,
+          tag    => ['watcher-service'],
+        }
+
+        # we need to make sure watcher-api/eventlet is stopped before trying to start apache
+        Service['watcher-api'] -> Service['httpd']
       }
-    } elsif $service_name == 'httpd' {
-      Service <| title == 'httpd' |> { tag +> 'watcher-service' }
+      default: {
+        $service_ensure = $enabled ? {
+          true    => 'running',
+          default => 'stopped',
+        }
 
-      service { 'watcher-api':
-        ensure => 'stopped',
-        name   => $watcher::params::api_service_name,
-        enable => false,
-        tag    => ['watcher-service'],
+        service { 'watcher-api':
+          ensure     => $service_ensure,
+          name       => $service_name,
+          enable     => $enabled,
+          hasstatus  => true,
+          hasrestart => true,
+          tag        => ['watcher-service'],
+        }
       }
-
-      # we need to make sure watcher-api/eventlet is stopped before trying to start apache
-      Service['watcher-api'] -> Service[$service_name]
-    } else {
-      fail("Invalid service_name. Either watcher/openstack-watcher-api for running \
-as a standalone service, or httpd for being run by a httpd server")
     }
   }
 
