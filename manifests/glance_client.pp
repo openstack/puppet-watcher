@@ -1,5 +1,6 @@
 # == Class: watcher::glance_client
 #
+# DEPRECATED !!
 # Configure the glance_client options
 #
 # === Parameters
@@ -22,6 +23,8 @@ class watcher::glance_client (
   $endpoint_type = $facts['os_service_default'],
   $region_name   = $facts['os_service_default'],
 ) {
+  warning('the watcher::glance_client class is deprecated')
+
   include watcher::deps
   include watcher::params
 

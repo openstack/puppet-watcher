@@ -1,5 +1,6 @@
 # == Class: watcher::neutron_client
 #
+# DEPRECATED !!
 # Configure the neutron_client options
 #
 # === Parameters
@@ -22,6 +23,8 @@ class watcher::neutron_client (
   $endpoint_type = $facts['os_service_default'],
   $region_name   = $facts['os_service_default'],
 ) {
+  warning('The watcher::glance_client class is deprecated')
+
   include watcher::deps
   include watcher::params
 
