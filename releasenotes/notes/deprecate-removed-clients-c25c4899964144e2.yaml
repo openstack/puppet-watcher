@@ -1,0 +1,8 @@
+---
+deprecations:
+  - |
+    The following classes are now deprecated and will be removed in a future
+    release.
+
+    - ``watcher::glance_client``
+    - ``watcher::neutron_client``
