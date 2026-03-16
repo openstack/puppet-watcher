@@ -154,7 +154,7 @@ describe 'watcher::wsgi::apache' do
         when 'Debian'
           {
             :wsgi_script_path   => '/usr/lib/cgi-bin/watcher',
-            :wsgi_script_source => '/usr/bin/watcher-api-wsgi'
+            :wsgi_script_source => '/usr/lib/python3/dist-packages/watcher/wsgi/api.py',
           }
         when 'RedHat'
           {
