@@ -19,6 +19,10 @@ class watcher::deps {
   ~> Service<| tag == 'watcher-service' |>
   ~> anchor { 'watcher::service::end': }
 
+  Anchor['watcher::config::begin']
+  -> Watcher_api_uwsgi_config<||>
+  -> Anchor['watcher::config::end']
+
   Anchor['watcher::install::end'] ~> Anchor['watcher::service::begin']
   Anchor['watcher::config::end']  ~> Anchor['watcher::service::begin']
 
