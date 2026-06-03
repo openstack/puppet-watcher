@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    The following deprecated classes have been removed.
+
+    - ``watcher::glance_client``
+    - ``watcher::neutron_client``
