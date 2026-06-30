@@ -135,6 +135,8 @@ class watcher::api (
           hasrestart => true,
           tag        => ['watcher-service'],
         }
+        # On any uwsgi config change, we must restart Watcher API.
+        Watcher_api_uwsgi_config<||> ~> Service['watcher-api']
       }
     }
   }
