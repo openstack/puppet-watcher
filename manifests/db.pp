@@ -38,10 +38,12 @@
 #   (Optional) If set, use this value for pool_timeout with SQLAlchemy.
 #   Defaults to $facts['os_service_default']
 #
+# DEPRECATED PARAMETERS
+#
 # [*mysql_enable_ndb*]
 #   (Optional) If True, transparently enables support for handling MySQL
 #   Cluster (NDB).
-#   Defaults to $facts['os_service_default']
+#   Defaults to undef
 #
 class watcher::db (
   $database_connection              = 'sqlite:////var/lib/watcher/watcher.sqlite',
@@ -52,7 +54,8 @@ class watcher::db (
   $database_retry_interval          = $facts['os_service_default'],
   $database_max_overflow            = $facts['os_service_default'],
   $database_pool_timeout            = $facts['os_service_default'],
-  $mysql_enable_ndb                 = $facts['os_service_default'],
+  # DEPRECATED PARAMETERS
+  $mysql_enable_ndb                 = undef,
 ) {
   include watcher::deps
 
